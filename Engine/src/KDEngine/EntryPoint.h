@@ -1,6 +1,6 @@
 #pragma once
-#include "Application.h"
-#include <stdio.h>
+
+#include <KDEngine.h>
 
 #ifdef KD_PLATFORM_WINDOWS
 
@@ -8,7 +8,11 @@ extern KDE::Application* KDE::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	printf("KDEngine started successfully\n");
+	KDE::Log::Init();
+	KD_WARN("Hello World!");
+
+	unsigned int fds = 312312;
+	KD_FATAL("core error: {0}", fds);
 
 	auto app = KDE::CreateApplication();
 	app->Run();
