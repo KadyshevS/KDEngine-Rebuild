@@ -11,7 +11,7 @@ workspace "KDEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "KDEngine"
-	location "Engine"
+	location "KDEngine"
 	kind "SharedLib"
 	language "C++"
 
