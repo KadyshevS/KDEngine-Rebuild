@@ -33,7 +33,7 @@ project "KDEngine"
 	filter "system:windows"
 		cppdialect "C++20"
 		staticruntime "On"
-		systemversion "10.0.22621.0"
+		systemversion "latest"
 
 		defines
 		{

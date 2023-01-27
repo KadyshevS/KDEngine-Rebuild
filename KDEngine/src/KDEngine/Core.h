@@ -9,3 +9,5 @@
 #else
 	#error KDEngine supports only Microsoft Windows
 #endif
+
+#define BIT(x) (1 << x)

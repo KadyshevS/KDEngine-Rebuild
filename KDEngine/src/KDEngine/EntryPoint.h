@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	KD_WARN("Hello World!");
 
 	unsigned int fds = 312312;
-	KD_FATAL("core error: {0}", fds);
+	KD_FATAL("Core error: {0}", fds);
 
 	auto app = KDE::CreateApplication();
 	app->Run();
