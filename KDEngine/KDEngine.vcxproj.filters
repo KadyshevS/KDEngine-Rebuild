@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="KDEngine">
+      <UniqueIdentifier>{4A8E69CE-365B-C4D9-5F74-B2814BA0F967}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\KDEngine.h" />
+    <ClInclude Include="src\KDEngine\Application.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\ApplicationEvent.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Core.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\EntryPoint.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Event.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\KeyEvent.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Log.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\MouseEvent.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\KDEngine\Application.cpp">
+      <Filter>KDEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Log.cpp">
+      <Filter>KDEngine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

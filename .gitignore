@@ -1,3 +1,4 @@
-Engine
-bin
 .vs
+bin
+
+*.user
