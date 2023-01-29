@@ -18,6 +18,9 @@ project "KDEngine"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "kdpch.h"
+	pchsource "KDEngine/src/kdpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",

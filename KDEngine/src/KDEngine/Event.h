@@ -2,9 +2,6 @@
 
 #include <KDEngine/Core.h>
 
-#include <string>
-#include <functional>
-
 namespace KDE
 {
 	enum class EventType

@@ -1,3 +1,4 @@
+#include <kdpch.h>
 #include "Application.h"
 
 #include <KDEngine/ApplicationEvent.h>

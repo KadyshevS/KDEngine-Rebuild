@@ -31,6 +31,7 @@
     <ClInclude Include="src\KDEngine\MouseEvent.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\kdpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -39,5 +40,6 @@
     <ClCompile Include="src\KDEngine\Log.cpp">
       <Filter>KDEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\kdpch.cpp" />
   </ItemGroup>
 </Project>

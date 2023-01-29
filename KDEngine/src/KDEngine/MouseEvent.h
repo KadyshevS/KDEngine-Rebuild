@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace KDE
 {
 	class KD_API MouseMovedEvent : public Event
