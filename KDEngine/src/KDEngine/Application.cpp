@@ -30,6 +30,7 @@ namespace KDE
 		m_Running = false;
 		return true;
 	}
+	
 
 	void Application::Run()
 	{
