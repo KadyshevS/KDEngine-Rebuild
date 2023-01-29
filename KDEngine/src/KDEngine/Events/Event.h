@@ -32,7 +32,7 @@ namespace KDE
 
 	class KD_API Event
 	{
-		friend class EventDispactcher;
+		friend class EventDispatcher;
 	public:
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
