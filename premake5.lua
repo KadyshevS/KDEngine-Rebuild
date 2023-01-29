@@ -10,6 +10,11 @@ workspace "KDEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "KDEngine/GLFW/include"
+
+include "KDEngine/GLFW"
+
 project "KDEngine"
 	location "KDEngine"
 	kind "SharedLib"
@@ -24,13 +29,20 @@ project "KDEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
 	}
 
 	includedirs
 	{
-		"KDEngine/spdlog/include",
-		"KDEngine/src"
+		"%{prj.name}/spdlog/include",
+		"%{prj.name}/src",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links 
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core.h"
-#include <KDEngine/Event.h>
+#include "Events/Event.h"
 
 namespace KDE
 {

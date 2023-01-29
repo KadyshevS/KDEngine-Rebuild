@@ -1,5 +1,6 @@
 #pragma once
 
+#include <kdpch.h>
 #include <KDEngine/Core.h>
 
 namespace KDE

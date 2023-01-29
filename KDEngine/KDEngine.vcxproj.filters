@@ -4,13 +4,13 @@
     <Filter Include="KDEngine">
       <UniqueIdentifier>{4A8E69CE-365B-C4D9-5F74-B2814BA0F967}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KDEngine\Events">
+      <UniqueIdentifier>{EE02DBF8-5A8E-48BD-639F-CBB1CFA9A4BD}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KDEngine.h" />
     <ClInclude Include="src\KDEngine\Application.h">
-      <Filter>KDEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KDEngine\ApplicationEvent.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Core.h">
@@ -19,16 +19,19 @@
     <ClInclude Include="src\KDEngine\EntryPoint.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\Event.h">
-      <Filter>KDEngine</Filter>
+    <ClInclude Include="src\KDEngine\Events\ApplicationEvent.h">
+      <Filter>KDEngine\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\KeyEvent.h">
-      <Filter>KDEngine</Filter>
+    <ClInclude Include="src\KDEngine\Events\Event.h">
+      <Filter>KDEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Events\KeyEvent.h">
+      <Filter>KDEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Events\MouseEvent.h">
+      <Filter>KDEngine\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Log.h">
-      <Filter>KDEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KDEngine\MouseEvent.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\kdpch.h" />

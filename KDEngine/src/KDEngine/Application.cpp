@@ -1,8 +1,9 @@
 #include <kdpch.h>
 #include "Application.h"
 
-#include <KDEngine/ApplicationEvent.h>
-#include <KDEngine/Log.h>
+#include "Events/ApplicationEvent.h"
+#include "Log.h"
+#include "GLFW/glfw3.h"
 
 namespace KDE
 {
