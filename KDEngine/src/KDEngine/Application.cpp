@@ -1,8 +1,7 @@
 #include "Application.h"
 
-#include <KDEngine/Log.h>
 #include <KDEngine/ApplicationEvent.h>
-#include <KDEngine/KeyEvent.h>
+#include <KDEngine/Log.h>
 
 namespace KDE
 {
@@ -12,14 +11,7 @@ namespace KDE
 	void Application::Run()
 	{
 		WindowResizeEvent e(1280, 720);
-		if (e.IsInCategory(EventCategoryApplication))
-		{
-			KD_TRACE(e);
-		}
-		if (e.IsInCategory(EventCategoryInput))
-		{
-			KD_TRACE(e);
-		}
+		KD_TRACE(e);
 
 		while (true);
 	}

@@ -43,8 +43,7 @@ namespace KDE
 	class KD_API AppTickEvent : public Event
 	{
 	public:
-		AppTickEvent()
-		{}
+		AppTickEvent() {}
 
 		EVENT_CLASS_TYPE(AppTick)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
