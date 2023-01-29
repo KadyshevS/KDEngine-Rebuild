@@ -79,11 +79,11 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>kdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>KD_PLATFORM_WINDOWS;KD_BUILD_DLL;KD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>KD_PLATFORM_WINDOWS;KD_BUILD_DLL;KD_DEBUG;KD_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>spdlog\include;src;GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -108,7 +108,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -134,7 +134,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -158,11 +158,14 @@
     <ClInclude Include="src\KDEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\KDEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\KDEngine\Log.h" />
+    <ClInclude Include="src\KDEngine\Window.h" />
+    <ClInclude Include="src\Platform\WindowsWindow.h" />
     <ClInclude Include="src\kdpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp" />
     <ClCompile Include="src\KDEngine\Log.cpp" />
+    <ClCompile Include="src\Platform\WindowsWindow.cpp" />
     <ClCompile Include="src\kdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

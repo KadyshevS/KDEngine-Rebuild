@@ -62,7 +62,11 @@ project "KDEngine"
 		}
 
 	filter "configurations:Debug"
-		defines "KD_DEBUG"
+		defines
+		{
+			"KD_DEBUG",
+			"KD_ENABLE_ASSERTS"
+		}
 		symbols "On"
 
 	filter "configurations:Release"

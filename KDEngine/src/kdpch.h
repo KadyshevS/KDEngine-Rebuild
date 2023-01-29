@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "KDEngine/Log.h"
+
 #ifdef KD_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif
