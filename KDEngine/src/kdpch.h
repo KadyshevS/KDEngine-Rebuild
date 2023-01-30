@@ -15,9 +15,6 @@
 #include "KDEngine/Log.h"
 
 #ifdef KD_PLATFORM_WINDOWS
-	#define _WIN32_WINNT 0x0601
-	#include <sdkddkver.h>
-
 	#ifndef FULL_WINTARD
 	#define WIN32_LEAN_AND_MEAN
 	#define NOGDICAPMASKS
@@ -54,8 +51,6 @@
 	#endif
 
 	#define NOMINMAX
-	#define STRICT
-
 	#define no_init_all deprecated
 	#include <Windows.h>
 #endif

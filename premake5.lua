@@ -62,19 +62,19 @@ project "KDEngine"
 		}
 
 	filter "configurations:Debug"
-		defines
-		{
-			"KD_DEBUG",
-			"KD_ENABLE_ASSERTS"
-		}
+		defines "KD_DEBUG"
+		defines "KD_ENABLE_ASSERTS"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "KD_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "KD_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -114,12 +114,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "KD_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "KD_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "KD_DIST"
+		buildoptions "/MD"
 		optimize "On"

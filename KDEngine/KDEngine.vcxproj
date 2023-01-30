@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -109,6 +110,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -135,6 +137,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -157,6 +160,8 @@
     <ClInclude Include="src\KDEngine\Events\Event.h" />
     <ClInclude Include="src\KDEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\KDEngine\Events\MouseEvent.h" />
+    <ClInclude Include="src\KDEngine\Layer.h" />
+    <ClInclude Include="src\KDEngine\LayerStack.h" />
     <ClInclude Include="src\KDEngine\Log.h" />
     <ClInclude Include="src\KDEngine\Window.h" />
     <ClInclude Include="src\Platform\WindowsWindow.h" />
@@ -164,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp" />
+    <ClCompile Include="src\KDEngine\Layer.cpp" />
+    <ClCompile Include="src\KDEngine\LayerStack.cpp" />
     <ClCompile Include="src\KDEngine\Log.cpp" />
     <ClCompile Include="src\Platform\WindowsWindow.cpp" />
     <ClCompile Include="src\kdpch.cpp">

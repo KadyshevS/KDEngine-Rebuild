@@ -34,6 +34,12 @@
     <ClInclude Include="src\KDEngine\Events\MouseEvent.h">
       <Filter>KDEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Layer.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\LayerStack.h">
+      <Filter>KDEngine</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Log.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
@@ -47,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
+      <Filter>KDEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Layer.cpp">
+      <Filter>KDEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\LayerStack.cpp">
       <Filter>KDEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Log.cpp">
