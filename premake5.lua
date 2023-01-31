@@ -11,9 +11,11 @@ workspace "KDEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["GLFW"] = "KDEngine/GLFW/include"
+IncludeDir["GLFW"] = "KDEngine/vendor/GLFW/include"
+IncludeDir["Glad"] = "KDEngine/vendor/glad/include"
 
-include "KDEngine/GLFW"
+include "KDEngine/vendor/GLFW"
+include "KDEngine/vendor/glad"
 
 project "KDEngine"
 	location "KDEngine"
@@ -34,14 +36,16 @@ project "KDEngine"
 
 	includedirs
 	{
-		"%{prj.name}/spdlog/include",
+		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/src",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links 
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -53,7 +57,8 @@ project "KDEngine"
 		defines
 		{
 			"KD_PLATFORM_WINDOWS",
-			"KD_BUILD_DLL"
+			"KD_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
@@ -93,7 +98,7 @@ project "Sandbox"
 
 	includedirs
 	{
-		"KDEngine/spdlog/include",
+		"KDEngine/vendor/spdlog/include",
 		"KDEngine/src"
 	}
 

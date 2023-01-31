@@ -9,7 +9,7 @@ public:
 
 	void OnUpdate() override
 	{
-		KD_INFO("Example Layer: Update");
+		KD_INFO("Example Layer Update");
 	}
 
 	void OnEvent(KDE::Event& e) override
