@@ -7,8 +7,14 @@
     <Filter Include="KDEngine\Events">
       <UniqueIdentifier>{EE02DBF8-5A8E-48BD-639F-CBB1CFA9A4BD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KDEngine\ImGui">
+      <UniqueIdentifier>{F4123ABA-E0E0-2DC0-C974-9EE6B5E10925}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +40,9 @@
     <ClInclude Include="src\KDEngine\Events\MouseEvent.h">
       <Filter>KDEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\ImGui\ImGuiLayer.h">
+      <Filter>KDEngine\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Layer.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
@@ -46,14 +55,20 @@
     <ClInclude Include="src\KDEngine\Window.h">
       <Filter>KDEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\WindowsWindow.h">
-      <Filter>Platform</Filter>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\kdpch.h" />
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_glfw.h" />
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
       <Filter>KDEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\ImGui\ImGuiLayer.cpp">
+      <Filter>KDEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Layer.cpp">
       <Filter>KDEngine</Filter>
@@ -64,9 +79,11 @@
     <ClCompile Include="src\KDEngine\Log.cpp">
       <Filter>KDEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\WindowsWindow.cpp">
-      <Filter>Platform</Filter>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\kdpch.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp" />
   </ItemGroup>
 </Project>
