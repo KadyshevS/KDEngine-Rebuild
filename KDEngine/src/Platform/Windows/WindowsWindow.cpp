@@ -124,6 +124,15 @@ namespace KDE
 				}
 			}
 		);
+
+		glfwSetCharCallback(m_Window,
+			[](GLFWwindow* window, unsigned int keycode)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				KeyTypedEvent ev(keycode);
+				data.EventCallback(ev);
+			}
+		);
 		
 		glfwSetMouseButtonCallback(m_Window, 
 			[](GLFWwindow* window, int button, int action, int mods)
