@@ -4,7 +4,7 @@
 
 namespace KDE
 {
-	class ImGuiLayer : public Layer
+	class KD_API ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();
@@ -15,6 +15,6 @@ namespace KDE
 		void OnUpdate() override;
 		void OnEvent(Event& e) override;
 	private:
-
+		float m_Time = 0.0f;
 	};
 }
