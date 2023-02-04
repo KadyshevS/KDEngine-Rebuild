@@ -1,5 +1,6 @@
 workspace "KDEngine"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -55,7 +56,7 @@ project "KDEngine"
 
 	filter "system:windows"
 		cppdialect "C++20"
-		staticruntime "On"
+		staticruntime "off"
 		systemversion "latest"
 
 		defines
@@ -73,17 +74,17 @@ project "KDEngine"
 	filter "configurations:Debug"
 		defines "KD_DEBUG"
 		defines "KD_ENABLE_ASSERTS"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "KD_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "KD_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
@@ -113,7 +114,7 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++20"
-		staticruntime "On"
+		staticruntime "off"
 		systemversion "latest"
 
 		defines
@@ -123,15 +124,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "KD_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "KD_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "KD_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
