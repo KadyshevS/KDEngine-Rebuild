@@ -165,8 +165,6 @@
     <ClInclude Include="src\KDEngine\LayerStack.h" />
     <ClInclude Include="src\KDEngine\Log.h" />
     <ClInclude Include="src\KDEngine\Window.h" />
-    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\kdpch.h" />
@@ -589,11 +587,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp" />
+    <ClCompile Include="src\KDEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\KDEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\KDEngine\Layer.cpp" />
     <ClCompile Include="src\KDEngine\LayerStack.cpp" />
     <ClCompile Include="src\KDEngine\Log.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\kdpch.cpp">

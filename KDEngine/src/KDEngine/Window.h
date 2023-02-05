@@ -15,8 +15,8 @@ namespace KDE
 
 		WindowProps(
 			const std::string& title = "KDEngine",
-			unsigned int width = 1280,
-			unsigned int height = 720
+			unsigned int width = 1024,
+			unsigned int height = 768
 		)
 			: Title(title), Width(width), Height(height)
 		{}
