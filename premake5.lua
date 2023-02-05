@@ -68,12 +68,15 @@ project "KDEngine"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
-		defines "KD_DEBUG"
-		defines "KD_ENABLE_ASSERTS"
+		defines
+		{
+			"KD_DEBUG",
+			"KD_ENABLE_ASSERTS"
+		}
 		runtime "Debug"
 		symbols "On"
 

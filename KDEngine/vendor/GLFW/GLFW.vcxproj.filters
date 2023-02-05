@@ -12,19 +12,79 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\GLFW\glfw3.h">
+      <Filter>include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLFW\glfw3native.h">
+      <Filter>include\GLFW</Filter>
+    </ClInclude>
     <ClInclude Include="src\glfw_config.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include=".gitattributes" />
-    <None Include=".mailmap" />
-    <None Include="CONTRIBUTORS.md" />
-    <None Include="LICENSE.md" />
-    <None Include="premake5.lua" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CMakeLists.txt" />
+    <ClCompile Include="src\context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\egl_context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\init.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\monitor.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\null_init.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\null_joystick.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\null_monitor.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\null_window.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osmesa_context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vulkan.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wgl_context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_init.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_joystick.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_module.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_monitor.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_thread.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_time.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win32_window.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window.c">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -133,18 +133,32 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\GLFW\glfw3.h" />
+    <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="src\glfw_config.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".gitattributes" />
-    <None Include=".mailmap" />
-    <None Include="CONTRIBUTORS.md" />
-    <None Include="LICENSE.md" />
-    <None Include="premake5.lua" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CMakeLists.txt" />
+    <ClCompile Include="src\context.c" />
+    <ClCompile Include="src\egl_context.c" />
+    <ClCompile Include="src\init.c" />
+    <ClCompile Include="src\input.c" />
+    <ClCompile Include="src\monitor.c" />
+    <ClCompile Include="src\null_init.c" />
+    <ClCompile Include="src\null_joystick.c" />
+    <ClCompile Include="src\null_monitor.c" />
+    <ClCompile Include="src\null_window.c" />
+    <ClCompile Include="src\osmesa_context.c" />
+    <ClCompile Include="src\platform.c" />
+    <ClCompile Include="src\vulkan.c" />
+    <ClCompile Include="src\wgl_context.c" />
+    <ClCompile Include="src\win32_init.c" />
+    <ClCompile Include="src\win32_joystick.c" />
+    <ClCompile Include="src\win32_module.c" />
+    <ClCompile Include="src\win32_monitor.c" />
+    <ClCompile Include="src\win32_thread.c" />
+    <ClCompile Include="src\win32_time.c" />
+    <ClCompile Include="src\win32_window.c" />
+    <ClCompile Include="src\window.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
