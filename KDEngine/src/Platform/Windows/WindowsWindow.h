@@ -2,6 +2,7 @@
 
 #include "KDEngine/Window.h"
 
+#include <KDEngine/Renderer/GraphicsContext.h>
 #include <GLFW/glfw3.h>
 
 namespace KDE
@@ -27,6 +28,7 @@ namespace KDE
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

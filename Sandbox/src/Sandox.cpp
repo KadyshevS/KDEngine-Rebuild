@@ -23,6 +23,12 @@ public:
 			KD_TRACE("TAB key is pressed.");
 		}
 	}
+	void OnImGuiRender() override
+	{
+		ImGui::Begin("Sample title");
+		ImGui::Text("Welcome to KDEngine!");
+		ImGui::End();
+	}
 };
 
 class Sandbox : public KDE::Application

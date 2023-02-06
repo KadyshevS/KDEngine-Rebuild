@@ -7,6 +7,8 @@
 #include "KDEngine/Events/MouseEvent.h"
 #include "KDEngine/Events/KeyEvent.h"
 
+#include <Platform/OpenGL/OpenGLContext.h>
+
 #include <glad/glad.h>
 
 namespace KDE
@@ -35,7 +37,7 @@ namespace KDE
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 	void WindowsWindow::SetVSync(bool enabled)
 	{
@@ -66,6 +68,10 @@ namespace KDE
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
 		glfwMakeContextCurrent(m_Window);
 
 	//	Initializing Glad
