@@ -30,6 +30,8 @@ namespace KDE
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
