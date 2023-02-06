@@ -1,10 +1,14 @@
 #pragma once
 
 #ifdef KD_PLATFORM_WINDOWS
-	#ifdef KD_BUILD_DLL
-		#define KD_API __declspec(dllexport)
+	#ifdef KD_DYNAMIC_LINK
+		#ifdef KD_BUILD_DLL
+			#define KD_API __declspec(dllexport)
+		#else
+			#define KD_API __declspec(dllimport)
+		#endif
 	#else
-		#define KD_API __declspec(dllimport)
+		#define KD_API
 	#endif
 #else
 	#error KDEngine supports only Microsoft Windows

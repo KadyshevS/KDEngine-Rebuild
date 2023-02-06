@@ -23,8 +23,10 @@ include "KDEngine/vendor/imgui"
 
 project "KDEngine"
 	location "KDEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/int/" .. outputdir .. "/%{prj.name}")
@@ -59,15 +61,14 @@ project "KDEngine"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "off"
 		systemversion "latest"
 
 		defines
 		{
 			"KD_PLATFORM_WINDOWS",
 			"KD_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 		postbuildcommands
@@ -79,26 +80,27 @@ project "KDEngine"
 		defines
 		{
 			"KD_DEBUG",
-			"KD_ENABLE_ASSERTS"
+			"KD_ENABLE_ASSERTS",
 		}
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "KD_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "KD_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++20"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin/int/" .. outputdir .. "/%{prj.name}")
@@ -108,9 +110,7 @@ project "Sandbox"
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl",
-		"%{prj.name}/vendor/imgui/**.h",
-		"%{prj.name}/vendor/imgui/**.cpp"
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -127,26 +127,25 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "off"
 		systemversion "latest"
 
 		defines
 		{
-			"KD_PLATFORM_WINDOWS"
+			"KD_PLATFORM_WINDOWS",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 	filter "configurations:Debug"
 		defines "KD_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "KD_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "KD_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

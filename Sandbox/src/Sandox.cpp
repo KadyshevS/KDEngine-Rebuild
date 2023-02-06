@@ -8,7 +8,7 @@ public:
 		: Layer("Input Layer")
 	{}
 	~ExampleLayer() {}
-
+	
 	void OnAttach() override
 	{
 		glm::vec3 testVec(12.0f, 45.0f, 3.0f);
