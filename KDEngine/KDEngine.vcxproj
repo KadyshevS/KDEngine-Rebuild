@@ -165,6 +165,7 @@
     <ClInclude Include="src\KDEngine\LayerStack.h" />
     <ClInclude Include="src\KDEngine\Log.h" />
     <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\KDEngine\Renderer\Shader.h" />
     <ClInclude Include="src\KDEngine\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
@@ -594,6 +595,7 @@
     <ClCompile Include="src\KDEngine\Layer.cpp" />
     <ClCompile Include="src\KDEngine\LayerStack.cpp" />
     <ClCompile Include="src\KDEngine\Log.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\Shader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />

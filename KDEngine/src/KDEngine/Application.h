@@ -4,10 +4,13 @@
 
 #include "Window.h"
 #include "KDEngine/LayerStack.h"
+#include "KDEngine/ImGui/ImGuiLayer.h"
+
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
-#include "KDEngine/ImGui/ImGuiLayer.h"
+
+#include "Renderer/Shader.h"
 
 namespace KDE
 {
@@ -31,6 +34,7 @@ namespace KDE
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;

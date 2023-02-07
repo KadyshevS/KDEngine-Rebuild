@@ -26,17 +26,19 @@ namespace KDE
 		glGenBuffers(1, &m_VertexBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 
-		float vertices[3 * 3] = 
-		{
-			-0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f,
-			0.5, -0.5f, 0.0f
+		float vertices[6 * 3] = 
+		{//		 Position				  Color
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
+			 0.0f,  0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
 		};
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float)) );
 
 		unsigned int indices[3] = { 0, 1, 2 };
 
@@ -48,6 +50,36 @@ namespace KDE
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 inPos;
+			layout(location = 1) in vec3 inColor;
+
+			out vec3 color;
+			
+			void main()
+			{
+				gl_Position = vec4(inPos, 1.0f);
+				color = inColor;
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			in vec3 color;
+
+			out vec4 fragColor;
+			
+			void main()
+			{
+				fragColor = vec4(color, 1.0f);
+			}
+		)";
+
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 	Application::~Application() {}
 
@@ -83,9 +115,10 @@ namespace KDE
 	{
 		while (m_Running)
 		{
-			glClearColor(0, 0, 1, 1);
+			glClearColor(0.1, 0.1, 0.1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
+			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
