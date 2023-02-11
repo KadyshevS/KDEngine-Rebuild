@@ -7,6 +7,29 @@
 
 namespace KDE
 {
+	GLenum BufferDataTypeToOpenGLDataType(const ShaderDataType& type)
+	{
+		switch (type)
+		{
+			case ShaderDataType::None:		return NULL;
+			case ShaderDataType::Float:		return GL_FLOAT;
+			case ShaderDataType::Float2:	return GL_FLOAT;
+			case ShaderDataType::Float3:	return GL_FLOAT;
+			case ShaderDataType::Float4:	return GL_FLOAT;
+			case ShaderDataType::Int:		return GL_INT;
+			case ShaderDataType::Int2:		return GL_INT;
+			case ShaderDataType::Int3:		return GL_INT;
+			case ShaderDataType::Int4:		return GL_INT;
+			case ShaderDataType::Mat2:		return GL_FLOAT;
+			case ShaderDataType::Mat3:		return GL_FLOAT;
+			case ShaderDataType::Mat4:		return GL_FLOAT;
+			case ShaderDataType::Boolean:	return GL_BOOL;
+		}
+
+		KD_CORE_ASSERT(false, "Unknown ShaderDataType.");
+		return 0;
+	}
+
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application() 
@@ -25,17 +48,36 @@ namespace KDE
 
 		float vertices[6 * 3] = 
 		{//		 Position				  Color
-			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
-			 0.0f,  0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
+			-0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 1.0f,
+			 0.0f,  0.5f, 0.0f,		0.0f, 1.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 1.0f,
 		};
 
 		m_VertexBuffer.reset( VertexBuffer::Create(vertices, sizeof(vertices)) );
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float)) );
+		{
+			BufferLayout layout =
+			{
+				{ ShaderDataType::Float3, "inPos" },
+				{ ShaderDataType::Float3, "inColor" }
+			};
+
+			m_VertexBuffer->SetLayout(layout);
+		}
+
+		uint32_t index = 0;
+		for (const auto& el : m_VertexBuffer->GetLayout())
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(
+				index, el.GetComponentCount(),
+				BufferDataTypeToOpenGLDataType(el.Type),
+				el.Normalized ? GL_TRUE : GL_FALSE,
+				m_VertexBuffer->GetLayout().GetStride(),
+				(void*)el.Offset
+			);
+			index++;
+		}
 
 		unsigned int indices[3] = { 0, 1, 2 };
 

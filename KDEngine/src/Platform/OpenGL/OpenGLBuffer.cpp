@@ -25,7 +25,7 @@ namespace KDE
 	}
 
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(unsigned int* indices, unsigned int size)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, unsigned int size)
 		: m_Count(size)
 	{
 		glCreateBuffers(1, &m_RendererID);
