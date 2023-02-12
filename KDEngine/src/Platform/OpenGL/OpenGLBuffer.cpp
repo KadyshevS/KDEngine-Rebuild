@@ -8,7 +8,7 @@ namespace KDE
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, unsigned int size)
 	{
 		glCreateBuffers(1, &m_RendererID);
-		Bind();
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
@@ -29,7 +29,7 @@ namespace KDE
 		: m_Count(size)
 	{
 		glCreateBuffers(1, &m_RendererID);
-		Bind();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 	}
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
