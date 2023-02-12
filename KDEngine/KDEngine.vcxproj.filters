@@ -1358,6 +1358,9 @@
     <ClInclude Include="src\KDEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\KDEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1394,5 +1397,8 @@
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\RendererCommand.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

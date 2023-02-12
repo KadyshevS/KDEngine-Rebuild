@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Log.h"
 
+#include "KDEngine/Renderer/Renderer.h"
 #include <glad/glad.h>
 
 namespace KDE
@@ -48,7 +49,7 @@ namespace KDE
 		uint32_t indices[3] = { 0, 1, 2 };
 		m_IndexBuffer.reset( IndexBuffer::Create(indices, sizeof(indices)) );
 		m_VertexArray->SetIndexBuffer( m_IndexBuffer );
-
+		
 		m_VertexArray->Unbind();
 		m_VertexBuffer->Unbind();
 		m_IndexBuffer->Unbind();
@@ -151,11 +152,13 @@ namespace KDE
 			glClear(GL_COLOR_BUFFER_BIT);
 			
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-			m_SQVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_SQVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::BeginScene();
+
+			Renderer::Submit(m_VertexArray);
+			Renderer::Submit(m_SQVertexArray);
+
+			Renderer::EndScene();
 
 			for (Layer* l : m_LayerStack)
 				l->OnUpdate();
