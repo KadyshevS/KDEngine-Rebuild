@@ -11,6 +11,8 @@ namespace KDE
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application() 
+		:
+		m_Camera( new OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f) )
 	{
 		KD_CORE_ASSERT(!s_Instance, "Application already exist.");
 		s_Instance = this;
@@ -91,11 +93,13 @@ namespace KDE
 			layout(location = 0) in vec3 inPos;
 			layout(location = 1) in vec3 inColor;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 color;
 			
 			void main()
 			{
-				gl_Position = vec4(inPos, 1.0f);
+				gl_Position = u_ViewProjection * vec4(inPos, 1.0f);
 				color = inColor;
 			}
 		)";
@@ -152,6 +156,10 @@ namespace KDE
 			glClear(GL_COLOR_BUFFER_BIT);
 			
 			m_Shader->Bind();
+			m_Shader->UploadUniformMat4(m_Camera->GetViewProjectionMat(), "u_ViewProjection");
+			
+			m_Camera->SetRotation(m_Camera->GetRotation() + 0.01f);
+			m_Camera->Update();
 
 			Renderer::BeginScene();
 

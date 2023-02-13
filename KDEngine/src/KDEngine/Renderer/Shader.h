@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <glm/glm.hpp>
 
 namespace KDE
 {
@@ -12,6 +13,8 @@ namespace KDE
 
 		void Bind() const;
 		void Unbind() const;
+
+		void UploadUniformMat4(const glm::mat4& matrix, const std::string& name);
 	private:
 		uint32_t m_RendererID;
 	};

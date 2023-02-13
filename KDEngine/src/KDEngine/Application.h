@@ -13,6 +13,7 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
+#include "Renderer/OrthographicCamera.h"
 
 namespace KDE
 {
@@ -43,6 +44,8 @@ namespace KDE
 		std::shared_ptr<VertexBuffer> m_SQVertexBuffer;
 		std::shared_ptr<IndexBuffer> m_SQIndexBuffer;
 		std::shared_ptr<VertexArray> m_SQVertexArray;
+
+		std::shared_ptr<OrthographicCamera> m_Camera;
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
