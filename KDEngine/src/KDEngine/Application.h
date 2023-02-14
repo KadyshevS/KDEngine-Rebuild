@@ -10,11 +10,6 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
-#include "Renderer/Shader.h"
-#include "Renderer/Buffer.h"
-#include "Renderer/VertexArray.h"
-#include "Renderer/OrthographicCamera.h"
-
 namespace KDE
 {
 	class KD_API Application
@@ -35,17 +30,6 @@ namespace KDE
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexBuffer> m_VertexBuffer;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<VertexBuffer> m_SQVertexBuffer;
-		std::shared_ptr<IndexBuffer> m_SQIndexBuffer;
-		std::shared_ptr<VertexArray> m_SQVertexArray;
-
-		std::shared_ptr<OrthographicCamera> m_Camera;
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;

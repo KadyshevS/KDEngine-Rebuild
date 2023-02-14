@@ -16,10 +16,8 @@ namespace KDE
 		inline const glm::mat4& GetViewMat() const { return m_ViewMat; }
 		inline const glm::mat4& GetViewProjectionMat() const { return m_ViewProjectionMat; }
 
-		void Update();
-
-		void SetPosition(const glm::vec3& position) { m_Position = position; }
-		void SetRotation(float rotation) { m_Rotation = rotation; }
+		void SetPosition(const glm::vec3& position) { m_Position = position; CalculateViewProjMat(); }
+		void SetRotation(float rotation) { m_Rotation = rotation; CalculateViewProjMat(); }
 	private:
 		void CalculateViewProjMat();
 	private:
