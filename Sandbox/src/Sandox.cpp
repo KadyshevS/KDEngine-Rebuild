@@ -1,14 +1,15 @@
+#include <kdpch.h>
 #include <KDEngine.h>
+
 #include <imgui/imgui.h>
 
 class ExampleLayer : public KDE::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example Layer")
+		: Layer("Example Layer"),
+		m_Camera(std::make_shared<KDE::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f))
 	{
-		m_Camera = std::make_shared<KDE::OrthographicCamera>( KDE::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f) );
-
 		//	Drawing
 		m_VertexArray.reset(KDE::VertexArray::Create());
 
@@ -113,7 +114,7 @@ public:
 	void OnUpdate() override
 	{
 	//	Input 
-		if( KDE::Input::IsKeyPressed(KD_KEY_LEFT) )
+		if (KDE::Input::IsKeyPressed(KD_KEY_LEFT))
 		{
 			m_CameraPosition.x -= m_CameraMoveSpeed;
 		}
@@ -132,27 +133,24 @@ public:
 
 		if (KDE::Input::IsKeyPressed('A'))
 		{
-			m_CameraRotation -= m_CameraRotateSpeed;
+			m_CameraRotation += m_CameraRotateSpeed;
 		}
 		if (KDE::Input::IsKeyPressed('D'))
 		{
-			m_CameraRotation += m_CameraRotateSpeed;
+			m_CameraRotation -= m_CameraRotateSpeed;
 		}
 
 	//	Drawing
-		KDE::RendererCommand::SetClearColor({ 0, 0, 1, 1 });
+		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		KDE::RendererCommand::Clear();
-
-		m_Shader->Bind();
-		m_Shader->UploadUniformMat4(m_Camera->GetViewProjectionMat(), "u_ViewProjection");
 
 		m_Camera->SetPosition(m_CameraPosition);
 		m_Camera->SetRotation(m_CameraRotation);
 
-		KDE::Renderer::BeginScene();
+		KDE::Renderer::BeginScene(m_Camera);
 
-		KDE::Renderer::Submit(m_VertexArray);
-		KDE::Renderer::Submit(m_SQVertexArray);
+		KDE::Renderer::Submit(m_VertexArray, m_Shader);
+		KDE::Renderer::Submit(m_SQVertexArray, m_Shader);
 
 		KDE::Renderer::EndScene();
 	}
@@ -175,11 +173,11 @@ private:
 
 	std::shared_ptr<KDE::OrthographicCamera> m_Camera;
 
-	glm::vec3 m_CameraPosition;
-	float m_CameraRotation;
+	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
+	float m_CameraRotation = 0.0f;
 
-	float m_CameraMoveSpeed = 5.0f;
-	float m_CameraRotateSpeed = 5.0f;
+	float m_CameraMoveSpeed = 0.1f;
+	float m_CameraRotateSpeed = 10.0f;
 };
 
 class Sandbox : public KDE::Application

@@ -15,7 +15,7 @@ namespace KDE
 	void OrthographicCamera::CalculateViewProjMat()
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position) *
-			glm::rotate(glm::mat4(1.0f), m_Rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+			glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		m_ViewMat = glm::inverse(transform);
 		m_ViewProjectionMat = m_ProjectionMat * m_ViewMat;
