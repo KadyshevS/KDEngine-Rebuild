@@ -111,43 +111,43 @@ public:
 	{
 		KD_INFO("Creating Example Layer");
 	}
-	void OnUpdate() override
+	void OnUpdate(KDE::Timestep ts) override
 	{
 	//	Input 
 		if (KDE::Input::IsKeyPressed(KD_KEY_LEFT))
 		{
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * ts.GetSeconds();
 		}
 		if (KDE::Input::IsKeyPressed(KD_KEY_RIGHT))
 		{
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * ts.GetSeconds();
 		}
 		if (KDE::Input::IsKeyPressed(KD_KEY_UP))
 		{
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * ts.GetSeconds();
 		}
 		if (KDE::Input::IsKeyPressed(KD_KEY_DOWN))
 		{
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts.GetSeconds();
 		}
 
 		if (KDE::Input::IsKeyPressed('A'))
 		{
-			m_CameraRotation += m_CameraRotateSpeed;
+			m_CameraRotation += m_CameraRotateSpeed * ts.GetSeconds();
 		}
 		if (KDE::Input::IsKeyPressed('D'))
 		{
-			m_CameraRotation -= m_CameraRotateSpeed;
+			m_CameraRotation -= m_CameraRotateSpeed * ts.GetSeconds();
 		}
 
 	//	Drawing
 		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		KDE::RendererCommand::Clear();
 
+		KDE::Renderer::BeginScene(m_Camera);
+
 		m_Camera->SetPosition(m_CameraPosition);
 		m_Camera->SetRotation(m_CameraRotation);
-
-		KDE::Renderer::BeginScene(m_Camera);
 
 		KDE::Renderer::Submit(m_VertexArray, m_Shader);
 		KDE::Renderer::Submit(m_SQVertexArray, m_Shader);
@@ -176,8 +176,8 @@ private:
 	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
 	float m_CameraRotation = 0.0f;
 
-	float m_CameraMoveSpeed = 0.1f;
-	float m_CameraRotateSpeed = 10.0f;
+	float m_CameraMoveSpeed = 5.0f;
+	float m_CameraRotateSpeed = 180.0f;
 };
 
 class Sandbox : public KDE::Application

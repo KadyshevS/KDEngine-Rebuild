@@ -10,6 +10,8 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
+#include "Core/Timestep.h"
+
 namespace KDE
 {
 	class KD_API Application
@@ -30,10 +32,12 @@ namespace KDE
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
+		Timestep m_Timestep;
+		float m_LastFrameTime = 0.0f;
 		bool m_Running = true;
 
 		static Application* s_Instance;

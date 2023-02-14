@@ -3,6 +3,8 @@
 #include <KDEngine/Core.h>
 #include <KDEngine/Events/Event.h>
 
+#include "Core/Timestep.h"
+
 namespace KDE
 {
 	class KD_API Layer
@@ -13,7 +15,7 @@ namespace KDE
 		
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& e) {}
 

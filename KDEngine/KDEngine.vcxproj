@@ -149,6 +149,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\KDEngine\Core\Timestep.h" />
     <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\KDEngine.h" />
     <ClInclude Include="src\KDEngine\Application.h" />

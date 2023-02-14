@@ -11,6 +11,9 @@
 #include "KDEngine/Codes/MouseCodes.h"
 #include "KDEngine/Input.h"
 
+//	Time
+#include "KDEngine/Core/Timestep.h"
+
 //	Renderer
 #include "KDEngine/Renderer/Renderer.h"
 #include "KDEngine/Renderer/RendererCommand.h"

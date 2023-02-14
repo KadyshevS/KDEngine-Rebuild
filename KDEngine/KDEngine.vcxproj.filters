@@ -1362,6 +1362,7 @@
     <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\KDEngine\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
