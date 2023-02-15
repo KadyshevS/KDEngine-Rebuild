@@ -8,7 +8,8 @@ class ExampleLayer : public KDE::Layer
 public:
 	ExampleLayer()
 		: Layer("Example Layer"),
-		m_Camera(std::make_shared<KDE::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f))
+		m_Camera(std::make_shared<KDE::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f)),
+		u_Color(glm::vec3(0.3f, 1.0f, 0.2f))
 	{
 		//	Drawing
 		m_VertexArray.reset(KDE::VertexArray::Create());
@@ -81,30 +82,27 @@ public:
 
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
-
-			out vec3 color;
 			
 			void main()
 			{
 				gl_Position = u_ViewProjection * u_Transform * vec4(inPos, 1.0f);
-				color = inColor;
 			}
 		)";
 
 		std::string fragmentSrc = R"(
 			#version 330 core
 			
-			in vec3 color;
+			uniform vec3 u_Color;
 
 			out vec4 fragColor;
 			
 			void main()
 			{
-				fragColor = vec4(color, 1.0f);
+				fragColor = vec4(u_Color, 1.0f);
 			}
 		)";
 
-		m_Shader.reset(new KDE::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(KDE::Shader::Create(vertexSrc, fragmentSrc));
 	}
 	~ExampleLayer() {}
 
@@ -149,6 +147,8 @@ public:
 
 		KDE::Renderer::BeginScene(m_Camera);
 
+		std::dynamic_pointer_cast<KDE::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", u_Color);
+
 		m_Camera->SetPosition(m_CameraPosition);
 		m_Camera->SetRotation(m_CameraRotation);
 
@@ -159,8 +159,8 @@ public:
 	}
 	void OnImGuiRender() override
 	{
-		ImGui::Begin("Sample title");
-		ImGui::Text("Welcome to KDEngine!");
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Color", glm::value_ptr(u_Color));
 		ImGui::End();
 	}
 
@@ -175,6 +175,8 @@ private:
 	std::shared_ptr<KDE::VertexArray> m_SQVertexArray;
 
 	std::shared_ptr<KDE::OrthographicCamera> m_Camera;
+
+	glm::vec3 u_Color;
 
 	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
 	float m_CameraRotation = 0.0f;

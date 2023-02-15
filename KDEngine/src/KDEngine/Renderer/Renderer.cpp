@@ -1,6 +1,8 @@
 #include <kdpch.h>
 #include "Renderer.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 namespace KDE
 {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
@@ -18,8 +20,8 @@ namespace KDE
 	void Renderer::Submit(const std::shared_ptr<VertexArray>& vArr, const std::shared_ptr<Shader>& shader, glm::mat4 transform)
 	{
 		shader->Bind();
-		shader->UploadUniformMat4(m_SceneData->ViewProjectionMat, "u_ViewProjection");
-		shader->UploadUniformMat4(transform, "u_Transform");
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMat);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
 
 		vArr->Bind();
 		RendererCommand::DrawIndexed(vArr);

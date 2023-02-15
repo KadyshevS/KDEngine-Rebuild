@@ -19,6 +19,7 @@
 #include "KDEngine/Renderer/RendererCommand.h"
 #include "KDEngine/Renderer/RendererAPI.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "KDEngine/Renderer/Shader.h"
 #include "KDEngine/Renderer/Buffer.h"
 #include "KDEngine/Renderer/VertexArray.h"
