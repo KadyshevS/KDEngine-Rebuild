@@ -80,12 +80,13 @@ public:
 			layout(location = 1) in vec3 inColor;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 color;
 			
 			void main()
 			{
-				gl_Position = u_ViewProjection * vec4(inPos, 1.0f);
+				gl_Position = u_ViewProjection * u_Transform * vec4(inPos, 1.0f);
 				color = inColor;
 			}
 		)";
@@ -115,30 +116,32 @@ public:
 	{
 	//	Input 
 		if (KDE::Input::IsKeyPressed(KD_KEY_LEFT))
-		{
 			m_CameraPosition.x -= m_CameraMoveSpeed * ts.GetSeconds();
-		}
-		if (KDE::Input::IsKeyPressed(KD_KEY_RIGHT))
-		{
+		else if (KDE::Input::IsKeyPressed(KD_KEY_RIGHT))
 			m_CameraPosition.x += m_CameraMoveSpeed * ts.GetSeconds();
-		}
 		if (KDE::Input::IsKeyPressed(KD_KEY_UP))
-		{
 			m_CameraPosition.y += m_CameraMoveSpeed * ts.GetSeconds();
-		}
-		if (KDE::Input::IsKeyPressed(KD_KEY_DOWN))
-		{
+		else if (KDE::Input::IsKeyPressed(KD_KEY_DOWN))
 			m_CameraPosition.y -= m_CameraMoveSpeed * ts.GetSeconds();
-		}
+
+		if (KDE::Input::IsKeyPressed('I'))
+			m_QuadMat = glm::translate(m_QuadMat, { 0.0f, m_CameraMoveSpeed * ts, 0.0f });
+		else if (KDE::Input::IsKeyPressed('K'))
+			m_QuadMat = glm::translate(m_QuadMat, { 0.0f, -m_CameraMoveSpeed * ts, 0.0f });
+		if (KDE::Input::IsKeyPressed('L'))
+			m_QuadMat = glm::translate(m_QuadMat, { m_CameraMoveSpeed * ts, 0.0f, 0.0f });
+		else if (KDE::Input::IsKeyPressed('J'))
+			m_QuadMat = glm::translate(m_QuadMat, { -m_CameraMoveSpeed * ts, 0.0f, 0.0f });
 
 		if (KDE::Input::IsKeyPressed('A'))
-		{
 			m_CameraRotation += m_CameraRotateSpeed * ts.GetSeconds();
-		}
-		if (KDE::Input::IsKeyPressed('D'))
-		{
+		else if (KDE::Input::IsKeyPressed('D'))
 			m_CameraRotation -= m_CameraRotateSpeed * ts.GetSeconds();
-		}
+
+		if (KDE::Input::IsKeyPressed('O'))
+			m_QuadMat = glm::rotate(m_QuadMat, glm::radians(m_CameraRotateSpeed * ts), {0.0f, 0.0f, 1.0f});
+		else if (KDE::Input::IsKeyPressed('P'))
+			m_QuadMat = glm::rotate(m_QuadMat, glm::radians(-m_CameraRotateSpeed * ts), { 0.0f, 0.0f, 1.0f });
 
 	//	Drawing
 		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
@@ -150,7 +153,7 @@ public:
 		m_Camera->SetRotation(m_CameraRotation);
 
 		KDE::Renderer::Submit(m_VertexArray, m_Shader);
-		KDE::Renderer::Submit(m_SQVertexArray, m_Shader);
+		KDE::Renderer::Submit(m_SQVertexArray, m_Shader, m_QuadMat);
 
 		KDE::Renderer::EndScene();
 	}
@@ -175,6 +178,8 @@ private:
 
 	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
 	float m_CameraRotation = 0.0f;
+
+	glm::mat4 m_QuadMat = glm::mat4(1.0f);
 
 	float m_CameraMoveSpeed = 5.0f;
 	float m_CameraRotateSpeed = 180.0f;
