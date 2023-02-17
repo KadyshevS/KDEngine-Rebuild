@@ -155,6 +155,12 @@ public:
 
 		KDE::Renderer::EndScene();
 	}
+	void OnImGuiRender() override
+	{
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Color", glm::value_ptr(u_Color));
+		ImGui::End();
+	}
 
 private:
 	std::shared_ptr<KDE::Shader> m_Shader;

@@ -38,3 +38,6 @@
 
 //	Entry point
 #include "KDEngine/EntryPoint.h"
+
+//	ImGui
+#include <imgui/imgui.h>
