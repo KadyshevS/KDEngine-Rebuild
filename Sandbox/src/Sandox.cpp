@@ -1,7 +1,4 @@
-#include <kdpch.h>
 #include <KDEngine.h>
-
-#include <imgui/imgui.h>
 
 class ExampleLayer : public KDE::Layer
 {
@@ -156,12 +153,6 @@ public:
 		KDE::Renderer::Submit(m_SQVertexArray, m_Shader, m_QuadMat);
 
 		KDE::Renderer::EndScene();
-	}
-	void OnImGuiRender() override
-	{
-		ImGui::Begin("Settings");
-		ImGui::ColorEdit3("Color", glm::value_ptr(u_Color));
-		ImGui::End();
 	}
 
 private:
