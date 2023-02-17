@@ -10,14 +10,23 @@
     <Filter Include="src\KDEngine\Codes">
       <UniqueIdentifier>{3E32B317-2A16-746D-9376-6EC07F795EEF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\KDEngine\Core">
+      <UniqueIdentifier>{39A6DE9B-A5BC-DC31-EE33-68535A89ADB9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\KDEngine\Events">
       <UniqueIdentifier>{052A4313-718B-2021-FAF8-66D3665957E0}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\KDEngine\ImGui">
       <UniqueIdentifier>{2B331E18-1717-DF6D-8077-D9C06C7AC9EF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\KDEngine\Renderer">
+      <UniqueIdentifier>{07CEB0E7-733A-6CE2-3C2E-0440A8598E4A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
@@ -60,6 +69,9 @@
     <ClInclude Include="src\KDEngine\Core.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Core\Timestep.h">
+      <Filter>src\KDEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\EntryPoint.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
@@ -90,8 +102,47 @@
     <ClInclude Include="src\KDEngine\Log.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\Buffer.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\Renderer.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\Shader.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\VertexArray.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Window.h">
       <Filter>src\KDEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1350,20 +1401,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\KDEngine\Renderer\Shader.h" />
-    <ClInclude Include="src\KDEngine\Renderer\Buffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\KDEngine\Renderer\Renderer.h" />
-    <ClInclude Include="src\KDEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
-    <ClInclude Include="src\KDEngine\Core\Timestep.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1384,6 +1421,42 @@
     <ClCompile Include="src\KDEngine\Log.cpp">
       <Filter>src\KDEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\RendererCommand.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\Shader.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1393,17 +1466,5 @@
     <ClCompile Include="src\kdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\Shader.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\RendererCommand.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
 </Project>

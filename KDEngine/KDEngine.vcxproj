@@ -149,13 +149,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\KDEngine\Core\Timestep.h" />
-    <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\KDEngine.h" />
     <ClInclude Include="src\KDEngine\Application.h" />
     <ClInclude Include="src\KDEngine\Codes\KeyCodes.h" />
     <ClInclude Include="src\KDEngine\Codes\MouseCodes.h" />
     <ClInclude Include="src\KDEngine\Core.h" />
+    <ClInclude Include="src\KDEngine\Core\Timestep.h" />
     <ClInclude Include="src\KDEngine\EntryPoint.h" />
     <ClInclude Include="src\KDEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\KDEngine\Events\Event.h" />
@@ -168,6 +167,7 @@
     <ClInclude Include="src\KDEngine\Log.h" />
     <ClInclude Include="src\KDEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\KDEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h" />
@@ -600,7 +600,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\KDEngine\Application.cpp" />
     <ClCompile Include="src\KDEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\KDEngine\ImGui\ImGuiLayer.cpp" />
@@ -608,6 +607,7 @@
     <ClCompile Include="src\KDEngine\LayerStack.cpp" />
     <ClCompile Include="src\KDEngine\Log.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\RendererCommand.cpp" />

@@ -1,12 +1,12 @@
 #include <kdpch.h>
 #include "ImGuiLayer.h"
 
-#include <backends/imgui_impl_opengl3.h>
-#include <backends/imgui_impl_glfw.h>
-#include <KDEngine/Application.h>
-
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <KDEngine/Application.h>
 
 namespace KDE
 {
@@ -31,8 +31,8 @@ namespace KDE
 		//io.ConfigViewportsNoTaskBarIcon = true;
 
 		// Setup Dear ImGui style
-		//ImGui::StyleColorsDark();
-		ImGui::StyleColorsClassic();
+		ImGui::StyleColorsDark();
+		//ImGui::StyleColorsLight();
 
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
@@ -71,7 +71,6 @@ namespace KDE
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
 	//	Rendering

@@ -6,6 +6,12 @@
 #include "KDEngine/Application.h"
 #include "KDEngine/ImGui/ImGuiLayer.h"
 
+//	ImGui
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+#include <imgui/backends/imgui_impl_opengl3_loader.h>
+#include <imgui/imgui.h>
+
 //	Input
 #include "KDEngine/Codes/KeyCodes.h"
 #include "KDEngine/Codes/MouseCodes.h"
