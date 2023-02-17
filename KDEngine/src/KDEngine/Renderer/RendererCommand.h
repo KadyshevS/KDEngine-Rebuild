@@ -16,7 +16,7 @@ namespace KDE
 			s_RendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vArr)
+		inline static void DrawIndexed(const Ref<VertexArray>& vArr)
 		{
 			s_RendererAPI->DrawIndexed(vArr);
 		}

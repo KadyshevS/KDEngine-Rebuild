@@ -163,16 +163,16 @@ public:
 	}
 
 private:
-	std::shared_ptr<KDE::Shader> m_Shader;
-	std::shared_ptr<KDE::VertexBuffer> m_VertexBuffer;
-	std::shared_ptr<KDE::IndexBuffer> m_IndexBuffer;
-	std::shared_ptr<KDE::VertexArray> m_VertexArray;
+	KDE::Ref<KDE::Shader> m_Shader;
+	KDE::Ref<KDE::VertexBuffer> m_VertexBuffer;
+	KDE::Ref<KDE::IndexBuffer> m_IndexBuffer;
+	KDE::Ref<KDE::VertexArray> m_VertexArray;
 
-	std::shared_ptr<KDE::VertexBuffer> m_SQVertexBuffer;
-	std::shared_ptr<KDE::IndexBuffer> m_SQIndexBuffer;
-	std::shared_ptr<KDE::VertexArray> m_SQVertexArray;
+	KDE::Ref<KDE::VertexBuffer> m_SQVertexBuffer;
+	KDE::Ref<KDE::IndexBuffer> m_SQIndexBuffer;
+	KDE::Ref<KDE::VertexArray> m_SQVertexArray;
 
-	std::shared_ptr<KDE::OrthographicCamera> m_Camera;
+	KDE::Ref<KDE::OrthographicCamera> m_Camera;
 
 	glm::vec3 u_Color;
 

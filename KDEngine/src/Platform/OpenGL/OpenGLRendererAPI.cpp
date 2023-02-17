@@ -14,7 +14,7 @@ namespace KDE
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vArr)
+	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vArr)
 	{
 		glDrawElements(GL_TRIANGLES, vArr->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}

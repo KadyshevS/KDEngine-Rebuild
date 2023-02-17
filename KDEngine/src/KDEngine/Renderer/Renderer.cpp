@@ -7,7 +7,7 @@ namespace KDE
 {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 
-	void Renderer::BeginScene(std::shared_ptr<OrthographicCamera>& camera)
+	void Renderer::BeginScene(Ref<OrthographicCamera>& camera)
 	{
 		m_SceneData->ViewProjectionMat = camera->GetViewProjectionMat();
 	}
@@ -17,7 +17,7 @@ namespace KDE
 
 	}
 
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vArr, const std::shared_ptr<Shader>& shader, glm::mat4 transform)
+	void Renderer::Submit(const Ref<VertexArray>& vArr, const Ref<Shader>& shader, glm::mat4 transform)
 	{
 		shader->Bind();
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMat);

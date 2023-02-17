@@ -13,15 +13,15 @@ namespace KDE
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vBuf) override;
-		virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& iBuf) override;
+		virtual void AddVertexBuffer(const Ref<VertexBuffer>& vBuf) override;
+		virtual void SetIndexBuffer(const Ref<IndexBuffer>& iBuf) override;
 
-		inline virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() override { return m_VertexBuffers; }
-		inline virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() override { return m_IndexBuffer; }
+		inline virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() override { return m_VertexBuffers; }
+		inline virtual const Ref<IndexBuffer>& GetIndexBuffer() override { return m_IndexBuffer; }
 	private:
 		uint32_t m_RendererID;
 
-		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
+		std::vector<Ref<VertexBuffer>> m_VertexBuffers;
+		Ref<IndexBuffer> m_IndexBuffer;
 	};
 }

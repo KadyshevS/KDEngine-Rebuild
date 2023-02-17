@@ -46,7 +46,7 @@ namespace KDE
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vBuf)
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vBuf)
 	{
 		glBindVertexArray(m_RendererID);
 		vBuf->Bind();
@@ -69,7 +69,7 @@ namespace KDE
 
 		m_VertexBuffers.push_back(vBuf);
 	}
-	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& iBuf)
+	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& iBuf)
 	{
 		glBindVertexArray(m_RendererID);
 		iBuf->Bind();
