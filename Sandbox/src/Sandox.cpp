@@ -11,6 +11,7 @@ public:
 		m_Camera(std::make_shared<KDE::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f)),
 		u_Color(glm::vec3(0.3f, 1.0f, 0.2f))
 	{
+		  
 		//	Drawing
 		m_VertexArray.reset(KDE::VertexArray::Create());
 
