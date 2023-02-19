@@ -30,6 +30,7 @@
 #include "KDEngine/Renderer/Buffer.h"
 #include "KDEngine/Renderer/VertexArray.h"
 #include "KDEngine/Renderer/OrthographicCamera.h"
+#include "KDEngine/Renderer/Texture.h"
 
 //	Glm
 #include <glm/glm.hpp>

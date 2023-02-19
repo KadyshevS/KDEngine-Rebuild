@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <KDEngine/Renderer/Buffer.h>
+#include "Buffer.h"
 
 namespace KDE
 {
@@ -19,6 +19,6 @@ namespace KDE
 		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() = 0;
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() = 0;
 
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 }

@@ -52,6 +52,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb">
+      <UniqueIdentifier>{8BD3C5A8-778B-07F6-E092-E051CC69A2E6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\KDEngine.h">
@@ -123,6 +126,9 @@
     <ClInclude Include="src\KDEngine\Renderer\Shader.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\Texture.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\VertexArray.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
@@ -139,6 +145,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1401,6 +1410,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\stb\stb_image.h">
+      <Filter>vendor\stb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1439,6 +1451,9 @@
     <ClCompile Include="src\KDEngine\Renderer\Shader.cpp">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\Texture.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClCompile>
@@ -1454,6 +1469,9 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1465,6 +1483,9 @@
     </ClCompile>
     <ClCompile Include="src\kdpch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\stb\stb_image.cpp">
+      <Filter>vendor\stb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 
 namespace KDE
 {
-	VertexBuffer* VertexBuffer::Create(float* vertices, unsigned int size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, unsigned int size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -15,7 +15,7 @@ namespace KDE
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLVertexBuffer(vertices, size);
+			return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 			break;
 		}
 
@@ -23,7 +23,7 @@ namespace KDE
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(unsigned int* indices, unsigned int size)
+	Ref<IndexBuffer> IndexBuffer::Create(unsigned int* indices, unsigned int size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -32,7 +32,7 @@ namespace KDE
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLIndexBuffer(indices, size);
+			return std::make_shared<OpenGLIndexBuffer>(indices, size);
 			break;
 		}
 
