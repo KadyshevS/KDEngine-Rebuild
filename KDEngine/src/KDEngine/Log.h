@@ -19,17 +19,17 @@ namespace KDE
 	};	
 }
 
-#define KD_CORE_TRACE(...)	::KDE::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define KD_CORE_INFO(...)	::KDE::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define KD_CORE_WARN(...)	::KDE::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define KD_CORE_ERROR(...)	::KDE::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define KD_CORE_FATAL(...)	::KDE::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define KD_CORE_TRACE(...)		::KDE::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define KD_CORE_INFO(...)		::KDE::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define KD_CORE_WARN(...)		::KDE::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define KD_CORE_ERROR(...)		::KDE::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define KD_CORE_CRITICAL(...)	::KDE::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
-#define KD_TRACE(...)		::KDE::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define KD_INFO(...)		::KDE::Log::GetClientLogger()->info(__VA_ARGS__)
-#define KD_WARN(...)		::KDE::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define KD_ERROR(...)		::KDE::Log::GetClientLogger()->error(__VA_ARGS__)
-#define KD_FATAL(...)		::KDE::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define KD_TRACE(...)			::KDE::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define KD_INFO(...)			::KDE::Log::GetClientLogger()->info(__VA_ARGS__)
+#define KD_WARN(...)			::KDE::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define KD_ERROR(...)			::KDE::Log::GetClientLogger()->error(__VA_ARGS__)
+#define KD_CRITICAL(...)		::KDE::Log::GetClientLogger()->critical(__VA_ARGS__)
 
 #ifdef KD_ENABLE_ASSERTS
 	#define KD_ASSERT(x, ...) { if(!(x)) { KD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
