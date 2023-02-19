@@ -10,6 +10,8 @@ namespace KDE
 	class Renderer
 	{
 	public:
+		static void Init();
+
 		static void BeginScene(Ref<OrthographicCamera>& camera);
 		static void EndScene();
 

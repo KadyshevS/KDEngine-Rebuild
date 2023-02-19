@@ -7,11 +7,15 @@ namespace KDE
 {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 
+	void Renderer::Init()
+	{
+		RendererCommand::Init();
+	}
+
 	void Renderer::BeginScene(Ref<OrthographicCamera>& camera)
 	{
 		m_SceneData->ViewProjectionMat = camera->GetViewProjectionMat();
 	}
-
 	void Renderer::EndScene()
 	{
 

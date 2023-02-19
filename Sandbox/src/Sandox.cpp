@@ -74,7 +74,8 @@ public:
 
 		m_Shader = KDE::Shader::Create(vertexSrc, fragmentSrc);
 
-		m_Texture = KDE::Texture2D::Create("assets/textures/kot.jpg");
+		m_Texture = KDE::Texture2D::Create("assets/textures/kot.png");
+		m_Texture2 = KDE::Texture2D::Create("assets/textures/win.png");
 	}
 	~ExampleLayer() {}
 
@@ -126,6 +127,9 @@ public:
 		m_Camera->SetRotation(m_CameraRotation);
 
 		m_Texture->Bind();
+		KDE::Renderer::Submit(m_SQVertexArray, m_Shader, glm::mat4(1.0f));
+
+		m_Texture2->Bind();
 		KDE::Renderer::Submit(m_SQVertexArray, m_Shader, m_QuadMat);
 
 		KDE::Renderer::EndScene();
@@ -144,6 +148,7 @@ private:
 	KDE::Ref<KDE::VertexArray> m_SQVertexArray;
 
 	KDE::Ref<KDE::Texture2D> m_Texture;
+	KDE::Ref<KDE::Texture2D> m_Texture2;
 
 	KDE::Ref<KDE::OrthographicCamera> m_Camera;
 
