@@ -12,9 +12,9 @@ namespace KDE
 		RendererCommand::Init();
 	}
 
-	void Renderer::BeginScene(Ref<OrthographicCamera>& camera)
+	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
-		m_SceneData->ViewProjectionMat = camera->GetViewProjectionMat();
+		m_SceneData->ViewProjectionMat = camera.GetViewProjectionMat();
 	}
 	void Renderer::EndScene()
 	{

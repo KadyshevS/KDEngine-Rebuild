@@ -5,7 +5,7 @@ class ExampleLayer : public KDE::Layer
 public:
 	ExampleLayer()
 		: Layer("Example Layer"),
-		m_Camera(std::make_shared<KDE::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f)),
+		m_CameraController( std::make_shared<KDE::OrthographicCameraController>(1280.0f / 720.0f, true) ),
 		m_ShaderLibrary( new KDE::ShaderLibrary() )
 	{
 		m_SQVertexArray = KDE::VertexArray::Create();
@@ -54,47 +54,31 @@ public:
 	}
 	void OnUpdate(KDE::Timestep ts) override
 	{
-	//	Input 
-		if (KDE::Input::IsKeyPressed(KD_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts.GetSeconds();
-		else if (KDE::Input::IsKeyPressed(KD_KEY_RIGHT))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts.GetSeconds();
-		if (KDE::Input::IsKeyPressed(KD_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts.GetSeconds();
-		else if (KDE::Input::IsKeyPressed(KD_KEY_DOWN))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts.GetSeconds();
-
 		if (KDE::Input::IsKeyPressed('I'))
-			m_QuadMat = glm::translate(m_QuadMat, { 0.0f, m_CameraMoveSpeed * ts, 0.0f });
+			m_QuadMat = glm::translate(m_QuadMat, { 0.0f, m_QuadMoveSpeed * ts, 0.0f });
 		else if (KDE::Input::IsKeyPressed('K'))
-			m_QuadMat = glm::translate(m_QuadMat, { 0.0f, -m_CameraMoveSpeed * ts, 0.0f });
+			m_QuadMat = glm::translate(m_QuadMat, { 0.0f, -m_QuadMoveSpeed * ts, 0.0f });
 		if (KDE::Input::IsKeyPressed('L'))
-			m_QuadMat = glm::translate(m_QuadMat, { m_CameraMoveSpeed * ts, 0.0f, 0.0f });
+			m_QuadMat = glm::translate(m_QuadMat, { m_QuadMoveSpeed * ts, 0.0f, 0.0f });
 		else if (KDE::Input::IsKeyPressed('J'))
-			m_QuadMat = glm::translate(m_QuadMat, { -m_CameraMoveSpeed * ts, 0.0f, 0.0f });
-
-		if (KDE::Input::IsKeyPressed('A'))
-			m_CameraRotation += m_CameraRotateSpeed * ts.GetSeconds();
-		else if (KDE::Input::IsKeyPressed('D'))
-			m_CameraRotation -= m_CameraRotateSpeed * ts.GetSeconds();
+			m_QuadMat = glm::translate(m_QuadMat, { -m_QuadMoveSpeed * ts, 0.0f, 0.0f });
 
 		if (KDE::Input::IsKeyPressed('O'))
-			m_QuadMat = glm::rotate(m_QuadMat, glm::radians(m_CameraRotateSpeed * ts), {0.0f, 0.0f, 1.0f});
+			m_QuadMat = glm::rotate(m_QuadMat, glm::radians(m_QuadRotateSpeed * ts), {0.0f, 0.0f, 1.0f});
 		else if (KDE::Input::IsKeyPressed('P'))
-			m_QuadMat = glm::rotate(m_QuadMat, glm::radians(-m_CameraRotateSpeed * ts), { 0.0f, 0.0f, 1.0f });
+			m_QuadMat = glm::rotate(m_QuadMat, glm::radians(-m_QuadRotateSpeed * ts), { 0.0f, 0.0f, 1.0f });
 
 	//	Drawing
 		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		KDE::RendererCommand::Clear();
 
-		KDE::Renderer::BeginScene(m_Camera);
+		m_CameraController->OnUpdate(ts);
+
+		KDE::Renderer::BeginScene( m_CameraController->GetCamera() );
 
 		auto textureShader = m_ShaderLibrary->Get("Texture");
 		std::dynamic_pointer_cast<KDE::OpenGLShader>(textureShader)->Bind();
 		std::dynamic_pointer_cast<KDE::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
-
-		m_Camera->SetPosition(m_CameraPosition);
-		m_Camera->SetRotation(m_CameraRotation);
 
 		m_Texture->Bind();
 		KDE::Renderer::Submit(m_SQVertexArray, textureShader, glm::mat4(1.0f));
@@ -103,6 +87,10 @@ public:
 		KDE::Renderer::Submit(m_SQVertexArray, textureShader, m_QuadMat);
 
 		KDE::Renderer::EndScene();
+	}
+	void OnEvent(KDE::Event& e) override
+	{
+		m_CameraController->OnEvent(e);
 	}
 
 private:
@@ -115,15 +103,15 @@ private:
 	KDE::Ref<KDE::Texture2D> m_Texture;
 	KDE::Ref<KDE::Texture2D> m_Texture2;
 
-	KDE::Ref<KDE::OrthographicCamera> m_Camera;
+	KDE::Ref<KDE::OrthographicCameraController> m_CameraController;
 
-	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
-	float m_CameraRotation = 0.0f;
+	glm::vec3 m_QuadPosition = {0.0f, 0.0f, 0.0f};
+	float m_QuadRotation = 0.0f;
 	
 	glm::mat4 m_QuadMat = glm::mat4(1.0f);
 
-	float m_CameraMoveSpeed = 5.0f;
-	float m_CameraRotateSpeed = 180.0f;
+	float m_QuadMoveSpeed = 5.0f;
+	float m_QuadRotateSpeed = 180.0f;
 };
 
 class Sandbox : public KDE::Application

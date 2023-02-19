@@ -29,7 +29,7 @@
 #include "KDEngine/Renderer/Shader.h"
 #include "KDEngine/Renderer/Buffer.h"
 #include "KDEngine/Renderer/VertexArray.h"
-#include "KDEngine/Renderer/OrthographicCamera.h"
+#include "KDEngine/OrthographicCameraController.h"
 #include "KDEngine/Renderer/Texture.h"
 
 //	Glm
@@ -39,6 +39,3 @@
 
 //	Entry point
 #include "KDEngine/EntryPoint.h"
-
-//	ImGui
-#include <imgui/imgui.h>

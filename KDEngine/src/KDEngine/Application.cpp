@@ -17,7 +17,7 @@ namespace KDE
 		s_Instance = this;
 
 		m_Window = Scope<Window>( Window::Create() );
-		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(KD_BIND_EVENT_FN(Application::OnEvent));
 	//	m_Window->SetVSync(true);
 
 		Renderer::Init();
@@ -30,7 +30,7 @@ namespace KDE
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher edis(e);
-		edis.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		edis.Dispatch<WindowCloseEvent>(KD_BIND_EVENT_FN(Application::OnWindowClose));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
