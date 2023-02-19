@@ -40,39 +40,14 @@ public:
 		m_SQIndexBuffer->Unbind();
 
 		std::string vertexSrc = R"(
-			#version 330 core
 			
-			layout(location = 0) in vec3 inPos;
-			layout(location = 1) in vec2 inTexCoord;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec2 texCoord;
-			
-			void main()
-			{
-				gl_Position = u_ViewProjection * u_Transform * vec4(inPos, 1.0f);
-				texCoord = inTexCoord;
-			}
 		)";
 
 		std::string fragmentSrc = R"(
-			#version 330 core
 			
-			layout(location = 0) out vec4 fragColor;
-
-			uniform sampler2D u_Texture;
-
-			in vec2 texCoord;
-			
-			void main()
-			{
-				fragColor = texture(u_Texture, texCoord);
-			}
 		)";
 
-		m_Shader = KDE::Shader::Create(vertexSrc, fragmentSrc);
+		m_Shader = KDE::Shader::Create("assets/shaders/Texture.glsl");
 
 		m_Texture = KDE::Texture2D::Create("assets/textures/kot.png");
 		m_Texture2 = KDE::Texture2D::Create("assets/textures/win.png");

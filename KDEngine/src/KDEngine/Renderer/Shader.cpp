@@ -18,4 +18,15 @@ namespace KDE
 		KD_CORE_ASSERT(false, "Unknown Renderer API.");
 		return nullptr;
 	}
+	KDE::Ref<KDE::Shader> Shader::Create(const std::string& filePath)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None: KD_CORE_ASSERT(false, "RendererAPI::None is currently not supported."); return nullptr;
+		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filePath);
+		}
+
+		KD_CORE_ASSERT(false, "Unknown Renderer API.");
+		return nullptr;
+	}
 }
