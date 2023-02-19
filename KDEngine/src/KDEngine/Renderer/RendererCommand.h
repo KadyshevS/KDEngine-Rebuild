@@ -4,7 +4,7 @@
 
 namespace KDE
 {
-	class RendererCommand
+	class KD_API RendererCommand
 	{
 	public:
 		inline static void Init()

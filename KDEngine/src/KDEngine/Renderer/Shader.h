@@ -5,7 +5,7 @@
 
 namespace KDE
 {
-	class Shader
+	class KD_API Shader
 	{
 	public:
 		virtual ~Shader() = default;
@@ -19,7 +19,7 @@ namespace KDE
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 	};
 
-	class ShaderLibrary
+	class KD_API ShaderLibrary
 	{
 	public:
 		void Add(const std::string& name, const Ref<Shader>& shader);

@@ -5,7 +5,7 @@
 
 namespace KDE
 {
-	class VertexArray
+	class KD_API VertexArray
 	{
 	public:
 		virtual ~VertexArray() {}

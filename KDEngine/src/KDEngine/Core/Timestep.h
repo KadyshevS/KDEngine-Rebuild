@@ -2,7 +2,7 @@
 
 namespace KDE
 {
-	class Timestep
+	class KD_API Timestep
 	{
 	public:
 		Timestep(float time = 0.0f)

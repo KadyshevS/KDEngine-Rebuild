@@ -7,7 +7,7 @@
 
 namespace KDE
 {
-	class Renderer
+	class KD_API Renderer
 	{
 	public:
 		static void Init();

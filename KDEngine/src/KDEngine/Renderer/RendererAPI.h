@@ -5,7 +5,7 @@
 
 namespace KDE
 {
-	class RendererAPI
+	class KD_API RendererAPI
 	{
 	public:
 		enum class API

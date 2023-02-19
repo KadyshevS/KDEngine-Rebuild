@@ -65,7 +65,7 @@ namespace KDE
 		}
 	};
 
-	class BufferLayout
+	class KD_API BufferLayout
 	{
 	public:
 		BufferLayout() {}
@@ -96,7 +96,7 @@ namespace KDE
 		uint32_t m_Stride;
 	};
 
-	class VertexBuffer
+	class KD_API VertexBuffer
 	{
 	public:
 		virtual ~VertexBuffer() = default;
@@ -110,7 +110,7 @@ namespace KDE
 		static Ref<VertexBuffer> Create(float* vertices, unsigned int size);
 	};
 
-	class IndexBuffer
+	class KD_API IndexBuffer
 	{
 	public:
 		virtual ~IndexBuffer() = default;

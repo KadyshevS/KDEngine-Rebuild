@@ -2,7 +2,7 @@
 
 namespace KDE
 {
-	class GraphicsContext
+	class KD_API GraphicsContext
 	{
 	public:
 		virtual void Init() = 0;

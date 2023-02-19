@@ -4,7 +4,7 @@
 
 namespace KDE
 {
-	class OrthographicCamera
+	class KD_API OrthographicCamera
 	{
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);

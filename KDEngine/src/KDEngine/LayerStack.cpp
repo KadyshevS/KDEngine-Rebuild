@@ -7,7 +7,10 @@ namespace KDE
 	LayerStack::~LayerStack()
 	{
 		for (Layer* l : m_Layers)
+		{
+			l->OnDetach();
 			delete l;
+		}
 	}
 
 	void LayerStack::PushLayer(Layer* layer)

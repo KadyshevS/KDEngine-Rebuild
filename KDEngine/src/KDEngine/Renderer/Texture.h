@@ -6,7 +6,7 @@
 
 namespace KDE
 {
-	class Texture
+	class KD_API Texture
 	{
 	public:
 		virtual ~Texture() {}

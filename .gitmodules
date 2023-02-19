@@ -1,12 +1,16 @@
 [submodule "KDEngine/vendor/GLFW"]
 	path = KDEngine/vendor/GLFW
 	url = https://github.com/KadyshevS/glfw
+	branch = master
 [submodule "KDEngine/vendor/glm"]
 	path = KDEngine/vendor/glm
 	url = https://github.com/KadyshevS/glm
+	branch = master
 [submodule "KDEngine/vendor/imgui"]
 	path = KDEngine/vendor/imgui
 	url = https://github.com/KadyshevS/imgui
+	branch = docking
 [submodule "KDEngine/vendor/spdlog"]
 	path = KDEngine/vendor/spdlog
 	url = https://github.com/KadyshevS/spdlog
+	branch = v1.x
