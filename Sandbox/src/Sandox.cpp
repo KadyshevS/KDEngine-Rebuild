@@ -6,7 +6,7 @@ public:
 	ExampleLayer()
 		: Layer("Example Layer"),
 		m_Camera(std::make_shared<KDE::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f)),
-		u_Color(glm::vec3(0.3f, 1.0f, 0.2f))
+		m_ShaderLibrary( new KDE::ShaderLibrary() )
 	{
 		m_SQVertexArray = KDE::VertexArray::Create();
 
@@ -39,18 +39,12 @@ public:
 		m_SQVertexBuffer->Unbind();
 		m_SQIndexBuffer->Unbind();
 
-		std::string vertexSrc = R"(
-			
-		)";
-
-		std::string fragmentSrc = R"(
-			
-		)";
-
-		m_Shader = KDE::Shader::Create("assets/shaders/Texture.glsl");
+		auto textureShader = m_ShaderLibrary->Load( "assets/shaders/Texture.glsl" );
 
 		m_Texture = KDE::Texture2D::Create("assets/textures/kot.png");
 		m_Texture2 = KDE::Texture2D::Create("assets/textures/win.png");
+
+		KD_INFO(m_ShaderLibrary->Get("Texture")->GetName());
 	}
 	~ExampleLayer() {}
 
@@ -95,29 +89,25 @@ public:
 
 		KDE::Renderer::BeginScene(m_Camera);
 
-		std::dynamic_pointer_cast<KDE::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<KDE::OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
+		auto textureShader = m_ShaderLibrary->Get("Texture");
+		std::dynamic_pointer_cast<KDE::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<KDE::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 
 		m_Camera->SetPosition(m_CameraPosition);
 		m_Camera->SetRotation(m_CameraRotation);
 
 		m_Texture->Bind();
-		KDE::Renderer::Submit(m_SQVertexArray, m_Shader, glm::mat4(1.0f));
+		KDE::Renderer::Submit(m_SQVertexArray, textureShader, glm::mat4(1.0f));
 
 		m_Texture2->Bind();
-		KDE::Renderer::Submit(m_SQVertexArray, m_Shader, m_QuadMat);
+		KDE::Renderer::Submit(m_SQVertexArray, textureShader, m_QuadMat);
 
 		KDE::Renderer::EndScene();
 	}
-	void OnImGuiRender() override
-	{
-		ImGui::Begin("Settings");
-		ImGui::ColorEdit3("Color", glm::value_ptr(u_Color));
-		ImGui::End();
-	}
 
 private:
-	KDE::Ref<KDE::Shader> m_Shader;
+	KDE::Ref<KDE::ShaderLibrary> m_ShaderLibrary;
+
 	KDE::Ref<KDE::VertexBuffer> m_SQVertexBuffer;
 	KDE::Ref<KDE::IndexBuffer> m_SQIndexBuffer;
 	KDE::Ref<KDE::VertexArray> m_SQVertexArray;
@@ -126,8 +116,6 @@ private:
 	KDE::Ref<KDE::Texture2D> m_Texture2;
 
 	KDE::Ref<KDE::OrthographicCamera> m_Camera;
-
-	glm::vec3 u_Color;
 
 	glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
 	float m_CameraRotation = 0.0f;

@@ -23,8 +23,16 @@ namespace KDE
 		std::string source = ReadFile(filePath);
 		auto shaderSources = ParseShaderCode(source);
 		Compile(shaderSources);
+
+	//	Extract name from file path
+		auto lastSlash = filePath.find_last_of("/\\");
+		lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
+		auto lastDot = filePath.rfind('.');
+		auto count = (lastDot == std::string::npos) ? filePath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = filePath.substr(lastSlash, count);
 	}
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		: m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
