@@ -29,6 +29,9 @@ namespace KDE
 		bool m_Rotation = false;
 		OrthographicCamera m_Camera;
 
+		float m_TempX = 0.0f, m_TempY = 0.0f;
+		bool m_IsDragging = false;
+
 		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
 		float m_CameraRotation = 0.0f;
 		float m_CameraTranslationSpeed = 3.0f;

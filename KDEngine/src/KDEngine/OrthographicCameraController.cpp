@@ -5,6 +5,7 @@
 
 #include "Input.h"
 #include "Codes/KeyCodes.h"
+#include "Codes/MouseCodes.h"
 
 namespace KDE
 {
@@ -16,26 +17,59 @@ namespace KDE
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
-		if (Input::IsKeyPressed(KD_KEY_A))
-			m_CameraPosition.x -= m_CameraTranslationSpeed * ts.GetSeconds();
-		else if (KDE::Input::IsKeyPressed(KD_KEY_D))
-			m_CameraPosition.x += m_CameraTranslationSpeed * ts.GetSeconds();
-		if (Input::IsKeyPressed(KD_KEY_W))
-			m_CameraPosition.y += m_CameraTranslationSpeed * ts.GetSeconds();
-		else if (Input::IsKeyPressed(KD_KEY_S))
-			m_CameraPosition.y -= m_CameraTranslationSpeed * ts.GetSeconds();
+		//	Keyboard moving //////////////////////////////////////////////////////
+		//	if (Input::IsKeyPressed(KD_KEY_A))
+		//		m_CameraPosition.x -= m_CameraTranslationSpeed * ts.GetSeconds();
+		//	else if (KDE::Input::IsKeyPressed(KD_KEY_D))
+		//		m_CameraPosition.x += m_CameraTranslationSpeed * ts.GetSeconds();
+		//	if (Input::IsKeyPressed(KD_KEY_W))
+		//		m_CameraPosition.y += m_CameraTranslationSpeed * ts.GetSeconds();
+		//	else if (Input::IsKeyPressed(KD_KEY_S))
+		//		m_CameraPosition.y -= m_CameraTranslationSpeed * ts.GetSeconds();
+		//	
+		//	if (m_Rotation)
+		//	{
+		//		if (Input::IsKeyPressed(KD_KEY_Q))
+		//			m_CameraRotation -= m_CameraRotationSpeed * ts.GetSeconds();
+		//		else if (KDE::Input::IsKeyPressed(KD_KEY_E))
+		//			m_CameraRotation += m_CameraRotationSpeed * ts.GetSeconds();
+		//	
+		//		m_Camera.SetRotation(m_CameraRotation);
+		//	}
+		//	
+		//	m_Camera.SetPosition(m_CameraPosition);
+		//////////////////////////////////////////////////////////////////////////
 
-		if (m_Rotation)
+		if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT))
 		{
-			if (Input::IsKeyPressed(KD_KEY_Q))
-				m_CameraRotation -= m_CameraRotationSpeed * ts.GetSeconds();
-			else if (KDE::Input::IsKeyPressed(KD_KEY_E))
-				m_CameraRotation += m_CameraRotationSpeed * ts.GetSeconds();
+			if (!m_IsDragging)
+			{
+				m_IsDragging = true;
 
-			m_Camera.SetRotation(m_CameraRotation);
+				m_TempX = Input::GetMouseX();
+				m_TempY = Input::GetMouseY();
+			}
+			else
+			{
+				float m_CurrMouseX = Input::GetMouseX();
+				float m_CurrMouseY = Input::GetMouseY();
+
+				float m_DifferenceX = m_CurrMouseX - m_TempX;
+				float m_DifferenceY = m_CurrMouseY - m_TempY;
+
+				m_CameraPosition.x -= m_DifferenceX * 0.005f;
+				m_CameraPosition.y += m_DifferenceY * 0.005f;
+
+				m_TempX = m_CurrMouseX;
+				m_TempY = m_CurrMouseY;
+			}
+
+			m_Camera.SetPosition(m_CameraPosition);
 		}
-		
-		m_Camera.SetPosition(m_CameraPosition);
+		else
+		{
+			m_IsDragging = false;
+		}
 	}
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
@@ -43,7 +77,6 @@ namespace KDE
 		dispatcher.Dispatch<MouseScrolledEvent>(KD_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(KD_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
-
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
 		m_Zoom -= e.GetOffsetY() * 0.1f;
