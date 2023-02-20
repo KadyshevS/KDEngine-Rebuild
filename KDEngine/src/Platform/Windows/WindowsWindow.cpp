@@ -89,7 +89,6 @@ namespace KDE
 				data.Height = height;
 
 				WindowResizeEvent ev(width, height);
-				KD_CORE_TRACE(ev);
 				data.EventCallback(ev);
 			}
 		);

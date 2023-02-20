@@ -38,4 +38,4 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 //	Entry point
-#include "KDEngine/EntryPoint.h"
+// #include "KDEngine/EntryPoint.h"

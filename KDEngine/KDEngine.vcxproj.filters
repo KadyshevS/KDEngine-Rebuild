@@ -105,6 +105,9 @@
     <ClInclude Include="src\KDEngine\Log.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\OrthographicCameraController.h">
+      <Filter>src\KDEngine</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\Buffer.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
@@ -1413,7 +1416,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1432,6 +1434,9 @@
       <Filter>src\KDEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Log.cpp">
+      <Filter>src\KDEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\OrthographicCameraController.cpp">
       <Filter>src\KDEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp">
@@ -1488,6 +1493,5 @@
     <ClCompile Include="vendor\stb\stb_image.cpp">
       <Filter>vendor\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\KDEngine\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>
