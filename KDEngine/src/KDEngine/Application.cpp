@@ -31,6 +31,7 @@ namespace KDE
 	{
 		EventDispatcher edis(e);
 		edis.Dispatch<WindowCloseEvent>(KD_BIND_EVENT_FN(Application::OnWindowClose));
+		edis.Dispatch<WindowResizeEvent>(KD_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
@@ -43,6 +44,18 @@ namespace KDE
 	{
 		m_Running = false;
 		return true;
+	}
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		return false;
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -62,9 +75,11 @@ namespace KDE
 			Timestep ts = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* l : m_LayerStack)
-				l->OnUpdate(ts);
-
+			if (!m_Minimized)
+			{
+				for (Layer* l : m_LayerStack)
+					l->OnUpdate(ts);
+			}
 			m_ImGuiLayer->Begin();
 			for (Layer* l : m_LayerStack)
 				l->OnImGuiRender();

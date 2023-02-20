@@ -57,7 +57,7 @@ namespace KDE
 	}
 	void ImGuiLayer::OnImGuiRender()
 	{
-	//	static bool show = false;
+	//	static bool show = true;
 	//	ImGui::ShowDemoWindow(&show);
 	}
 

@@ -32,6 +32,7 @@ namespace KDE
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 	private:
 		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
@@ -39,6 +40,7 @@ namespace KDE
 		Timestep m_Timestep;
 		float m_LastFrameTime = 0.0f;
 		bool m_Running = true;
+		bool m_Minimized = false;
 
 		static Application* s_Instance;
 	};

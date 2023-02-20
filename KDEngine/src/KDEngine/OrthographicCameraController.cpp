@@ -9,7 +9,7 @@
 namespace KDE
 {
 	OrthographicCameraController::OrthographicCameraController(float aspectRation, bool rotation)
-		: m_Camera( -aspectRation * m_Zoom, aspectRation* m_Zoom, -m_Zoom, m_Zoom ),
+		: m_Camera( -aspectRation * m_Zoom, aspectRation * m_Zoom, -m_Zoom, m_Zoom ),
 		m_AspectRatio(aspectRation),
 		m_Rotation(rotation)
 	{}
@@ -46,14 +46,22 @@ namespace KDE
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
-		m_Zoom -= e.GetOffsetY() * 0.5f;
+		m_Zoom -= e.GetOffsetY() * 0.1f;
 		m_Camera.SetProjection( -m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom );
 
 		return false;
 	}
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
-		m_AspectRatio -= (float)e.GetWidth() / (float)e.GetHeight();
+		//////////////////////////////////////////////////////////////////////////
+		//	Screen will be the same size
+		//	float yScale = e.GetHeight() / 720.0f;
+		//	m_AspectRatio = yScale * (float)e.GetWidth() / e.GetHeight();
+		//	m_Camera.SetProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -yScale * m_Zoom, yScale * m_Zoom);
+
+		//////////////////////////////////////////////////////////////////////////
+		//	Screen will scale
+		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
 		m_Camera.SetProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom);
 
 		return false;
