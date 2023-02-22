@@ -31,6 +31,6 @@ namespace KDE
 			s_RendererAPI->DrawIndexed(vArr);
 		}
 	private:
-		static RendererAPI* s_RendererAPI;
+		static Scope<RendererAPI> s_RendererAPI;
 	};
 }

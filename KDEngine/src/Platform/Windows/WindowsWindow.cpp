@@ -58,7 +58,7 @@ namespace KDE
 
 		if (!s_GLFWInitialized)
 		{
-			// TODO: glfwTerminate on system shutdown
+		// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
 			KD_CORE_ASSERT(success, "Could not intialize GLFW!");
 
@@ -69,7 +69,7 @@ namespace KDE
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		m_Context = new OpenGLContext(m_Window);
+		m_Context = CreateScope<OpenGLContext>(m_Window);
 		m_Context->Init();
 
 		glfwMakeContextCurrent(m_Window);

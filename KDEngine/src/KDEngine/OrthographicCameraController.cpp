@@ -7,6 +7,8 @@
 #include "Codes/KeyCodes.h"
 #include "Codes/MouseCodes.h"
 
+#include "imgui.h"
+
 namespace KDE
 {
 	OrthographicCameraController::OrthographicCameraController(float aspectRation, bool rotation)
@@ -40,7 +42,7 @@ namespace KDE
 		//	m_Camera.SetPosition(m_CameraPosition);
 		//////////////////////////////////////////////////////////////////////////
 
-		if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT))
+		if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 		{
 			if (!m_IsDragging)
 			{
@@ -57,8 +59,8 @@ namespace KDE
 				float m_DifferenceX = m_CurrMouseX - m_TempX;
 				float m_DifferenceY = m_CurrMouseY - m_TempY;
 
-				m_CameraPosition.x -= m_DifferenceX * 0.005f;
-				m_CameraPosition.y += m_DifferenceY * 0.005f;
+				m_CameraPosition.x -= m_DifferenceX * 0.15f * ts * m_Zoom;
+				m_CameraPosition.y += m_DifferenceY * 0.15f * ts * m_Zoom;
 
 				m_TempX = m_CurrMouseX;
 				m_TempY = m_CurrMouseY;

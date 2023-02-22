@@ -24,6 +24,6 @@ namespace KDE
 		{
 			glm::mat4 ViewProjectionMat;
 		};
-		static SceneData* m_SceneData;
+		static Scope<SceneData> m_SceneData;
 	};
 }
