@@ -21,7 +21,6 @@ private:
 	KDE::Ref<KDE::VertexArray> m_SQVertexArray;
 
 	KDE::Ref<KDE::Texture2D> m_Texture;
-	KDE::Ref<KDE::Texture2D> m_Texture2;
 
 	KDE::Ref<KDE::OrthographicCameraController> m_CameraController;
 

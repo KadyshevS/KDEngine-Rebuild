@@ -170,6 +170,7 @@
     <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\KDEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\KDEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h" />
     <ClInclude Include="src\KDEngine\Renderer\Shader.h" />
@@ -614,6 +615,7 @@
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Shader.cpp" />
