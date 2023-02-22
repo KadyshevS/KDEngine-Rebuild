@@ -24,12 +24,11 @@ private:
 
 	KDE::Ref<KDE::OrthographicCameraController> m_CameraController;
 
-	glm::vec3 m_QuadPosition = { 0.0f, 0.0f, 0.0f };
-	glm::mat4 m_QuadMat = glm::mat4(1.0f);
-	float m_QuadRotation = 0.0f;
+	glm::vec2 m_QuadPosition = { 0.0f, 0.0f };
+	glm::vec2 m_QuadScale = { 1.0f, 1.0f };
 
 	glm::vec3 u_Color = { 0.0f, 1.0f, 0.0f };
 
 	float m_QuadMoveSpeed = 5.0f;
-	float m_QuadRotateSpeed = 180.0f;
+	float m_QuadScaleSpeed = 3.0f;
 };

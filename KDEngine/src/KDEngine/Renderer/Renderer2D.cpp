@@ -7,6 +7,7 @@
 #include "Shader.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace KDE
 {
@@ -58,13 +59,8 @@ namespace KDE
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->shader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->shader)->UploadUniformMat4(
-			"u_ViewProjection", camera.GetViewProjectionMat()
-		);
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->shader)->UploadUniformMat4(
-			"u_Transform", glm::mat4(1.0f)
-		);
+		s_Data->shader->Bind();
+		s_Data->shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
 	}
 	void Renderer2D::EndScene()
 	{
@@ -73,8 +69,12 @@ namespace KDE
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec3& color)
 	{
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->shader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_Data->shader)->UploadUniformFloat3("u_Color", color);
+		s_Data->shader->Bind();
+		s_Data->shader->SetFloat3("u_Color", color);
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f }) *
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_Data->shader->SetMat4("u_Transform", transform);
 
 		s_Data->vertexArray->Bind();
 		RendererCommand::DrawIndexed(s_Data->vertexArray);
