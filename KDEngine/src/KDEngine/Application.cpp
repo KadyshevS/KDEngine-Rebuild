@@ -18,7 +18,7 @@ namespace KDE
 
 		m_Window = Scope<Window>( Window::Create() );
 		m_Window->SetEventCallback(KD_BIND_EVENT_FN(Application::OnEvent));
-	//	m_Window->SetVSync(true);
+		m_Window->SetVSync(true);
 
 		Renderer::Init();
 

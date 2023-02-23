@@ -9,7 +9,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-	m_Texture = KDE::Texture2D::Create("assets/textures/kot.png");
+	m_Texture = KDE::Texture2D::Create("assets/textures/default.png");
+	m_KotTexture = KDE::Texture2D::Create("assets/textures/kot.png");
 }
 void Sandbox2D::OnDetach()
 {
@@ -18,7 +19,7 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(KDE::Timestep ts)
 {
-//	Input
+	//	Input
 	if (KDE::Input::IsKeyPressed('W'))
 		m_QuadPosition.y += m_QuadMoveSpeed * ts;
 	else if (KDE::Input::IsKeyPressed('S'))
@@ -33,7 +34,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	else if (KDE::Input::IsKeyPressed('E'))
 		m_QuadScale -= m_QuadScaleSpeed * ts;
 
-//	Drawing
+	//	Drawing
 	KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 	KDE::RendererCommand::Clear();
 
@@ -42,7 +43,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	KDE::Renderer2D::BeginScene(m_CameraController->GetCamera());
 
 	KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 5.0f, 5.0f }, m_Texture);
-	KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, u_Color);
+	KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, {0.2f, 0.8f, 0.3f, 1.0f});
 
 	KDE::Renderer2D::EndScene();
 }
@@ -57,6 +58,10 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::SliderFloat("Y ", &m_QuadScale.y, 0.5f, 10.0f, "%.1f");
 	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Color");
 	ImGui::ColorEdit3("", glm::value_ptr(u_Color));
+	ImGui::End();
+
+	ImGui::Begin("Statistics");
+	ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "FPS: %d", (int)ImGui::GetIO().Framerate);
 	ImGui::End();
 }
 void Sandbox2D::OnEvent(KDE::Event& e)

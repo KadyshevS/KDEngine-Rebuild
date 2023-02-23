@@ -143,8 +143,6 @@
     <ClInclude Include="src\Sandox2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\ColorSet.glsl" />
-    <None Include="assets\shaders\FlatColor.glsl" />
     <None Include="assets\shaders\Texture.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

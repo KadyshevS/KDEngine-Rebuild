@@ -14,8 +14,8 @@ namespace KDE
 	struct Renderer2DStorage
 	{
 		Ref<VertexArray> vertexArray;
-		Ref<Shader> colorShader;
 		Ref<Shader> textureShader;
+		Ref<Texture2D> defaultTexture;
 	};
 
 	static Renderer2DStorage* s_Data;
@@ -48,9 +48,11 @@ namespace KDE
 		Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(indicesSq, sizeof(indicesSq));
 		s_Data->vertexArray->SetIndexBuffer(indexBuffer);
 
-		s_Data->colorShader = Shader::Create("assets/shaders/ColorSet.glsl");
+		s_Data->defaultTexture = Texture2D::Create(1, 1);
+		uint32_t m_DefaultData = 0xFFFFFFFF;
+		s_Data->defaultTexture->SetData(&m_DefaultData, sizeof(uint32_t));
+		
 		s_Data->textureShader = Shader::Create("assets/shaders/Texture.glsl");
-
 		s_Data->textureShader->Bind();
 		s_Data->textureShader->SetInt("u_Texture", 0);
 	}
@@ -63,27 +65,26 @@ namespace KDE
 	{
 		s_Data->textureShader->Bind();
 		s_Data->textureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
-		s_Data->colorShader->Bind();
-		s_Data->colorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
 	}
 	void Renderer2D::EndScene()
 	{
 
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec3& color)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		DrawQuad({ position.x, position.y, 0.0f }, size, color);
 	}
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& color)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		s_Data->colorShader->Bind();
-		s_Data->colorShader->SetFloat3("u_Color", color);
-
+		s_Data->textureShader->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-		s_Data->colorShader->SetMat4("u_Transform", transform);
+		s_Data->textureShader->SetMat4("u_Transform", transform);
+		s_Data->textureShader->SetFloat4("u_Color", color);
+		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
 
+		s_Data->defaultTexture->Bind();
 		s_Data->vertexArray->Bind();
 		RendererCommand::DrawIndexed(s_Data->vertexArray);
 	}
@@ -97,12 +98,11 @@ namespace KDE
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->textureShader->SetMat4("u_Transform", transform);
-		s_Data->textureShader->SetFloat4("u_Color", glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+		s_Data->textureShader->SetFloat4("u_Color", glm::vec4(1.0f));
 		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
 
 		texture->Bind();
 		s_Data->vertexArray->Bind();
 		RendererCommand::DrawIndexed(s_Data->vertexArray);
 	}
-
 }
