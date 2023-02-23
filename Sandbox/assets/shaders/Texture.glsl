@@ -26,5 +26,5 @@ in vec2 texCoord;
 
 void main()
 {
-	fragColor = texture(u_Texture, texCoord);
+	fragColor = texture(u_Texture, texCoord * 10);
 }

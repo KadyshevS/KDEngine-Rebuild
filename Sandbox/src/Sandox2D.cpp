@@ -9,7 +9,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-
+	m_Texture = KDE::Texture2D::Create("assets/textures/kot.png");
 }
 void Sandbox2D::OnDetach()
 {
@@ -18,6 +18,7 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(KDE::Timestep ts)
 {
+//	Input
 	if (KDE::Input::IsKeyPressed('W'))
 		m_QuadPosition.y += m_QuadMoveSpeed * ts;
 	else if (KDE::Input::IsKeyPressed('S'))
@@ -40,6 +41,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 
 	KDE::Renderer2D::BeginScene(m_CameraController->GetCamera());
 
+	KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 5.0f, 5.0f }, m_Texture);
 	KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, u_Color);
 
 	KDE::Renderer2D::EndScene();

@@ -24,7 +24,7 @@ private:
 
 	KDE::Ref<KDE::OrthographicCameraController> m_CameraController;
 
-	glm::vec2 m_QuadPosition = { 0.0f, 0.0f };
+	glm::vec3 m_QuadPosition = { 0.0f, 0.0f, 0.0f };
 	glm::vec2 m_QuadScale = { 1.0f, 1.0f };
 
 	glm::vec3 u_Color = { 0.0f, 1.0f, 0.0f };

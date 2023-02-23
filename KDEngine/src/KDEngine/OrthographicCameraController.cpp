@@ -81,8 +81,10 @@ namespace KDE
 	}
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
-		m_Zoom -= e.GetOffsetY() * 0.1f;
-		m_Camera.SetProjection( -m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom );
+		m_Zoom -= e.GetOffsetY() * 0.3f;
+		if (m_Zoom < 0.0f) m_Zoom = 0.0f;
+
+		m_Camera.SetScale( m_Zoom );
 
 		return false;
 	}
