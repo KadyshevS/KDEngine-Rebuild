@@ -20,8 +20,13 @@ namespace KDE
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		glTextureStorage2D(m_RendererID, 1, (channels == 4) ? GL_RGBA8 : GL_RGB8, m_Width, m_Height);
 
+		glGenerateTextureMipmap(m_RendererID);
+
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (channels == 4) ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
 

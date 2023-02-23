@@ -26,6 +26,7 @@ namespace KDE
 	private:
 		float m_AspectRatio;
 		float m_Zoom = 1.0f;
+		float m_ZoomLimit = 0.1f;
 		bool m_Rotation = false;
 		OrthographicCamera m_Camera;
 

@@ -61,10 +61,10 @@ namespace KDE
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		s_Data->colorShader->Bind();
-		s_Data->colorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
 		s_Data->textureShader->Bind();
 		s_Data->textureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
+		s_Data->colorShader->Bind();
+		s_Data->colorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
 	}
 	void Renderer2D::EndScene()
 	{
@@ -97,6 +97,8 @@ namespace KDE
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->textureShader->SetMat4("u_Transform", transform);
+		s_Data->textureShader->SetFloat4("u_Color", glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
 
 		texture->Bind();
 		s_Data->vertexArray->Bind();
