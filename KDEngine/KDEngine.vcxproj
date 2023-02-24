@@ -155,6 +155,7 @@
     <ClInclude Include="src\KDEngine\Codes\MouseCodes.h" />
     <ClInclude Include="src\KDEngine\Core.h" />
     <ClInclude Include="src\KDEngine\Core\Timestep.h" />
+    <ClInclude Include="src\KDEngine\Debug\Instrumentor.h" />
     <ClInclude Include="src\KDEngine\EntryPoint.h" />
     <ClInclude Include="src\KDEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\KDEngine\Events\Event.h" />

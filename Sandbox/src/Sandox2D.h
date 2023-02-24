@@ -23,11 +23,4 @@ private:
 	glm::vec4 u_Color = { 0.0f, 1.0f, 0.0f, 1.0f };
 	float m_QuadMoveSpeed = 5.0f;
 	float m_QuadScaleSpeed = 3.0f;
-
-	struct ProfileResult
-	{
-		const char* Name;
-		float Time;
-	};
-	std::vector<ProfileResult> m_ProfileResults;
 };

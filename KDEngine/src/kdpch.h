@@ -14,9 +14,10 @@
 #include <unordered_set>
 
 #include "KDEngine/Log.h"
+#include "KDEngine/Debug/Instrumentor.h"
 
 #ifdef KD_PLATFORM_WINDOWS
-	#ifndef FULL_WINTARD
+	#ifndef FULL_WINTAPI
 	#define WIN32_LEAN_AND_MEAN
 	#define NOGDICAPMASKS
 	#define NOSYSMETRICS
