@@ -7,6 +7,8 @@ namespace KDE
 {
 	static GLenum BufferDataTypeToOpenGLDataType(const ShaderDataType& type)
 	{
+		KD_PROFILE_FUNCTION();
+
 		switch (type)
 		{
 		case ShaderDataType::None:		return NULL;
@@ -30,24 +32,34 @@ namespace KDE
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		KD_PROFILE_FUNCTION();
+
 		glCreateVertexArrays(1, &m_RendererID);
 	}
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		KD_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
+		KD_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 	void OpenGLVertexArray::Unbind() const
 	{
+		KD_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vBuf)
 	{
+		KD_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		vBuf->Bind();
 
@@ -71,6 +83,8 @@ namespace KDE
 	}
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& iBuf)
 	{
+		KD_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		iBuf->Bind();
 

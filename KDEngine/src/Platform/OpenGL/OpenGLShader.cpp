@@ -9,6 +9,8 @@ namespace KDE
 {
 	static GLenum ShaderTypeFromString(const std::string& type)
 	{
+		KD_PROFILE_FUNCTION();
+
 		if (type == "vertex")
 			return GL_VERTEX_SHADER;
 		if (type == "fragment" || type == "pixel")
@@ -20,6 +22,8 @@ namespace KDE
 
 	OpenGLShader::OpenGLShader(const std::string& filePath)
 	{
+		KD_PROFILE_FUNCTION();
+
 		std::string source = ReadFile(filePath);
 		auto shaderSources = ParseShaderCode(source);
 		Compile(shaderSources);
@@ -34,6 +38,8 @@ namespace KDE
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
+		KD_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -41,15 +47,21 @@ namespace KDE
 	}
 	OpenGLShader::~OpenGLShader()
 	{
+		KD_PROFILE_FUNCTION();
+
 		glDeleteProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Bind() const
 	{
+		KD_PROFILE_FUNCTION();
+
 		glUseProgram(m_RendererID);
 	}
 	void OpenGLShader::Unbind() const
 	{
+		KD_PROFILE_FUNCTION();
+
 		glUseProgram(0);
 	}
 
@@ -102,64 +114,88 @@ namespace KDE
 
 	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform1i(location, (GLint)value);
 	}
 	void OpenGLShader::UploadUniformInt2(const std::string& name, const glm::vec2& value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform2i(location, (GLint)value.x, (GLint)value.y);
 	}
 	void OpenGLShader::UploadUniformInt3(const std::string& name, const glm::vec3& value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform3i(location, (GLint)value.x, (GLint)value.y, (GLint)value.z);
 	}
 	void OpenGLShader::UploadUniformInt4(const std::string& name, const glm::vec4& value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform4i(location, (GLint)value.x, (GLint)value.y, (GLint)value.z, (GLint)value.w);
 	}
 
 	void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform1f(location, (GLfloat)value);
 	}
 	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform2f(location, (GLfloat)value.x, (GLfloat)value.y);
 	}
 	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform3f(location, (GLfloat)value.x, (GLfloat)value.y, (GLfloat)value.z);
 	}
 	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform4f(location, (GLfloat)value.x, (GLfloat)value.y, (GLfloat)value.z, (GLfloat)value.w);
 	}
 
 	void OpenGLShader::UploadUniformMat2(const std::string& name, const glm::mat2& matrix)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
 	{
+		KD_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
+		KD_PROFILE_FUNCTION();
+
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
@@ -181,6 +217,8 @@ namespace KDE
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::ParseShaderCode(const std::string& source)
 	{
+		KD_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -204,6 +242,8 @@ namespace KDE
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
+		KD_PROFILE_FUNCTION();
+
 		KD_CORE_ASSERT(shaderSources.size() <= 2, "Shaders sources can be only 2 types");
 
 		GLuint program = glCreateProgram();

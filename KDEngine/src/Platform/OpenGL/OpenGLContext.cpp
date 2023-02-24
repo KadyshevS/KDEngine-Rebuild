@@ -9,11 +9,15 @@ namespace KDE
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
 		: m_WindowHandle(windowHandle)
 	{
+		KD_PROFILE_FUNCTION();
+
 		KD_CORE_ASSERT(windowHandle, "Window handle is null.");
 	}
 
 	void OpenGLContext::Init()
 	{
+		KD_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		KD_CORE_ASSERT(status, "Failed to initialize Glad.");
@@ -24,6 +28,8 @@ namespace KDE
 	}
 	void OpenGLContext::SwapBuffers()
 	{
+		KD_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 }

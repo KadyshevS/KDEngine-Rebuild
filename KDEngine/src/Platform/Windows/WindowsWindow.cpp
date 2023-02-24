@@ -22,15 +22,21 @@ namespace KDE
 
 	Window* Window::Create(const WindowProps& props)
 	{
+		KD_PROFILE_FUNCTION();
+
 		return new WindowsWindow(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		KD_PROFILE_FUNCTION();
+
 		Init(props);
 	}
 	WindowsWindow::~WindowsWindow()
 	{
+		KD_PROFILE_FUNCTION();
+
 		Shutdown();
 	}
 
@@ -58,19 +64,22 @@ namespace KDE
 
 		if (!s_GLFWInitialized)
 		{
-		// TODO: glfwTerminate on system shutdown
+			KD_PROFILE_SCOPE("GLFW initializtion");
+			
 			int success = glfwInit();
 			KD_CORE_ASSERT(success, "Could not intialize GLFW!");
-
 			glfwSetErrorCallback(GLFWErrorCallback);
 
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		{
+			KD_PROFILE_SCOPE("GLFW Create Window");
 
-		m_Context = CreateScope<OpenGLContext>(m_Window);
-		m_Context->Init();
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+			m_Context = CreateScope<OpenGLContext>(m_Window);
+			m_Context->Init();
+		}
 
 		glfwMakeContextCurrent(m_Window);
 
@@ -185,6 +194,8 @@ namespace KDE
 	}
 	void WindowsWindow::Shutdown()
 	{
+		KD_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
 	}
 }

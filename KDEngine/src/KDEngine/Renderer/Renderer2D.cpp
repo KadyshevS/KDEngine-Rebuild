@@ -22,6 +22,8 @@ namespace KDE
 
 	void Renderer2D::Init()
 	{
+		KD_PROFILE_FUNCTION();
+
 		s_Data = new Renderer2DStorage();
 
 		s_Data->vertexArray = VertexArray::Create();
@@ -58,17 +60,21 @@ namespace KDE
 	}
 	void Renderer2D::Shutdown()
 	{
+		KD_PROFILE_FUNCTION();
+
 		delete s_Data;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		KD_PROFILE_FUNCTION();
+
 		s_Data->textureShader->Bind();
 		s_Data->textureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
 	}
 	void Renderer2D::EndScene()
 	{
-
+		KD_PROFILE_FUNCTION();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -94,6 +100,8 @@ namespace KDE
 	}
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D> texture)
 	{
+		KD_PROFILE_FUNCTION();
+
 		s_Data->textureShader->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
