@@ -3,24 +3,12 @@
 
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox 2D"),
-	m_Camera( KDE::CreateRef<KDE::OrthographicCameraController>(1280.0f/720.0f, 0.0f) )
-{
-	m_Texture = KDE::Texture2D::Create("assets/textures/flappybird/bird.png");
-	m_BackTexture = KDE::Texture2D::Create("assets/textures/flappybird/background.png");
-	m_PipeTexture = KDE::Texture2D::Create("assets/textures/flappybird/pipe.png");
-
-	mt = std::mt19937(rd());
-	rng = std::uniform_real_distribution<float>(-0.5f, 0.5f);
-
-	for (uint32_t i = 0; i < 7; i++)
-	{
-		pipes[i] = { {0.0f + m_DistanceBetweenPipes*i, -1.0f + rng(mt), -0.05f} };
-	}
-}
+	m_CameraController(std::make_shared<KDE::OrthographicCameraController>(1280.0f / 720.0f, true))
+{}
 
 void Sandbox2D::OnAttach()
 {
-
+	m_Texture = KDE::Texture2D::Create("assets/textures/default.png");
 }
 void Sandbox2D::OnDetach()
 {
@@ -33,85 +21,60 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	KD_PROFILE_FUNCTION();
 
 //	Input
-	if (!m_GameOver)
 	{
-		if (KDE::Input::IsKeyPressed(KD_KEY_SPACE))
-		{
-			m_Position.y += (m_Position.y <= 0.85f) ? m_BirdUpSpeed * ts : 0.0f;
-			m_Rotation += (m_Rotation + glm::radians(m_BirdRotSpeed * ts) <= m_BirdRotLimitUp) ? glm::radians(m_BirdRotSpeed * ts) : 0.0f;
-		}
-		else
-		{
-			m_Position.y -= (m_Position.y >= -0.85f) ? m_BirdDownSpeed * ts : 0.0f;
-			m_Rotation -= (m_Rotation - glm::radians(m_BirdRotSpeed * ts) >= m_BirdRotLimitDown) ? glm::radians(m_BirdRotSpeed * ts) : 0.0f;
-		}
-	}
-	else
-	{
-		m_Position.y -= (m_Position.y >= -0.85f) ? m_BirdDownSpeed * ts : 0.0f;
-		m_Rotation -= (m_Rotation - glm::radians(m_BirdRotSpeed * ts) >= m_BirdRotLimitDown) ? glm::radians(m_BirdRotSpeed * ts) : 0.0f;
-	}
+		KD_PROFILE_SCOPE("Sandbox2D Input Handling");
+		if (KDE::Input::IsKeyPressed('W'))
+			m_QuadPosition.y += m_QuadMoveSpeed * ts;
+		else if (KDE::Input::IsKeyPressed('S'))
+			m_QuadPosition.y -= m_QuadMoveSpeed * ts;
+		if (KDE::Input::IsKeyPressed('A'))
+			m_QuadPosition.x -= m_QuadMoveSpeed * ts;
+		else if (KDE::Input::IsKeyPressed('D'))
+			m_QuadPosition.x += m_QuadMoveSpeed * ts;
 
-//	Updating
-	for (auto& p : pipes)
-	{
-		if (
-			m_Position.y + (m_Texture->GetHeight() / 2.0f) < p.position.y + m_PipeTexture->GetHeight()/2.0f &&
-			m_Position.x + (m_Texture->GetWidth() / 2.0f) > p.position.x + m_PipeTexture->GetWidth()/2.0f 
-		)
-		{
-			m_GameOver = true;
-		}
+		if (KDE::Input::IsKeyPressed('Q'))
+			m_QuadScale += m_QuadScaleSpeed * ts;
+		else if (KDE::Input::IsKeyPressed('E'))
+			m_QuadScale -= m_QuadScaleSpeed * ts;
 	}
-
-	if (!m_GameOver)
+	
 	{
-		for (auto& p : pipes)
-		{
-			p.position.x -= m_PipesSpeed * ts;
-			if (p.position.x < -m_DistanceBetweenPipes * 3.0f)
-			{
-				p.position.x += m_DistanceBetweenPipes * 7.0f;
-				p.position.y = -1.0f + rng(mt);
-			}
-		}
+		KD_PROFILE_SCOPE("Sandbox2D Camera Updating");
+		m_CameraController->OnUpdate(ts);
 	}
-
-	if(!m_GameOver)
-		m_Camera->OnUpdate(ts);
 
 //	Drawing
-	KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-	KDE::RendererCommand::Clear();
-
-	KDE::Renderer2D::BeginScene(m_Camera->GetCamera());
-
-	KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 3.7f, 2.0f }, 0.0f, m_BackTexture);	//	Background
-
-	for (auto& p : pipes)
 	{
-		KDE::Renderer2D::DrawQuad(p.position, { 0.25f, 1.5f }, 0.0f, m_PipeTexture);
-		KDE::Renderer2D::DrawQuad({ p.position.x, p.position.y + m_PipesGap, -0.05f }, {0.25f, 1.5f}, glm::radians(180.0f), m_PipeTexture);
+		KD_PROFILE_SCOPE("Sandbox2D Renderer Prep");
+		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		KDE::RendererCommand::Clear();
 	}
-	KDE::Renderer2D::DrawQuad(m_Position, {0.25f, 0.25f}, m_Rotation, m_Texture);	//	Bird
+	{
+		KD_PROFILE_SCOPE("Sandbox2D Renderer Update");
+		KDE::Renderer2D::BeginScene(m_CameraController->GetCamera());
 
-	KDE::Renderer2D::EndScene();
+		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 5.0f, 5.0f }, m_Texture);
+		KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, u_Color);
+
+		KDE::Renderer2D::EndScene();
+	}
 }
 void Sandbox2D::OnImGuiRender()
 {
-	ImGui::Begin("Settings");
-	ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Position");
-	ImGui::TextColored({ 1.0f, 1.0f, 1.0f, 1.0f }, " {%.3f, %.3f}", m_Position.x, m_Position.y);
-	ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Rotation");
-	ImGui::TextColored({ 1.0f, 1.0f, 1.0f, 1.0f }, " %.3f", m_Rotation);
-	ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Pipes Gap");
-	ImGui::SliderFloat(" ", &m_PipesGap, 1.5f, 2.5f, "%.1f");
-	ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Pipes Speed");
-	ImGui::SliderFloat("  ", &m_PipesSpeed, 0.3f, 2.0f, "%.1f");
-	
+	KD_PROFILE_FUNCTION();
+
+	ImGui::Begin("Sandbox 2D Test");
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Position");
+	ImGui::SliderFloat("X", &m_QuadPosition.x, -10.0f, 10.0f, "%.1f");
+	ImGui::SliderFloat("Y", &m_QuadPosition.y, -10.0f, 10.0f, "%.1f");
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Scale");
+	ImGui::SliderFloat("X ", &m_QuadScale.x, 0.5f, 10.0f, "%.1f");
+	ImGui::SliderFloat("Y ", &m_QuadScale.y, 0.5f, 10.0f, "%.1f");
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Color");
+	ImGui::ColorEdit3("", glm::value_ptr(u_Color));
 	ImGui::End();
 }
 void Sandbox2D::OnEvent(KDE::Event& e)
 {
-	m_Camera->OnEvent(e);
+	m_CameraController->OnEvent(e);
 }

@@ -65,7 +65,7 @@ namespace KDE
 		delete s_Data;
 	}
 
-	void Renderer2D::BeginScene(OrthographicCamera& camera)
+	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		KD_PROFILE_FUNCTION();
 
@@ -77,39 +77,37 @@ namespace KDE
 		KD_PROFILE_FUNCTION();
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, float rotate, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, rotate, color);
+		DrawQuad({ position.x, position.y, 0.0f }, size, color);
 	}
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotate, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		s_Data->textureShader->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }) *
-			glm::rotate(glm::mat4(1.0f), rotate, {0.0f, 0.0f, 1.0f});
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->textureShader->SetMat4("u_Transform", transform);
 		s_Data->textureShader->SetFloat4("u_Color", color);
-		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(1.0f));
+		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
 
 		s_Data->defaultTexture->Bind();
 		s_Data->vertexArray->Bind();
 		RendererCommand::DrawIndexed(s_Data->vertexArray);
 	}
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, float rotate, const Ref<Texture2D> texture)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D> texture)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, rotate, texture);
+		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
 	}
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotate, const Ref<Texture2D> texture)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D> texture)
 	{
 		KD_PROFILE_FUNCTION();
 
 		s_Data->textureShader->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }) *
-			glm::rotate(glm::mat4(1.0f), rotate, { 0.0f, 0.0f, 1.0f });
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->textureShader->SetMat4("u_Transform", transform);
 		s_Data->textureShader->SetFloat4("u_Color", glm::vec4(1.0f));
-		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(1.0f));
+		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
 
 		texture->Bind();
 		s_Data->vertexArray->Bind();
