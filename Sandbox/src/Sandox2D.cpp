@@ -4,7 +4,9 @@
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox 2D"),
 	m_CameraController(std::make_shared<KDE::OrthographicCameraController>(1280.0f / 720.0f, true))
-{}
+{
+	KDE::Random::Init();
+}
 
 void Sandbox2D::OnAttach()
 {

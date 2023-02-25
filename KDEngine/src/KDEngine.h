@@ -20,6 +20,9 @@
 //	Time
 #include "KDEngine/Core/Timestep.h"
 
+//	Random
+#include "KDEngine/Core/Random.h"
+
 //	Renderer
 #include "KDEngine/Renderer/Renderer.h"
 #include "KDEngine/Renderer/RendererCommand.h"

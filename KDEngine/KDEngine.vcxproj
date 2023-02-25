@@ -154,6 +154,7 @@
     <ClInclude Include="src\KDEngine\Codes\KeyCodes.h" />
     <ClInclude Include="src\KDEngine\Codes\MouseCodes.h" />
     <ClInclude Include="src\KDEngine\Core.h" />
+    <ClInclude Include="src\KDEngine\Core\Random.h" />
     <ClInclude Include="src\KDEngine\Core\Timestep.h" />
     <ClInclude Include="src\KDEngine\Debug\Instrumentor.h" />
     <ClInclude Include="src\KDEngine\EntryPoint.h" />
@@ -607,6 +608,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp" />
+    <ClCompile Include="src\KDEngine\Core\Random.cpp" />
     <ClCompile Include="src\KDEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\KDEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\KDEngine\Layer.cpp" />

@@ -1418,6 +1418,7 @@
     </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\KDEngine\Debug\Instrumentor.h" />
+    <ClInclude Include="src\KDEngine\Core\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1496,5 +1497,6 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\KDEngine\Core\Random.cpp" />
   </ItemGroup>
 </Project>

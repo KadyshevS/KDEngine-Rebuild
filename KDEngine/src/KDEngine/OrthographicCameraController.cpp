@@ -59,8 +59,8 @@ namespace KDE
 				float m_DifferenceX = m_CurrMouseX - m_TempX;
 				float m_DifferenceY = m_CurrMouseY - m_TempY;
 
-				m_CameraPosition.x -= m_DifferenceX * 0.15f * ts * m_Zoom;
-				m_CameraPosition.y += m_DifferenceY * 0.15f * ts * m_Zoom;
+				m_CameraPosition.x -= m_DifferenceX * 0.003f * m_Zoom;
+				m_CameraPosition.y += m_DifferenceY * 0.003f * m_Zoom;
 
 				m_TempX = m_CurrMouseX;
 				m_TempY = m_CurrMouseY;
