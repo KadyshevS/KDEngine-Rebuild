@@ -26,9 +26,9 @@ namespace KDE
 			s_RendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const Ref<VertexArray>& vArr)
+		inline static void DrawIndexed(const Ref<VertexArray>& vArr, uint32_t indexCount = 0)
 		{
-			s_RendererAPI->DrawIndexed(vArr);
+			s_RendererAPI->DrawIndexed(vArr, indexCount);
 		}
 	private:
 		static Scope<RendererAPI> s_RendererAPI;

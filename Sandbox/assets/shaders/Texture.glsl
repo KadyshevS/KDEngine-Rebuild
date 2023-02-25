@@ -2,17 +2,19 @@
 #version 330 core
 			
 layout(location = 0) in vec3 inPos;
-layout(location = 1) in vec2 inTexCoord;
+layout(location = 1) in vec4 inColor;
+layout(location = 2) in vec2 inTexCoord;
 
 uniform mat4 u_ViewProjection;
-uniform mat4 u_Transform;
 
 out vec2 texCoord;
+out vec4 color;
 
 void main()
 {
-	gl_Position = u_ViewProjection * u_Transform * vec4(inPos, 1.0f);
+	gl_Position = u_ViewProjection * vec4(inPos, 1.0f);
 	texCoord = inTexCoord;
+	color = inColor;
 }
 
 #type fragment
@@ -25,8 +27,10 @@ uniform float u_ScalingFactor;
 uniform vec4 u_Color;
 
 in vec2 texCoord;
+in vec4 color;
 
 void main()
 {
-	fragColor = texture(u_Texture , texCoord * u_ScalingFactor) * u_Color;
+//	fragColor = texture(u_Texture , texCoord * u_ScalingFactor) * u_Color;
+	fragColor = color;
 }

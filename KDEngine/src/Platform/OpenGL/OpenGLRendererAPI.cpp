@@ -33,10 +33,12 @@ namespace KDE
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vArr)
+	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vArr, uint32_t indexCount)
 	{
 		KD_PROFILE_FUNCTION();
 
-		glDrawElements(GL_TRIANGLES, vArr->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		uint32_t count = indexCount ? vArr->GetIndexBuffer()->GetCount() : indexCount;
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
