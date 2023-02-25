@@ -77,28 +77,28 @@ namespace KDE
 		KD_PROFILE_FUNCTION();
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& tintColor)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, color);
+		DrawQuad({ position.x, position.y, 0.0f }, size, tintColor);
 	}
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& tintColor)
 	{
 		s_Data->textureShader->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->textureShader->SetMat4("u_Transform", transform);
-		s_Data->textureShader->SetFloat4("u_Color", color);
-		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
+		s_Data->textureShader->SetFloat4("u_Color", tintColor);
+		s_Data->textureShader->SetFloat2("u_ScalingFactor", glm::vec2(1.0f));
 
 		s_Data->defaultTexture->Bind();
 		s_Data->vertexArray->Bind();
 		RendererCommand::DrawIndexed(s_Data->vertexArray);
 	}
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D> texture)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D> texture, float scalingFactor, const glm::vec4& color)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, texture);
+		DrawQuad({ position.x, position.y, 0.0f }, size, texture, scalingFactor, color);
 	}
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D> texture)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D> texture, float scalingFactor, const glm::vec4& color)
 	{
 		KD_PROFILE_FUNCTION();
 
@@ -106,8 +106,47 @@ namespace KDE
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->textureShader->SetMat4("u_Transform", transform);
-		s_Data->textureShader->SetFloat4("u_Color", glm::vec4(1.0f));
-		s_Data->textureShader->SetFloat2("u_Scale", glm::vec2(10.0f));
+		s_Data->textureShader->SetFloat4("u_Color", color);
+		s_Data->textureShader->SetFloat("u_ScalingFactor", scalingFactor);
+
+		texture->Bind();
+		s_Data->vertexArray->Bind();
+		RendererCommand::DrawIndexed(s_Data->vertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
+	}
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		s_Data->textureShader->Bind();
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_Data->textureShader->SetMat4("u_Transform", transform);
+		s_Data->textureShader->SetFloat4("u_Color", color);
+		s_Data->textureShader->SetFloat("u_ScalingFactor", 1.0f);
+
+		s_Data->defaultTexture->Bind();
+		s_Data->vertexArray->Bind();
+		RendererCommand::DrawIndexed(s_Data->vertexArray);
+	}
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D> texture, float scalingFactor, const glm::vec4& tintColor)
+	{
+		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, texture, scalingFactor, tintColor);
+	}
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D> texture, float scalingFactor, const glm::vec4& tintColor)
+	{
+		KD_PROFILE_FUNCTION();
+
+		s_Data->textureShader->Bind();
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_Data->textureShader->SetMat4("u_Transform", transform);
+		s_Data->textureShader->SetFloat4("u_Color", tintColor);
+		s_Data->textureShader->SetFloat("u_ScalingFactor", scalingFactor);
 
 		texture->Bind();
 		s_Data->vertexArray->Bind();
