@@ -69,6 +69,10 @@ namespace KDE
 	{
 		UploadUniformInt(name, value);
 	}
+	void OpenGLShader::SetIntArray(const std::string& name, int* value, uint32_t count)
+	{
+		UploadUniformIntArray(name, value, count);
+	}
 	void OpenGLShader::SetInt2(const std::string& name, const glm::vec2& value)
 	{
 		UploadUniformInt2(name, value);
@@ -118,6 +122,13 @@ namespace KDE
 
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform1i(location, (GLint)value);
+	}
+	void OpenGLShader::UploadUniformIntArray(const std::string& name, int* value, uint32_t count)
+	{
+		KD_PROFILE_FUNCTION();
+
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1iv(location, count, value);
 	}
 	void OpenGLShader::UploadUniformInt2(const std::string& name, const glm::vec2& value)
 	{

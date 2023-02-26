@@ -16,6 +16,8 @@ namespace KDE
 		glm::vec3 Position;
 		glm::vec4 Color;
 		glm::vec2 TexCoord;
+		float TexIndex;
+		float TexScalingFactor;
 	};
 
 	struct Renderer2DData
@@ -23,6 +25,7 @@ namespace KDE
 		const uint32_t MaxQuads = 10000;
 		const uint32_t MaxVertices = MaxQuads * 4;
 		const uint32_t MaxIndices = MaxQuads * 6;
+		static const uint32_t MaxTextureSlots = 32;
 
 		Ref<VertexArray> QuadVertexArray;
 		Ref<VertexBuffer> QuadVertexBuffer;
@@ -32,6 +35,9 @@ namespace KDE
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
+
+		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
+		uint32_t TextureSlotIndex = 1; // 0 - default texture
 	};
 
 	static Renderer2DData s_Data;
@@ -48,7 +54,9 @@ namespace KDE
 		{
 			{ ShaderDataType::Float3, "inPos" },
 			{ ShaderDataType::Float4, "inColor" },
-			{ ShaderDataType::Float2, "inTexCoord" }
+			{ ShaderDataType::Float2, "inTexCoord" },
+			{ ShaderDataType::Float, "inTexIndex" },
+			{ ShaderDataType::Float, "inTexScalingFactor" }
 		};
 		s_Data.QuadVertexBuffer->SetLayout(layout);
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
@@ -78,10 +86,16 @@ namespace KDE
 		s_Data.QuadDefaultTexture = Texture2D::Create(1, 1);
 		uint32_t m_DefaultData = 0xFFFFFFFF;
 		s_Data.QuadDefaultTexture->SetData(&m_DefaultData, sizeof(uint32_t));
-		
+
+		int32_t samplers[s_Data.MaxTextureSlots];
+		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
+			samplers[i] = i;
+	
 		s_Data.QuadTextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data.QuadTextureShader->Bind();
-		s_Data.QuadTextureShader->SetInt("u_Texture", 0);
+		s_Data.QuadTextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
+
+		s_Data.TextureSlots[0] = s_Data.QuadDefaultTexture;
 	}
 	void Renderer2D::Shutdown()
 	{
@@ -94,8 +108,11 @@ namespace KDE
 
 		s_Data.QuadTextureShader->Bind();
 		s_Data.QuadTextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMat());
-		
+
+		s_Data.QuadIndexCount = 0;
 		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+		s_Data.TextureSlotIndex = 1;
 	}
 	void Renderer2D::EndScene()
 	{
@@ -108,6 +125,9 @@ namespace KDE
 	}
 	void Renderer2D::Flush()
 	{
+		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+			s_Data.TextureSlots[i]->Bind(i);
+
 		RendererCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 	}
 
@@ -119,24 +139,35 @@ namespace KDE
 	{
 		KD_PROFILE_FUNCTION();
 
+		const float texIndex = 0.0f;
+		const float scalingFactor = 1.0f;
+
 		s_Data.QuadVertexBufferPtr->Position = position;
 		s_Data.QuadVertexBufferPtr->Color = color;
-		s_Data.QuadVertexBufferPtr->TexCoord = {0.0f, 0.0f};
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
-		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
-		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
 		s_Data.QuadVertexBufferPtr++;
 
-		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f };
+		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, position.z };
 		s_Data.QuadVertexBufferPtr->Color = color;
-		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
 		s_Data.QuadVertexBufferPtr++;
 
 		s_Data.QuadIndexCount += 6;
@@ -160,7 +191,57 @@ namespace KDE
 	{
 		KD_PROFILE_FUNCTION();
 
-		s_Data.QuadTextureShader->Bind();
+		constexpr glm::vec4 inColor = {1.0f, 1.0f, 1.0f, 1.0f};
+
+		float textureIndex = 0.0f;
+
+		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
+		{
+			if (*s_Data.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+			s_Data.TextureSlotIndex++;
+		}
+
+		s_Data.QuadVertexBufferPtr->Position = position;
+		s_Data.QuadVertexBufferPtr->Color = inColor;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, position.z };
+		s_Data.QuadVertexBufferPtr->Color = inColor;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, position.z };
+		s_Data.QuadVertexBufferPtr->Color = inColor;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, position.z };
+		s_Data.QuadVertexBufferPtr->Color = inColor;
+		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
+		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
+		s_Data.QuadVertexBufferPtr++;
+
+		s_Data.QuadIndexCount += 6;
+
+		/*s_Data.QuadTextureShader->Bind();
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data.QuadTextureShader->SetMat4("u_Transform", transform);
@@ -169,7 +250,7 @@ namespace KDE
 
 		texture->Bind();
 		s_Data.QuadVertexArray->Bind();
-		RendererCommand::DrawIndexed(s_Data.QuadVertexArray);
+		RendererCommand::DrawIndexed(s_Data.QuadVertexArray);*/
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)

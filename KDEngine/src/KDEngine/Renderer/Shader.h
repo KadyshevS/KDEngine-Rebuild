@@ -16,6 +16,7 @@ namespace KDE
 		virtual void Unbind() const = 0;
 		
 		virtual void SetInt(const std::string& name, int value) = 0;
+		virtual void SetIntArray(const std::string& name, int* value, uint32_t count) = 0;
 		virtual void SetInt2(const std::string& name, const glm::vec2& value) = 0;
 		virtual void SetInt3(const std::string& name, const glm::vec3& value) = 0;
 		virtual void SetInt4(const std::string& name, const glm::vec4& value) = 0;

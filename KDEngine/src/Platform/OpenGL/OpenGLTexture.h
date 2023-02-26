@@ -17,6 +17,11 @@ namespace KDE
 		inline virtual uint32_t GetHeight() const override { return m_Height; }
 
 		virtual void SetData(void* data, uint32_t size) override;
+
+		virtual bool operator == (const Texture& oth) const override
+		{
+			return m_RendererID == ((OpenGLTexture2D&)oth).m_RendererID;
+		}
 	private:
 		std::string m_Path;
 		uint32_t m_RendererID;
