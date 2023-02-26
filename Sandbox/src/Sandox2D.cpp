@@ -50,14 +50,14 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 		KDE::RendererCommand::Clear();
 	}
 	{
-		KD_PROFILE_SCOPE("Sandbox2D Renderer Update");
+		KD_PROFILE_SCOPE("Sandbox2D Renderer Draw");
 		KDE::Renderer2D::BeginScene(m_CameraController->GetCamera());
+
+		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, m_Texture, 15.0f);
 
 		KDE::Renderer2D::DrawQuad({ 7.0f, 3.0f, 0.1f }, { 2.0f, 3.5f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 		KDE::Renderer2D::DrawQuad({ -7.0f, 2.0f, 0.1f }, { 2.0f, 2.5f }, { 0.2f, 0.8f, 0.3f, 1.0f });
 		KDE::Renderer2D::DrawQuad({ 3.0f, 1.0f, 0.1f }, { 2.5f, 3.5f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-
-		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 10.0f, 10.0f }, m_Texture, 10.0f);
 
 		KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, u_Color);
 

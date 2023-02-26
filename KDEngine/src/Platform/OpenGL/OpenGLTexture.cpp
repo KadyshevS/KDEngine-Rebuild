@@ -89,7 +89,8 @@ namespace KDE
 	{
 		KD_PROFILE_FUNCTION();
 
-		glBindTextureUnit(slot, m_RendererID);
+		glActiveTexture(GL_TEXTURE0 + slot);
+		glBindTexture(GL_TEXTURE_2D, m_RendererID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)
