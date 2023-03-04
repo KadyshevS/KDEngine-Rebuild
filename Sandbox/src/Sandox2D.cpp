@@ -46,6 +46,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 //	Drawing
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Renderer Prep");
+		KDE::Renderer2D::ResetStats();
 		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		KDE::RendererCommand::Clear();
 	}
@@ -60,6 +61,15 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 		KDE::Renderer2D::DrawQuad({ -7.0f, 2.0f, 0.1f }, { 2.0f, 2.5f }, { 0.2f, 0.8f, 0.3f, 1.0f });
 		KDE::Renderer2D::DrawQuad({ 3.0f, 1.0f, 0.1f }, { 2.5f, 3.5f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 
+		for (float y = 0.0f; y < 20.0f; y+=1.0f)
+		{
+			for (float x = 0.0f; x < 20.0f; x+=1.0f)
+			{
+				const glm::vec4 color = { 0.8f, 0.05f * x, 0.05f * y, 0.5f };
+				KDE::Renderer2D::DrawQuad({ x + 1.5f, y + 1.5f, 0.2f }, { 0.8f, 0.8f }, color);
+			}
+		}
+
 		KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, u_Color);
 
 		KDE::Renderer2D::EndScene();
@@ -68,16 +78,14 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 void Sandbox2D::OnImGuiRender()
 {
 	KD_PROFILE_FUNCTION();
-
+	
 	ImGui::Begin("Sandbox 2D Test");
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Position");
-	ImGui::SliderFloat("X", &m_QuadPosition.x, -10.0f, 10.0f, "%.1f");
-	ImGui::SliderFloat("Y", &m_QuadPosition.y, -10.0f, 10.0f, "%.1f");
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Scale");
-	ImGui::SliderFloat("X ", &m_QuadScale.x, 0.5f, 10.0f, "%.1f");
-	ImGui::SliderFloat("Y ", &m_QuadScale.y, 0.5f, 10.0f, "%.1f");
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Color");
-	ImGui::ColorEdit3("", glm::value_ptr(u_Color));
+	auto stats = KDE::Renderer2D::GetStats();
+	ImGui::TextColored({ 0.8f, 0.2f, 0.3f, 1.0f }, "Renderer2D Stats");
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Draw Calls: %d", stats.DrawCalls);
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Quad Count: %d", stats.QuadCount);
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Indices: %d", stats.GetTotalIndexCount());
 	ImGui::End();
 }
 void Sandbox2D::OnEvent(KDE::Event& e)
