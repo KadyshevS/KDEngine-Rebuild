@@ -3,13 +3,20 @@
 
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox 2D"),
-	m_CameraController(std::make_shared<KDE::OrthographicCameraController>(1280.0f / 720.0f, true))
+	m_CameraController(KDE::OrthographicCameraController(1280.0f / 720.0f, true))
 {
+	Random::Init();
 }
 
 void Sandbox2D::OnAttach()
 {
-	m_Texture = KDE::Texture2D::Create("assets/textures/default.png");
+	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
+	m_Particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
+	m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
+	m_Particle.LifeTime = 1.0f;
+	m_Particle.Velocity = { Random::Float(), Random::Float() };
+	m_Particle.VelocityVariation = { Random::Float() * 3.0f, Random::Float() * 3.0f };
+	m_Particle.Position = { 0.0f, 0.0f };
 }
 void Sandbox2D::OnDetach()
 {
@@ -23,24 +30,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 //	Input
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Camera Updating");
-		m_CameraController->OnUpdate(ts);
-	}
-
-	{
-		KD_PROFILE_SCOPE("Sandbox2D Input Handling");
-		if (KDE::Input::IsKeyPressed('W'))
-			m_QuadPosition.y += m_QuadMoveSpeed * ts;
-		else if (KDE::Input::IsKeyPressed('S'))
-			m_QuadPosition.y -= m_QuadMoveSpeed * ts;
-		if (KDE::Input::IsKeyPressed('A'))
-			m_QuadPosition.x -= m_QuadMoveSpeed * ts;
-		else if (KDE::Input::IsKeyPressed('D'))
-			m_QuadPosition.x += m_QuadMoveSpeed * ts;
-
-		if (KDE::Input::IsKeyPressed('Q'))
-			m_QuadScale += m_QuadScaleSpeed * ts;
-		else if (KDE::Input::IsKeyPressed('E'))
-			m_QuadScale -= m_QuadScaleSpeed * ts;
+		m_CameraController.OnUpdate(ts);
 	}
 
 //	Drawing
@@ -52,25 +42,25 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	}
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Renderer Draw");
-		KDE::Renderer2D::BeginScene(m_CameraController->GetCamera());
+		KDE::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, m_Texture, 15.0f, {0.2f, 0.3f, 0.8f, 1.0f});
-		KDE::Renderer2D::DrawRotatedQuad({ 1.0f, 1.0f, 0.15f }, { 5.0f, 5.0f }, 45.0f, m_Texture, 20.0f);
-
-		KDE::Renderer2D::DrawRotatedQuad({ 7.0f, 3.0f, 0.1f }, { 2.0f, 3.5f }, -25.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
-		KDE::Renderer2D::DrawQuad({ -7.0f, 2.0f, 0.1f }, { 2.0f, 2.5f }, { 0.2f, 0.8f, 0.3f, 1.0f });
-		KDE::Renderer2D::DrawQuad({ 3.0f, 1.0f, 0.1f }, { 2.5f, 3.5f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-
-		for (float y = 0.0f; y < 20.0f; y+=1.0f)
+		if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 		{
-			for (float x = 0.0f; x < 20.0f; x+=1.0f)
-			{
-				const glm::vec4 color = { 0.8f, 0.05f * x, 0.05f * y, 0.5f };
-				KDE::Renderer2D::DrawQuad({ x + 1.5f, y + 1.5f, 0.2f }, { 0.8f, 0.8f }, color);
-			}
+			auto [x, y] = KDE::Input::GetMousePosition();
+			auto width = KDE::Application::Get().GetWindow().GetWidth();
+			auto height = KDE::Application::Get().GetWindow().GetHeight();
+
+			auto bounds = m_CameraController.GetBounds();
+			auto pos = m_CameraController.GetCamera().GetPosition();
+			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
+			m_Particle.Position = { x + pos.x, y + pos.y };
+			for (int i = 0; i < 5; i++)
+				m_ParticleSystem.Emit(m_Particle);
 		}
 
-		KDE::Renderer2D::DrawQuad(m_QuadPosition, m_QuadScale, u_Color);
+		m_ParticleSystem.OnUpdate(ts);
+		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
 
 		KDE::Renderer2D::EndScene();
 	}
@@ -79,16 +69,13 @@ void Sandbox2D::OnImGuiRender()
 {
 	KD_PROFILE_FUNCTION();
 	
-	ImGui::Begin("Sandbox 2D Test");
-	auto stats = KDE::Renderer2D::GetStats();
-	ImGui::TextColored({ 0.8f, 0.2f, 0.3f, 1.0f }, "Renderer2D Stats");
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Draw Calls: %d", stats.DrawCalls);
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Quad Count: %d", stats.QuadCount);
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Vertices: %d", stats.GetTotalVertexCount());
-	ImGui::TextColored({ 0.2f, 0.3f, 0.8f, 1.0f }, "Indices: %d", stats.GetTotalIndexCount());
+	ImGui::Begin("Settings");
+	ImGui::ColorEdit4("Start Color", glm::value_ptr(m_Particle.ColorBegin));
+	ImGui::ColorEdit4("End Color", glm::value_ptr(m_Particle.ColorEnd));
+	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
 	ImGui::End();
 }
 void Sandbox2D::OnEvent(KDE::Event& e)
 {
-	m_CameraController->OnEvent(e);
+	m_CameraController.OnEvent(e);
 }

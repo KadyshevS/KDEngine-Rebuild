@@ -16,11 +16,7 @@ public:
 private:
 	KDE::Ref<KDE::Texture2D> m_Texture;
 
-	KDE::Ref<KDE::OrthographicCameraController> m_CameraController;
-
-	glm::vec3 m_QuadPosition = { 1.0f, 1.0f, 0.2f };
-	glm::vec2 m_QuadScale = { 1.0f, 1.0f };
-	glm::vec4 u_Color = { 0.0f, 1.0f, 0.0f, 1.0f };
-	float m_QuadMoveSpeed = 5.0f;
-	float m_QuadScaleSpeed = 3.0f;
+	KDE::OrthographicCameraController m_CameraController;
+	ParticleProps m_Particle;
+	ParticleSystem m_ParticleSystem;
 };

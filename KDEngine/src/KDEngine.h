@@ -41,5 +41,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+//	Core
+#include <KDEngine/Core/ParticleSystem.h>
+
 //	Entry point
 // #include "KDEngine/EntryPoint.h"

@@ -10,6 +10,15 @@
 
 namespace KDE
 {
+	struct OrthographicCameraBounds
+	{
+		float Left, Right;
+		float Bottom, Top;
+
+		float GetWidth() { return Right - Left; }
+		float GetHeight() { return Top - Bottom; }
+	};
+
 	class OrthographicCameraController
 	{
 	public:
@@ -20,6 +29,7 @@ namespace KDE
 
 		inline OrthographicCamera& GetCamera() { return m_Camera; }
 		inline const OrthographicCamera& GetCamera() const { return m_Camera; }
+		OrthographicCameraBounds GetBounds() const;
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnWindowResized(WindowResizeEvent& e);
@@ -28,6 +38,7 @@ namespace KDE
 		float m_Zoom = 1.0f;
 		float m_ZoomLimit = 0.1f;
 		bool m_Rotation = false;
+		OrthographicCameraBounds m_Bounds;
 		OrthographicCamera m_Camera;
 
 		float m_TempX = 0.0f, m_TempY = 0.0f;
