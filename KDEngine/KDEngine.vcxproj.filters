@@ -13,6 +13,9 @@
     <Filter Include="src\KDEngine\Core">
       <UniqueIdentifier>{39A6DE9B-A5BC-DC31-EE33-68535A89ADB9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\KDEngine\Debug">
+      <UniqueIdentifier>{77C8BF17-63AC-806D-CC0C-7BC0B80F6BEF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\KDEngine\Events">
       <UniqueIdentifier>{052A4313-718B-2021-FAF8-66D3665957E0}</UniqueIdentifier>
     </Filter>
@@ -72,8 +75,14 @@
     <ClInclude Include="src\KDEngine\Core.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Core\Random.h">
+      <Filter>src\KDEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Core\Timestep.h">
       <Filter>src\KDEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Debug\Instrumentor.h">
+      <Filter>src\KDEngine\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\EntryPoint.h">
       <Filter>src\KDEngine</Filter>
@@ -118,6 +127,9 @@
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\Renderer.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\Renderer2D.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h">
@@ -1416,13 +1428,13 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\KDEngine\Debug\Instrumentor.h" />
-    <ClInclude Include="src\KDEngine\Core\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
       <Filter>src\KDEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Core\Random.cpp">
+      <Filter>src\KDEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\ImGui\ImGuiBuild.cpp">
       <Filter>src\KDEngine\ImGui</Filter>
@@ -1449,6 +1461,9 @@
       <Filter>src\KDEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\Renderer2D.cpp">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp">
@@ -1496,7 +1511,5 @@
     <ClCompile Include="vendor\stb\stb_image.cpp">
       <Filter>vendor\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\KDEngine\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\KDEngine\Core\Random.cpp" />
   </ItemGroup>
 </Project>
