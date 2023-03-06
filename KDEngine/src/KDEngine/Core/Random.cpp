@@ -12,28 +12,28 @@ namespace KDE
 		m_MT19937.seed(std::random_device()());
 	}
 
-	int Random::CreateInt(int minVal, int maxVal)
+	int Random::IntDist(int minVal, int maxVal)
 	{
 		KD_PROFILE_FUNCTION();
 
 		std::uniform_int_distribution<int> Dist(minVal, maxVal);
 		return Dist(m_MT19937);
 	}
-	int Random::CreateIntFast()
+	int Random::Int()
 	{
 		KD_PROFILE_FUNCTION();
 
 		return u_IntDist(m_MT19937);
 	}
 
-	float Random::CreateFloat(float minVal, float maxVal)
+	float Random::FloatDist(float minVal, float maxVal)
 	{
 		KD_PROFILE_FUNCTION();
 
 		std::uniform_real_distribution<float> Dist(minVal, maxVal);
 		return Dist(m_MT19937);
 	}
-	int Random::CreateFloatFast()
+	int Random::Float()
 	{
 		KD_PROFILE_FUNCTION();
 
