@@ -5,12 +5,12 @@ Sandbox2D::Sandbox2D()
 	: Layer("Sandbox 2D"),
 	m_CameraController(KDE::OrthographicCameraController(1280.0f / 720.0f, true)),
 	m_ParticleSystem(100000)
-{
-	Random::Init();
-}
+{}
 
 void Sandbox2D::OnAttach()
 {
+	Random::Init();
+
 	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	m_Particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
 	m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
@@ -34,6 +34,8 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 
 		if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 		{
+			m_Particle.VelocityVariation = { Random::IntDist(-4.0, 4.0), Random::IntDist(-4.0, 4.0) };
+
 			auto [x, y] = KDE::Input::GetMousePosition();
 			auto width = KDE::Application::Get().GetWindow().GetWidth();
 			auto height = KDE::Application::Get().GetWindow().GetHeight();
