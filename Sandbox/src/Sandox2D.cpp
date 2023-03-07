@@ -75,6 +75,14 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::ColorEdit4("End Color", glm::value_ptr(m_Particle.ColorEnd));
 	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
 	ImGui::End();
+
+	auto stats = KDE::Renderer2D::GetStats();
+	ImGui::Begin("Renderer Stats");
+	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Draw Calls: %d", stats.DrawCalls);
+	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Quads: %d", stats.QuadCount);
+	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Indices: %d", stats.GetTotalIndexCount());
+	ImGui::End();
 }
 void Sandbox2D::OnEvent(KDE::Event& e)
 {
