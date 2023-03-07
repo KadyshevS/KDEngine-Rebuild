@@ -12,9 +12,10 @@
 #include <KDEngine/Core.h>
 #include <glad/glad.h>
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(uint32_t particlesCount)
+	: m_PoolIndex(particlesCount-1)
 {
-	m_ParticlePool.resize(1000);
+	m_ParticlePool.resize(particlesCount);
 }
 
 void ParticleSystem::OnUpdate(KDE::Timestep ts)
@@ -37,6 +38,7 @@ void ParticleSystem::OnUpdate(KDE::Timestep ts)
 }
 void ParticleSystem::OnRender(KDE::OrthographicCamera& camera)
 {
+	KDE::Renderer2D::BeginScene(camera);
 	for (auto& p : m_ParticlePool)
 	{
 		if (!p.Active)
@@ -45,12 +47,13 @@ void ParticleSystem::OnRender(KDE::OrthographicCamera& camera)
 		// Fade away particles
 		float life = p.LifeRemaining / p.LifeTime;
 		glm::vec4 color = glm::lerp(p.ColorEnd, p.ColorBegin, life);
-		//color.a = color.a * life;
+		color.a = color.a * life;
 
 		float size = glm::lerp(p.SizeEnd, p.SizeBegin, life);
-
-		KDE::Renderer2D::DrawRotatedQuad(p.Position, {size, size}, p.Rotation, color);
+		glm::vec3 position = { p.Position.x, p.Position.y, 0.2f };
+		KDE::Renderer2D::DrawRotatedQuad(position, {size, size}, p.Rotation, color);
 	}
+	KDE::Renderer2D::EndScene();
 }
 void ParticleSystem::Emit(const ParticleProps& particleProps)
 {

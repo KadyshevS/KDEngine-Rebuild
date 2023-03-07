@@ -3,7 +3,8 @@
 
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox 2D"),
-	m_CameraController(KDE::OrthographicCameraController(1280.0f / 720.0f, true))
+	m_CameraController(KDE::OrthographicCameraController(1280.0f / 720.0f, true)),
+	m_ParticleSystem(100000)
 {
 	Random::Init();
 }
@@ -14,8 +15,8 @@ void Sandbox2D::OnAttach()
 	m_Particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
 	m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
 	m_Particle.LifeTime = 1.0f;
-	m_Particle.Velocity = { Random::Float(), Random::Float() };
-	m_Particle.VelocityVariation = { Random::Float() * 3.0f, Random::Float() * 3.0f };
+	m_Particle.Velocity = { 0.0f, 0.0f };
+	m_Particle.VelocityVariation = { -3.0f, -4.0f };
 	m_Particle.Position = { 0.0f, 0.0f };
 }
 void Sandbox2D::OnDetach()
@@ -30,19 +31,6 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 //	Input
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Camera Updating");
-		m_CameraController.OnUpdate(ts);
-	}
-
-//	Drawing
-	{
-		KD_PROFILE_SCOPE("Sandbox2D Renderer Prep");
-		KDE::Renderer2D::ResetStats();
-		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		KDE::RendererCommand::Clear();
-	}
-	{
-		KD_PROFILE_SCOPE("Sandbox2D Renderer Draw");
-		KDE::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 		if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 		{
@@ -59,10 +47,21 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 				m_ParticleSystem.Emit(m_Particle);
 		}
 
+		m_CameraController.OnUpdate(ts);
+	}
+
+//	Drawing
+	{
+		KD_PROFILE_SCOPE("Sandbox2D Renderer Prep");
+		KDE::Renderer2D::ResetStats();
+		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		KDE::RendererCommand::Clear();
+	}
+	{
+		KD_PROFILE_SCOPE("Sandbox2D Renderer Draw");
+
 		m_ParticleSystem.OnUpdate(ts);
 		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
-
-		KDE::Renderer2D::EndScene();
 	}
 }
 void Sandbox2D::OnImGuiRender()

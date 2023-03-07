@@ -20,7 +20,7 @@ struct ParticleProps
 class ParticleSystem
 {
 public:
-	ParticleSystem();
+	ParticleSystem(uint32_t particlesCount = 1000);
 
 	void OnUpdate(KDE::Timestep ts);
 	void OnRender(KDE::OrthographicCamera& camera);
@@ -41,9 +41,5 @@ private:
 		bool Active = false;
 	};
 	std::vector<Particle> m_ParticlePool;
-	uint32_t m_PoolIndex = 999;
-
-	uint32_t m_QuadVA = 0;
-	std::unique_ptr<KDE::Shader> m_ParticleShader;
-	int m_ParticleShaderViewProj, m_ParticleShaderTransform, m_ParticleShaderColor;
+	uint32_t m_PoolIndex;
 };
