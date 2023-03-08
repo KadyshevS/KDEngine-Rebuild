@@ -18,6 +18,8 @@ namespace KDE
 
 		virtual void SetData(void* data, uint32_t size) = 0;
 
+		virtual uint32_t GetRendererID() const = 0;
+
 		virtual bool operator == (const Texture& oth) const = 0;
 	};
 

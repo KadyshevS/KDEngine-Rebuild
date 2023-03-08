@@ -79,6 +79,10 @@ namespace KDE
 
 		m_LayerStack.PushOverlay(overlay);
 	}
+	void Application::Close()
+	{
+		m_Running = false;
+	}
 
 	void Application::Run()
 	{

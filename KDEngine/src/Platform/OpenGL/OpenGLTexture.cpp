@@ -93,6 +93,11 @@ namespace KDE
 		glBindTexture(GL_TEXTURE_2D, m_RendererID);
 	}
 
+	uint32_t OpenGLTexture2D::GetRendererID() const
+	{
+		return m_RendererID;
+	}
+
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)
 	{
 		KD_PROFILE_FUNCTION();
