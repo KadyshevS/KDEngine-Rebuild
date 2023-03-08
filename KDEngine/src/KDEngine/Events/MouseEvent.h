@@ -23,7 +23,7 @@ namespace KDE
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved)
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
@@ -47,7 +47,7 @@ namespace KDE
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
 		float m_OffsetX, m_OffsetY;
 	};
@@ -75,13 +75,13 @@ namespace KDE
 			MouseButtonEvent(button)
 		{}
 
-		std::string ToString() const override 
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonPressedEvent: " << m_Button;
 			return ss.str();
 		}
-		
+
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 	class KD_API MouseButtonReleasedEvent : public MouseButtonEvent

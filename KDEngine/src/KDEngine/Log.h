@@ -16,7 +16,7 @@ namespace KDE
 	private:
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
-	};	
+	};
 }
 
 #define KD_CORE_TRACE(...)		::KDE::Log::GetCoreLogger()->trace(__VA_ARGS__)
@@ -32,9 +32,9 @@ namespace KDE
 #define KD_CRITICAL(...)		::KDE::Log::GetClientLogger()->critical(__VA_ARGS__)
 
 #ifdef KD_ENABLE_ASSERTS
-	#define KD_ASSERT(x, ...) { if(!(x)) { KD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define KD_CORE_ASSERT(x, ...) { if(!(x)) { KD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define KD_ASSERT(x, ...) { if(!(x)) { KD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define KD_CORE_ASSERT(x, ...) { if(!(x)) { KD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
-	#define KD_ASSERT(x, ...)
-	#define KD_CORE_ASSERT(x, ...)
+#define KD_ASSERT(x, ...)
+#define KD_CORE_ASSERT(x, ...)
 #endif

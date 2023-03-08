@@ -27,7 +27,7 @@ namespace KDE
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
-		
+
 		inline Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
 	private:
@@ -45,6 +45,6 @@ namespace KDE
 		static Application* s_Instance;
 	};
 
-//	Need to be declared in client region
+	//	Need to be declared in client region
 	Application* CreateApplication();
 }

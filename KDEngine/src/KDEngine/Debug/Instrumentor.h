@@ -17,7 +17,6 @@
 #include <sstream>
 
 namespace KDE {
-
 	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
 
 	struct ProfileResult
@@ -174,7 +173,6 @@ namespace KDE {
 	};
 
 	namespace InstrumentorUtils {
-
 		template <size_t N>
 		struct ChangeResult
 		{

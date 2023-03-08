@@ -11,8 +11,8 @@ namespace KDE
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::API::None: KD_CORE_ASSERT(false, "RendererAPI::None is currently not supported."); return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+		case RendererAPI::API::None: KD_CORE_ASSERT(false, "RendererAPI::None is currently not supported."); return nullptr;
+		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
 		KD_CORE_ASSERT(false, "Unknown Renderer API.");
@@ -22,14 +22,13 @@ namespace KDE
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::API::None: KD_CORE_ASSERT(false, "RendererAPI::None is currently not supported."); return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filePath);
+		case RendererAPI::API::None: KD_CORE_ASSERT(false, "RendererAPI::None is currently not supported."); return nullptr;
+		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filePath);
 		}
 
 		KD_CORE_ASSERT(false, "Unknown Renderer API.");
 		return nullptr;
 	}
-
 
 	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
 	{
@@ -41,7 +40,7 @@ namespace KDE
 		auto& name = shader->GetName();
 		Add(name, shader);
 	}
-	
+
 	Ref<Shader> ShaderLibrary::Load(const std::string& filePath)
 	{
 		auto shader = Shader::Create(filePath);

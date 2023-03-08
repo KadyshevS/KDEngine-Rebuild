@@ -28,7 +28,7 @@ namespace KDE
 		auto shaderSources = ParseShaderCode(source);
 		Compile(shaderSources);
 
-	//	Extract name from file path
+		//	Extract name from file path
 		auto lastSlash = filePath.find_last_of("/\\");
 		lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
 		auto lastDot = filePath.rfind('.');

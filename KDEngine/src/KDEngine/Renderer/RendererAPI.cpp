@@ -4,5 +4,4 @@
 namespace KDE
 {
 	RendererAPI::API RendererAPI::s_API = API::OpenGL;
-
 }

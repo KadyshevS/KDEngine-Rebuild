@@ -34,4 +34,3 @@ namespace KDE
 		float m_Rotation = 0.0f;
 	};
 }
-

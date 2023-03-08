@@ -65,7 +65,7 @@ namespace KDE
 		if (!s_GLFWInitialized)
 		{
 			KD_PROFILE_SCOPE("GLFW initializtion");
-			
+
 			int success = glfwInit();
 			KD_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -83,13 +83,13 @@ namespace KDE
 
 		glfwMakeContextCurrent(m_Window);
 
-	//	Initializing Glad
+		//	Initializing Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		KD_CORE_ASSERT(status, "Failed to initialize Glad.");
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 
-		glfwSetWindowSizeCallback(m_Window, 
+		glfwSetWindowSizeCallback(m_Window,
 			[](GLFWwindow* window, int width, int height)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -101,7 +101,7 @@ namespace KDE
 			}
 		);
 
-		glfwSetWindowCloseCallback(m_Window, 
+		glfwSetWindowCloseCallback(m_Window,
 			[](GLFWwindow* window)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -114,27 +114,27 @@ namespace KDE
 			[](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-				
+
 				switch (action)
 				{
-					case GLFW_PRESS:
-					{
-						KeyPressedEvent ev(key, 0);
-						data.EventCallback(ev);
-					}
-					break;
-					case GLFW_RELEASE:
-					{
-						KeyReleasedEvent ev(key);
-						data.EventCallback(ev);
-					}
-					break;
-					case GLFW_REPEAT:
-					{
-						KeyPressedEvent ev(key, 1);
-						data.EventCallback(ev);
-					}
-					break;
+				case GLFW_PRESS:
+				{
+					KeyPressedEvent ev(key, 0);
+					data.EventCallback(ev);
+				}
+				break;
+				case GLFW_RELEASE:
+				{
+					KeyReleasedEvent ev(key);
+					data.EventCallback(ev);
+				}
+				break;
+				case GLFW_REPEAT:
+				{
+					KeyPressedEvent ev(key, 1);
+					data.EventCallback(ev);
+				}
+				break;
 				}
 			}
 		);
@@ -147,26 +147,26 @@ namespace KDE
 				data.EventCallback(ev);
 			}
 		);
-		
-		glfwSetMouseButtonCallback(m_Window, 
+
+		glfwSetMouseButtonCallback(m_Window,
 			[](GLFWwindow* window, int button, int action, int mods)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				switch (action)
 				{
-					case GLFW_PRESS:
-					{
-						MouseButtonPressedEvent ev(button);
-						data.EventCallback(ev);
-					}
-					break;
-					case GLFW_RELEASE:
-					{
-						MouseButtonReleasedEvent ev(button);
-						data.EventCallback(ev);
-					}
-					break;
+				case GLFW_PRESS:
+				{
+					MouseButtonPressedEvent ev(button);
+					data.EventCallback(ev);
+				}
+				break;
+				case GLFW_RELEASE:
+				{
+					MouseButtonReleasedEvent ev(button);
+					data.EventCallback(ev);
+				}
+				break;
 				}
 			}
 		);
@@ -181,7 +181,7 @@ namespace KDE
 			}
 		);
 
-		glfwSetCursorPosCallback(m_Window, 
+		glfwSetCursorPosCallback(m_Window,
 			[](GLFWwindow* window, double xPos, double yPos)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

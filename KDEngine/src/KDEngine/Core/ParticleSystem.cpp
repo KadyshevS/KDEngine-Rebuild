@@ -13,7 +13,7 @@
 #include <glad/glad.h>
 
 ParticleSystem::ParticleSystem(uint32_t particlesCount)
-	: m_PoolIndex(particlesCount-1)
+	: m_PoolIndex(particlesCount - 1)
 {
 	m_ParticlePool.resize(particlesCount);
 }

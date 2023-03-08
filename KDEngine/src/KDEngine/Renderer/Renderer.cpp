@@ -34,7 +34,6 @@ namespace KDE
 	}
 	void Renderer::EndScene()
 	{
-
 	}
 
 	void Renderer::Submit(const Ref<VertexArray>& vArr, const Ref<Shader>& shader, glm::mat4 transform)

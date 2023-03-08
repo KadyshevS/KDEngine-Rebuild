@@ -12,7 +12,7 @@
 namespace KDE
 {
 	OrthographicCameraController::OrthographicCameraController(float aspectRation, bool rotation)
-		: m_Camera( -aspectRation * m_Zoom, aspectRation * m_Zoom, -m_Zoom, m_Zoom ),
+		: m_Camera(-aspectRation * m_Zoom, aspectRation* m_Zoom, -m_Zoom, m_Zoom),
 		m_AspectRatio(aspectRation),
 		m_Bounds({ -m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom }),
 		m_Rotation(rotation)
@@ -21,13 +21,13 @@ namespace KDE
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		if (Input::IsKeyPressed(KD_KEY_A))
-			m_CameraPosition.x -= m_CameraTranslationSpeed * ts.GetSeconds();
+			m_CameraPosition.x -= m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
 		else if (KDE::Input::IsKeyPressed(KD_KEY_D))
-			m_CameraPosition.x += m_CameraTranslationSpeed * ts.GetSeconds();
+			m_CameraPosition.x += m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
 		if (Input::IsKeyPressed(KD_KEY_W))
-			m_CameraPosition.y += m_CameraTranslationSpeed * ts.GetSeconds();
+			m_CameraPosition.y += m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
 		else if (Input::IsKeyPressed(KD_KEY_S))
-			m_CameraPosition.y -= m_CameraTranslationSpeed * ts.GetSeconds();
+			m_CameraPosition.y -= m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
 
 		if (m_Rotation)
 		{
@@ -40,7 +40,6 @@ namespace KDE
 		}
 
 		m_Camera.SetPosition(m_CameraPosition);
-		
 
 		//////////////////////////////////////////////////////////////////////////
 		//if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
@@ -90,10 +89,10 @@ namespace KDE
 	{
 		m_Bounds = { -m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom };
 
-		m_Zoom -= e.GetOffsetY() * 0.3f;
+		m_Zoom -= e.GetOffsetY() * 0.5f;
 		if (m_Zoom < m_ZoomLimit) m_Zoom = m_ZoomLimit;
 
-		m_Camera.SetScale( m_Zoom );
+		m_Camera.SetScale(m_Zoom);
 
 		return false;
 	}

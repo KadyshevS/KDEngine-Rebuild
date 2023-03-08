@@ -63,8 +63,8 @@ namespace KDE
 	}
 	void ImGuiLayer::OnImGuiRender()
 	{
-	//	static bool show = true;
-	//	ImGui::ShowDemoWindow(&show);
+		//	static bool show = true;
+		//	ImGui::ShowDemoWindow(&show);
 	}
 
 	void ImGuiLayer::Begin()
@@ -83,7 +83,7 @@ namespace KDE
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
-	//	Rendering
+		//	Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

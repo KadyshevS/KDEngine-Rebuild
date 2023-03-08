@@ -94,7 +94,7 @@ namespace KDE
 		int32_t samplers[s_Data.MaxTextureSlots];
 		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
 			samplers[i] = i;
-	
+
 		s_Data.QuadTextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data.QuadTextureShader->Bind();
 		s_Data.QuadTextureShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
@@ -102,8 +102,8 @@ namespace KDE
 		s_Data.TextureSlots[0] = s_Data.QuadDefaultTexture;
 
 		s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
+		s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		s_Data.QuadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
 		s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 	}
 	void Renderer2D::Shutdown()
@@ -207,7 +207,7 @@ namespace KDE
 			{ texX * texWidth / sheetWidth, (texY + 1.0f) * texHeight / sheetHeight }
 		};
 
-		constexpr glm::vec4 inColor = {1.0f, 1.0f, 1.0f, 1.0f};
+		constexpr glm::vec4 inColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float texIndex = 0.0f;
 
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)

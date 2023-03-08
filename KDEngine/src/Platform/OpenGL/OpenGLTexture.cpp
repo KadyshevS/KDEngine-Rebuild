@@ -57,7 +57,7 @@ namespace KDE
 			internalFormat = GL_R8;
 			dataFormat = GL_RED;
 			break;
-		}	
+		}
 
 		m_InternalFormat = internalFormat;
 		m_DataFormat = dataFormat;
@@ -99,6 +99,6 @@ namespace KDE
 
 		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
 		KD_CORE_ASSERT(size == m_Width * m_Height * bpp, "Size of texture data is incorrect.")
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+			glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 }
