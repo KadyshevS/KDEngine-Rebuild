@@ -15,7 +15,7 @@ namespace KDE
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLVertexBuffer>(size);
+			return MakeRef<OpenGLVertexBuffer>(size);
 			break;
 		}
 
@@ -31,7 +31,7 @@ namespace KDE
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLVertexBuffer>(vertices, size);
+			return MakeRef<OpenGLVertexBuffer>(vertices, size);
 			break;
 		}
 
@@ -48,7 +48,7 @@ namespace KDE
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLIndexBuffer>(indices, size);
+			return MakeRef<OpenGLIndexBuffer>(indices, size);
 			break;
 		}
 

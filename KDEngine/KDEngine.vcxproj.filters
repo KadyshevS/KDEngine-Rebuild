@@ -1429,6 +1429,7 @@
       <Filter>vendor\stb</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Core\ParticleSystem.h" />
+    <ClInclude Include="src\KDEngine\Renderer\SubTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1513,5 +1514,6 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Core\ParticleSystem.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\SubTexture2D.cpp" />
   </ItemGroup>
 </Project>

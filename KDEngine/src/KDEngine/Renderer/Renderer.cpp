@@ -7,7 +7,7 @@
 
 namespace KDE
 {
-	Scope<Renderer::SceneData> Renderer::m_SceneData = CreateScope<Renderer::SceneData>();
+	Scope<Renderer::SceneData> Renderer::m_SceneData = MakeScope<Renderer::SceneData>();
 
 	void Renderer::Init()
 	{

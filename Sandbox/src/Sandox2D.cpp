@@ -20,6 +20,8 @@ void Sandbox2D::OnAttach()
 	m_Particle.Position = { 0.0f, 0.0f };
 
 	m_Sheet = KDE::Texture2D::Create("assets/game/textures/RPGsheet.png");
+	m_Kust = KDE::SubTexture2D::CreateFromCoords(m_Sheet, { 4, 3 }, {128, 128});
+	m_Tree = KDE::SubTexture2D::CreateFromCoords(m_Sheet, { 2, 1 }, { 128, 128 }, {1.f, 2.f});
 }
 void Sandbox2D::OnDetach()
 {
@@ -59,7 +61,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Renderer Prep");
 		KDE::Renderer2D::ResetStats();
-		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		KDE::RendererCommand::Clear();
 	}
 	{
@@ -67,7 +69,8 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 
 		KDE::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, {3.0f, 3.0f}, m_Sheet);
+		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, {1.0f, 1.0f}, m_Kust);
+		KDE::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.0f }, {1.0f, 2.0f}, m_Tree);
 		m_ParticleSystem.OnRender();
 
 		KDE::Renderer2D::EndScene();

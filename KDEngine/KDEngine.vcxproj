@@ -177,6 +177,7 @@
     <ClInclude Include="src\KDEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\KDEngine\Renderer\RendererCommand.h" />
     <ClInclude Include="src\KDEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\KDEngine\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\KDEngine\Renderer\Texture.h" />
     <ClInclude Include="src\KDEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\KDEngine\Window.h" />
@@ -624,6 +625,7 @@
     <ClCompile Include="src\KDEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />

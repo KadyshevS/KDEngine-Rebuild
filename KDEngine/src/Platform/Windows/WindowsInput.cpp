@@ -6,7 +6,7 @@
 
 namespace KDE
 {
-	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
+	Scope<Input> Input::s_Instance = MakeScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{

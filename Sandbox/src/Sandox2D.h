@@ -15,6 +15,8 @@ public:
 	virtual void OnEvent(KDE::Event& e) override;
 private:
 	KDE::Ref<KDE::Texture2D> m_Sheet;
+	KDE::Ref<KDE::SubTexture2D> m_Kust;
+	KDE::Ref<KDE::SubTexture2D> m_Tree;
 
 	KDE::OrthographicCameraController m_CameraController;
 	ParticleProps m_Particle;

@@ -35,6 +35,7 @@
 #include "KDEngine/Renderer/VertexArray.h"
 #include "KDEngine/OrthographicCameraController.h"
 #include "KDEngine/Renderer/Texture.h"
+#include "KDEngine/Renderer/SubTexture2D.h"
 
 //	Glm
 #include <glm/glm.hpp>

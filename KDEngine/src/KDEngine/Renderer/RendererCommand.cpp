@@ -5,5 +5,5 @@
 
 namespace KDE
 {
-	Scope<RendererAPI> RendererCommand::s_RendererAPI = CreateScope<OpenGLRendererAPI>();
+	Scope<RendererAPI> RendererCommand::s_RendererAPI = MakeScope<OpenGLRendererAPI>();
 }
