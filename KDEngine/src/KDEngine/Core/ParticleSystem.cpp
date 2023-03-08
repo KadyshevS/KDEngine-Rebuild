@@ -39,6 +39,11 @@ void ParticleSystem::OnUpdate(KDE::Timestep ts)
 void ParticleSystem::OnRender(KDE::OrthographicCamera& camera)
 {
 	KDE::Renderer2D::BeginScene(camera);
+	OnRender();
+	KDE::Renderer2D::EndScene();
+}
+void ParticleSystem::OnRender()
+{
 	for (auto& p : m_ParticlePool)
 	{
 		if (!p.Active)
@@ -51,9 +56,8 @@ void ParticleSystem::OnRender(KDE::OrthographicCamera& camera)
 
 		float size = glm::lerp(p.SizeEnd, p.SizeBegin, life);
 		glm::vec3 position = { p.Position.x, p.Position.y, 0.2f };
-		KDE::Renderer2D::DrawRotatedQuad(position, {size, size}, p.Rotation, color);
+		KDE::Renderer2D::DrawRotatedQuad(position, { size, size }, p.Rotation, color);
 	}
-	KDE::Renderer2D::EndScene();
 }
 void ParticleSystem::Emit(const ParticleProps& particleProps)
 {

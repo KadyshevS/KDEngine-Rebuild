@@ -23,6 +23,7 @@ public:
 	ParticleSystem(uint32_t particlesCount = 1000);
 
 	void OnUpdate(KDE::Timestep ts);
+	void OnRender();
 	void OnRender(KDE::OrthographicCamera& camera);
 
 	void Emit(const ParticleProps& particleProps);

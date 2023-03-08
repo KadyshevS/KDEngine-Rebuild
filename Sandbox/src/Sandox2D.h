@@ -14,7 +14,7 @@ public:
 	virtual void OnImGuiRender() override;
 	virtual void OnEvent(KDE::Event& e) override;
 private:
-	KDE::Ref<KDE::Texture2D> m_Texture;
+	KDE::Ref<KDE::Texture2D> m_Sheet;
 
 	KDE::OrthographicCameraController m_CameraController;
 	ParticleProps m_Particle;

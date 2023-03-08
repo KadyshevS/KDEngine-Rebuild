@@ -18,6 +18,8 @@ void Sandbox2D::OnAttach()
 	m_Particle.Velocity = { 0.0f, 0.0f };
 	m_Particle.VelocityVariation = { -3.0f, -4.0f };
 	m_Particle.Position = { 0.0f, 0.0f };
+
+	m_Sheet = KDE::Texture2D::Create("assets/game/textures/RPGsheet.png");
 }
 void Sandbox2D::OnDetach()
 {
@@ -30,7 +32,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 
 //	Input
 	{
-		KD_PROFILE_SCOPE("Sandbox2D Camera Updating");
+		KD_PROFILE_SCOPE("Sandbox2D OnUpdate");
 
 		if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 		{
@@ -49,6 +51,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 				m_ParticleSystem.Emit(m_Particle);
 		}
 
+		m_ParticleSystem.OnUpdate(ts);
 		m_CameraController.OnUpdate(ts);
 	}
 
@@ -62,8 +65,12 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Renderer Draw");
 
-		m_ParticleSystem.OnUpdate(ts);
-		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+		KDE::Renderer2D::BeginScene(m_CameraController.GetCamera());
+
+		KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, {3.0f, 3.0f}, m_Sheet);
+		m_ParticleSystem.OnRender();
+
+		KDE::Renderer2D::EndScene();
 	}
 }
 void Sandbox2D::OnImGuiRender()

@@ -195,6 +195,18 @@ namespace KDE
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
 
+		constexpr float sheetWidth = 2560, sheetHeight = 1664;
+		constexpr float texWidth = 128, texHeight = 128;
+		constexpr float texX = 0, texY = 3;
+
+		constexpr glm::vec2 texCoords[4] =
+		{
+			{ texX * texWidth / sheetWidth, texY * texHeight / sheetHeight },
+			{ (texX + 1.0f) * texWidth / sheetWidth, texY * texHeight / sheetHeight },
+			{ (texX + 1.0f) * texWidth / sheetWidth, (texY + 1.0f) * texHeight / sheetHeight },
+			{ texX * texWidth / sheetWidth, (texY + 1.0f) * texHeight / sheetHeight }
+		};
+
 		constexpr glm::vec4 inColor = {1.0f, 1.0f, 1.0f, 1.0f};
 		float texIndex = 0.0f;
 
@@ -215,8 +227,6 @@ namespace KDE
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
-
-		glm::vec2 texCoords[4] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 
 		for (int i = 0; i < 4; i++)
 		{
