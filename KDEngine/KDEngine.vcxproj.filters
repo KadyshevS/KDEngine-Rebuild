@@ -1430,6 +1430,8 @@
     </ClInclude>
     <ClInclude Include="src\KDEngine\Core\ParticleSystem.h" />
     <ClInclude Include="src\KDEngine\Renderer\SubTexture2D.h" />
+    <ClInclude Include="src\KDEngine\Renderer\Framebuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1515,5 +1517,7 @@
     </ClCompile>
     <ClCompile Include="src\KDEngine\Core\ParticleSystem.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\SubTexture2D.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

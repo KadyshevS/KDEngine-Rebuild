@@ -170,6 +170,7 @@
     <ClInclude Include="src\KDEngine\Log.h" />
     <ClInclude Include="src\KDEngine\OrthographicCameraController.h" />
     <ClInclude Include="src\KDEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\KDEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\KDEngine\Renderer\Renderer.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="src\KDEngine\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
@@ -619,6 +621,7 @@
     <ClCompile Include="src\KDEngine\Log.cpp" />
     <ClCompile Include="src\KDEngine\OrthographicCameraController.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Renderer2D.cpp" />
@@ -630,6 +633,7 @@
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />

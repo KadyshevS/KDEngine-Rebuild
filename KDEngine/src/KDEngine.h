@@ -36,6 +36,7 @@
 #include "KDEngine/OrthographicCameraController.h"
 #include "KDEngine/Renderer/Texture.h"
 #include "KDEngine/Renderer/SubTexture2D.h"
+#include "KDEngine/Renderer/Framebuffer.h"
 
 //	Glm
 #include <glm/glm.hpp>

@@ -17,6 +17,7 @@ private:
 	KDE::Ref<KDE::Texture2D> m_Sheet;
 	KDE::Ref<KDE::SubTexture2D> m_Kust;
 	KDE::Ref<KDE::SubTexture2D> m_Tree;
+	KDE::Ref<KDE::Framebuffer> m_Framebuffer;
 
 	KDE::OrthographicCameraController m_CameraController;
 	ParticleProps m_Particle;

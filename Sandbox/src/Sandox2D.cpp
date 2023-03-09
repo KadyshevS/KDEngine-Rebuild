@@ -22,6 +22,12 @@ void Sandbox2D::OnAttach()
 	m_Sheet = KDE::Texture2D::Create("assets/game/textures/RPGsheet.png");
 	m_Kust = KDE::SubTexture2D::CreateFromCoords(m_Sheet, { 4, 3 }, {128, 128});
 	m_Tree = KDE::SubTexture2D::CreateFromCoords(m_Sheet, { 2, 1 }, {128, 128}, {1.f, 2.f});
+
+	KDE::FramebufferSpecification fbSpec;
+	fbSpec.Width = 1280;
+	fbSpec.Height = 720;
+
+	m_Framebuffer = KDE::Framebuffer::Create(fbSpec);
 }
 void Sandbox2D::OnDetach()
 {
@@ -60,6 +66,9 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 //	Drawing
 	{
 		KD_PROFILE_SCOPE("Sandbox2D Renderer Prep");
+
+		m_Framebuffer->Bind();
+		
 		KDE::Renderer2D::ResetStats();
 		KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		KDE::RendererCommand::Clear();
@@ -74,6 +83,8 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 		m_ParticleSystem.OnRender();
 
 		KDE::Renderer2D::EndScene();
+
+		m_Framebuffer->Unbind();
 	}
 }
 void Sandbox2D::OnImGuiRender()
@@ -85,7 +96,7 @@ void Sandbox2D::OnImGuiRender()
 	static bool* p_open = new bool(true);
 	static bool opt_fullscreen = true;
 	static bool opt_padding = false;
-	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 	
 	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
 	// because it would be confusing to have two docking targets within each others.
@@ -140,13 +151,19 @@ void Sandbox2D::OnImGuiRender()
 //////////////////////////////////////////////////////////////////////////
 
 	ImGui::Begin("Settings");
+
 	ImGui::ColorEdit4("Start Color", glm::value_ptr(m_Particle.ColorBegin));
 	ImGui::ColorEdit4("End Color", glm::value_ptr(m_Particle.ColorEnd));
 	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
+	
+	uint32_t textureID = m_Framebuffer->GetColorAttachment();
+	ImGui::Image((void*)textureID, { 1024.0f, 576.0f }, { 0, 1 }, {1, 0});
+
 	ImGui::End();
 
 	auto stats = KDE::Renderer2D::GetStats();
 	ImGui::Begin("Renderer Stats");
+
 	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Draw Calls: %d", stats.DrawCalls);
 	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Quads: %d", stats.QuadCount);
 	ImGui::TextColored({0.2f, 0.8f, 0.3f, 1.0f}, "Vertices: %d", stats.GetTotalVertexCount());
