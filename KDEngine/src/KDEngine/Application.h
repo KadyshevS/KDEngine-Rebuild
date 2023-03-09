@@ -19,7 +19,7 @@ namespace KDE
 		friend class WindowsWindow;
 
 	public:
-		Application();
+		Application(const std::string& name = "KDEngine App");
 		virtual ~Application();
 
 		void Run();

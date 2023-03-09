@@ -11,14 +11,14 @@ namespace KDE
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		KD_PROFILE_FUNCTION();
 
 		KD_CORE_ASSERT(!s_Instance, "Application already exist.");
 		s_Instance = this;
 
-		m_Window = Scope<Window>(Window::Create());
+		m_Window = Scope<Window>(Window::Create(WindowProps(name)));
 		m_Window->SetEventCallback(KD_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
 
