@@ -5,7 +5,7 @@ namespace KDE
 {
 	EditorLayer::EditorLayer()
 		: Layer("KDEditor"),
-		m_CameraController(KDE::OrthographicCameraController(1280.0f / 720.0f, true)),
+		m_CameraController(OrthographicCameraController(1280.0f / 720.0f, true)),
 		m_ParticleSystem(100000)
 	{}
 
@@ -21,21 +21,21 @@ namespace KDE
 		m_Particle.VelocityVariation = { -3.0f, -4.0f };
 		m_Particle.Position = { 0.0f, 0.0f };
 
-		m_Sheet = KDE::Texture2D::Create("assets/game/textures/RPGsheet.png");
-		m_Kust = KDE::SubTexture2D::CreateFromCoords(m_Sheet, { 4, 3 }, { 128, 128 });
-		m_Tree = KDE::SubTexture2D::CreateFromCoords(m_Sheet, { 2, 1 }, { 128, 128 }, { 1.f, 2.f });
+		m_Sheet = Texture2D::Create("assets/game/textures/RPGsheet.png");
+		m_Kust = SubTexture2D::CreateFromCoords(m_Sheet, { 4, 3 }, { 128, 128 });
+		m_Tree = SubTexture2D::CreateFromCoords(m_Sheet, { 2, 1 }, { 128, 128 }, { 1.f, 2.f });
 
-		KDE::FramebufferSpecification fbSpec;
+		FramebufferSpecification fbSpec;
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 
-		m_Framebuffer = KDE::Framebuffer::Create(fbSpec);
+		m_Framebuffer = Framebuffer::Create(fbSpec);
 	}
 	void EditorLayer::OnDetach()
 	{
 	}
 
-	void EditorLayer::OnUpdate(KDE::Timestep ts)
+	void EditorLayer::OnUpdate(Timestep ts)
 	{
 		//	Profiling
 		KD_PROFILE_FUNCTION();
@@ -43,7 +43,7 @@ namespace KDE
 		{
 			KD_PROFILE_SCOPE("Viewport Resize");
 
-			if (KDE::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+			if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
 				m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
 				(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 			{
@@ -56,13 +56,13 @@ namespace KDE
 		{
 			KD_PROFILE_SCOPE("EditorLayer OnUpdate");
 
-			if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
+			if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 			{
 				m_Particle.VelocityVariation = { Random::IntDist(-4.0, 4.0), Random::IntDist(-4.0, 4.0) };
 
-				auto [x, y] = KDE::Input::GetMousePosition();
-				auto width = KDE::Application::Get().GetWindow().GetWidth();
-				auto height = KDE::Application::Get().GetWindow().GetHeight();
+				auto [x, y] = Input::GetMousePosition();
+				auto width = Application::Get().GetWindow().GetWidth();
+				auto height = Application::Get().GetWindow().GetHeight();
 
 				auto bounds = m_CameraController.GetBounds();
 				auto pos = m_CameraController.GetCamera().GetPosition();
@@ -83,20 +83,20 @@ namespace KDE
 
 			m_Framebuffer->Bind();
 
-			KDE::Renderer2D::ResetStats();
-			KDE::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			KDE::RendererCommand::Clear();
+			Renderer2D::ResetStats();
+			RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			RendererCommand::Clear();
 		}
 		{
 			KD_PROFILE_SCOPE("EditorLayer Renderer Draw");
 
-			KDE::Renderer2D::BeginScene(m_CameraController.GetCamera());
+			Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-			KDE::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Kust);
-			KDE::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.0f }, { 1.0f, 2.0f }, m_Tree);
+			Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Kust);
+			Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.0f }, { 1.0f, 2.0f }, m_Tree);
 			m_ParticleSystem.OnRender();
 
-			KDE::Renderer2D::EndScene();
+			Renderer2D::EndScene();
 
 			m_Framebuffer->Unbind();
 		}
@@ -154,7 +154,7 @@ namespace KDE
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Exit")) KDE::Application::Get().Close();
+				if (ImGui::MenuItem("Exit")) Application::Get().Close();
 
 				ImGui::EndMenu();
 			}
@@ -187,7 +187,7 @@ namespace KDE
 
 		ImGui::End();
 
-		auto stats = KDE::Renderer2D::GetStats();
+		auto stats = Renderer2D::GetStats();
 		ImGui::Begin("Renderer Stats");
 
 		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Draw Calls: %d", stats.DrawCalls);
@@ -197,7 +197,7 @@ namespace KDE
 
 		ImGui::End();
 	}
-	void EditorLayer::OnEvent(KDE::Event& e)
+	void EditorLayer::OnEvent(Event& e)
 	{
 		m_CameraController.OnEvent(e);
 	}
