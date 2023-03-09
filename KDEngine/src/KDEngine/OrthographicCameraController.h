@@ -24,6 +24,7 @@ namespace KDE
 	public:
 		OrthographicCameraController(float aspectRation, bool rotation);
 
+		void OnResize(float width, float height);
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 

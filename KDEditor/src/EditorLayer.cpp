@@ -40,6 +40,18 @@ namespace KDE
 		//	Profiling
 		KD_PROFILE_FUNCTION();
 
+		{
+			KD_PROFILE_SCOPE("Viewport Resize");
+
+			if (KDE::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+				m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
+				(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
+			{
+				m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+				m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			}
+		}
+
 		//	Input
 		{
 			KD_PROFILE_SCOPE("EditorLayer OnUpdate");
@@ -93,8 +105,8 @@ namespace KDE
 	{
 		KD_PROFILE_FUNCTION();
 
-		//////////////////////////////////////////////////////////////////////////
-		////	Dockspace	
+	//////////////////////////////////////////////////////////////////////////
+	////	Dockspace	
 		static bool* p_open = new bool(true);
 		static bool opt_fullscreen = true;
 		static bool opt_padding = false;
@@ -150,16 +162,28 @@ namespace KDE
 			ImGui::EndMenuBar();
 		}
 		ImGui::End();
-		//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////
+	////	Viewport
+		ImGui::Begin("Viewport");
+
+		ImVec2 vpPanelSize = ImGui::GetContentRegionAvail();
+		
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+		uint32_t textureID = m_Framebuffer->GetColorAttachment();
+		ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
+
+		ImGui::End();
+	//////////////////////////////////////////////////////////////////////////
 
 		ImGui::Begin("Settings");
 
 		ImGui::ColorEdit4("Start Color", glm::value_ptr(m_Particle.ColorBegin));
 		ImGui::ColorEdit4("End Color", glm::value_ptr(m_Particle.ColorEnd));
 		ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
-
-		uint32_t textureID = m_Framebuffer->GetColorAttachment();
-		ImGui::Image((void*)textureID, { 1024.0f, 576.0f }, { 0, 1 }, { 1, 0 });
 
 		ImGui::End();
 

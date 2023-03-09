@@ -18,6 +18,11 @@ namespace KDE
 		m_Rotation(rotation)
 	{}
 
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom);
+	}
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		if (Input::IsKeyPressed(KD_KEY_A))
@@ -109,8 +114,7 @@ namespace KDE
 
 		//////////////////////////////////////////////////////////////////////////
 		//	Screen will scale
-		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-		m_Camera.SetProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom);
+		OnResize((float)e.GetWidth(), (float)e.GetHeight());
 
 		return false;
 	}

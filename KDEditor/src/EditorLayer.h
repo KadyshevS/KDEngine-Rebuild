@@ -21,6 +21,8 @@ namespace KDE
 		Ref<SubTexture2D> m_Tree;
 		Ref<Framebuffer> m_Framebuffer;
 
+		glm::vec2 m_ViewportSize;
+
 		OrthographicCameraController m_CameraController;
 		ParticleProps m_Particle;
 		ParticleSystem m_ParticleSystem;
