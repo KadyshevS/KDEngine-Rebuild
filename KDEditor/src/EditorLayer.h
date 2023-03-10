@@ -24,7 +24,5 @@ namespace KDE
 		glm::vec2 m_ViewportSize;
 
 		OrthographicCameraController m_CameraController;
-		ParticleProps m_Particle;
-		ParticleSystem m_ParticleSystem;
 	};
 }

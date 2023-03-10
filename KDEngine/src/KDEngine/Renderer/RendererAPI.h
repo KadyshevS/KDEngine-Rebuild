@@ -13,6 +13,8 @@ namespace KDE
 			None = 0, OpenGL = 1
 		};
 	public:
+		virtual ~RendererAPI() = default;
+
 		virtual void Init() = 0;
 		virtual void SetViewport(int x, int y, int width, int height) = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;

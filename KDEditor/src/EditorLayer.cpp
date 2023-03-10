@@ -5,22 +5,11 @@ namespace KDE
 {
 	EditorLayer::EditorLayer()
 		: Layer("KDEditor"),
-		m_CameraController(OrthographicCameraController(1280.0f / 720.0f, true)),
-		m_ParticleSystem(100000)
+		m_CameraController(OrthographicCameraController(1280.0f / 720.0f, true))
 	{}
 
 	void EditorLayer::OnAttach()
 	{
-		Random::Init();
-
-		m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
-		m_Particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
-		m_Particle.SizeBegin = 0.5f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
-		m_Particle.LifeTime = 1.0f;
-		m_Particle.Velocity = { 0.0f, 0.0f };
-		m_Particle.VelocityVariation = { -3.0f, -4.0f };
-		m_Particle.Position = { 0.0f, 0.0f };
-
 		m_Sheet = Texture2D::Create("assets/game/textures/RPGsheet.png");
 		m_Kust = SubTexture2D::CreateFromCoords(m_Sheet, { 4, 3 }, { 128, 128 });
 		m_Tree = SubTexture2D::CreateFromCoords(m_Sheet, { 2, 1 }, { 128, 128 }, { 1.f, 2.f });
@@ -44,7 +33,7 @@ namespace KDE
 			KD_PROFILE_SCOPE("Viewport Resize");
 
 			if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
-				m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
+				m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f &&
 				(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 			{
 				m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
@@ -55,25 +44,6 @@ namespace KDE
 		//	Input
 		{
 			KD_PROFILE_SCOPE("EditorLayer OnUpdate");
-
-			if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
-			{
-				m_Particle.VelocityVariation = { Random::IntDist(-4.0, 4.0), Random::IntDist(-4.0, 4.0) };
-
-				auto [x, y] = Input::GetMousePosition();
-				auto width = Application::Get().GetWindow().GetWidth();
-				auto height = Application::Get().GetWindow().GetHeight();
-
-				auto bounds = m_CameraController.GetBounds();
-				auto pos = m_CameraController.GetCamera().GetPosition();
-				x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-				y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-				m_Particle.Position = { x + pos.x, y + pos.y };
-				for (int i = 0; i < 5; i++)
-					m_ParticleSystem.Emit(m_Particle);
-			}
-
-			m_ParticleSystem.OnUpdate(ts);
 			m_CameraController.OnUpdate(ts);
 		}
 
@@ -94,7 +64,6 @@ namespace KDE
 
 			Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Kust);
 			Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.0f }, { 1.0f, 2.0f }, m_Tree);
-			m_ParticleSystem.OnRender();
 
 			Renderer2D::EndScene();
 
@@ -154,7 +123,7 @@ namespace KDE
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Exit")) Application::Get().Close();
+				if (ImGui::MenuItem("Exit", "Alt+F4")) Application::Get().Close();
 
 				ImGui::EndMenu();
 			}
@@ -178,14 +147,6 @@ namespace KDE
 
 		ImGui::End();
 	//////////////////////////////////////////////////////////////////////////
-
-		ImGui::Begin("Settings");
-
-		ImGui::ColorEdit4("Start Color", glm::value_ptr(m_Particle.ColorBegin));
-		ImGui::ColorEdit4("End Color", glm::value_ptr(m_Particle.ColorEnd));
-		ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
-
-		ImGui::End();
 
 		auto stats = Renderer2D::GetStats();
 		ImGui::Begin("Renderer Stats");

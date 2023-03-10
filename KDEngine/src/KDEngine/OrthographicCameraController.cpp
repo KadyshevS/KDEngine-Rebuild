@@ -25,6 +25,7 @@ namespace KDE
 	}
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
+		//////////////////////////////////////////////////////////////////////////
 		if (Input::IsKeyPressed(KD_KEY_A))
 		{
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
@@ -64,7 +65,8 @@ namespace KDE
 
 		m_Camera.SetPosition(m_CameraPosition);
 
-		m_CameraTranslationSpeed = m_Zoom;
+		m_CameraTranslationSpeed = m_Zoom * 3.0f;
+		//////////////////////////////////////////////////////////////////////////
 
 		//////////////////////////////////////////////////////////////////////////
 		//if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
@@ -84,14 +86,16 @@ namespace KDE
 		//		float m_DifferenceX = m_CurrMouseX - m_TempX;
 		//		float m_DifferenceY = m_CurrMouseY - m_TempY;
 		//
-		//		m_CameraPosition.x -= m_DifferenceX * 0.003f * m_Zoom;
-		//		m_CameraPosition.y += m_DifferenceY * 0.003f * m_Zoom;
+		//		m_CameraPosition.x -= m_DifferenceX * m_CameraTranslationSpeed;
+		//		m_CameraPosition.y += m_DifferenceY * m_CameraTranslationSpeed;
 		//
 		//		m_TempX = m_CurrMouseX;
 		//		m_TempY = m_CurrMouseY;
 		//	}
 		//
 		//	m_Camera.SetPosition(m_CameraPosition);
+		//
+		//	m_CameraTranslationSpeed = m_Zoom * 0.25f;
 		//}
 		//else
 		//{
@@ -110,9 +114,12 @@ namespace KDE
 	{
 		m_Zoom -= e.GetOffsetY() * 0.25f;
 		m_Zoom = std::max(m_Zoom, 0.25f);
+		m_Zoom = std::min(m_Zoom, 5.0f);
 		m_Camera.SetProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom);
 
 		m_Bounds = { -m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom };
+
+		m_Camera.SetPosition(m_CameraPosition);
 
 		return false;
 	}

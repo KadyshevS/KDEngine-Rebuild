@@ -16,6 +16,8 @@ namespace KDE
 	class KD_API Framebuffer
 	{
 	public:
+		virtual ~Framebuffer() = default;
+
 		static Ref<Framebuffer> Create(const FramebufferSpecification& spec);
 
 		virtual void Bind() const = 0;
