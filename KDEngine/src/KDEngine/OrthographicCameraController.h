@@ -28,9 +28,12 @@ namespace KDE
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
-		inline OrthographicCamera& GetCamera() { return m_Camera; }
-		inline const OrthographicCamera& GetCamera() const { return m_Camera; }
-		OrthographicCameraBounds GetBounds() const;
+		float GetZoomLevel() const { return m_Zoom; }
+		void SetZoomLevel(float level) { m_Zoom = level; }
+
+		OrthographicCamera& GetCamera() { return m_Camera; }
+		const OrthographicCamera& GetCamera() const { return m_Camera; }
+		OrthographicCameraBounds GetBounds() const { return m_Bounds; }
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnWindowResized(WindowResizeEvent& e);

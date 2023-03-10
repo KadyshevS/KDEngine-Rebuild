@@ -26,25 +26,45 @@ namespace KDE
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		if (Input::IsKeyPressed(KD_KEY_A))
-			m_CameraPosition.x -= m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
-		else if (KDE::Input::IsKeyPressed(KD_KEY_D))
-			m_CameraPosition.x += m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
+		{
+			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
+		else if (Input::IsKeyPressed(KD_KEY_D))
+		{
+			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
+
 		if (Input::IsKeyPressed(KD_KEY_W))
-			m_CameraPosition.y += m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
+		{
+			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
 		else if (Input::IsKeyPressed(KD_KEY_S))
-			m_CameraPosition.y -= m_CameraTranslationSpeed * m_Zoom * ts.GetSeconds();
+		{
+			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+		}
 
 		if (m_Rotation)
 		{
 			if (Input::IsKeyPressed(KD_KEY_Q))
-				m_CameraRotation -= m_CameraRotationSpeed * ts.GetSeconds();
-			else if (KDE::Input::IsKeyPressed(KD_KEY_E))
-				m_CameraRotation += m_CameraRotationSpeed * ts.GetSeconds();
+				m_CameraRotation += m_CameraRotationSpeed * ts;
+			if (Input::IsKeyPressed(KD_KEY_E))
+				m_CameraRotation -= m_CameraRotationSpeed * ts;
+
+			if (m_CameraRotation > 180.0f)
+				m_CameraRotation -= 360.0f;
+			else if (m_CameraRotation <= -180.0f)
+				m_CameraRotation += 360.0f;
 
 			m_Camera.SetRotation(m_CameraRotation);
 		}
 
 		m_Camera.SetPosition(m_CameraPosition);
+
+		m_CameraTranslationSpeed = m_Zoom;
 
 		//////////////////////////////////////////////////////////////////////////
 		//if (Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
@@ -85,19 +105,14 @@ namespace KDE
 		dispatcher.Dispatch<MouseScrolledEvent>(KD_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(KD_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
-	OrthographicCameraBounds OrthographicCameraController::GetBounds() const
-	{
-		return m_Bounds;
-	}
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
+		m_Zoom -= e.GetOffsetY() * 0.25f;
+		m_Zoom = std::max(m_Zoom, 0.25f);
+		m_Camera.SetProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom);
+
 		m_Bounds = { -m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom };
-
-		m_Zoom -= e.GetOffsetY() * 0.5f;
-		if (m_Zoom < m_ZoomLimit) m_Zoom = m_ZoomLimit;
-
-		m_Camera.SetScale(m_Zoom);
 
 		return false;
 	}
