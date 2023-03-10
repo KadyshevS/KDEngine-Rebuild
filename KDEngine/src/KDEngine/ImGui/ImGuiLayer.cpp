@@ -61,10 +61,14 @@ namespace KDE
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
-	void ImGuiLayer::OnImGuiRender()
+	void ImGuiLayer::OnEvent(Event& e)
 	{
-		//	static bool show = true;
-		//	ImGui::ShowDemoWindow(&show);
+		if (m_BlockEvents)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		}
 	}
 
 	void ImGuiLayer::Begin()

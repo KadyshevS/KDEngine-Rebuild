@@ -22,6 +22,8 @@ namespace KDE
 		Ref<Framebuffer> m_Framebuffer;
 
 		glm::vec2 m_ViewportSize;
+		bool m_ViewportFocused = false;
+		bool m_ViewportHovered = false;
 
 		OrthographicCameraController m_CameraController;
 	};

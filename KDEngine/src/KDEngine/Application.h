@@ -30,6 +30,8 @@ namespace KDE
 
 		void Close();
 
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+
 		inline Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
 	private:
@@ -39,7 +41,6 @@ namespace KDE
 		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
-		Timestep m_Timestep;
 		float m_LastFrameTime = 0.0f;
 		bool m_Running = true;
 		bool m_Minimized = false;

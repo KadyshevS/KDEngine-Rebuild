@@ -44,7 +44,8 @@ namespace KDE
 		//	Input
 		{
 			KD_PROFILE_SCOPE("EditorLayer OnUpdate");
-			m_CameraController.OnUpdate(ts);
+			if(m_ViewportFocused)
+				m_CameraController.OnUpdate(ts);
 		}
 
 		//	Drawing
@@ -144,6 +145,10 @@ namespace KDE
 
 		uint32_t textureID = m_Framebuffer->GetColorAttachment();
 		ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
+
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);		
 
 		ImGui::End();
 	//////////////////////////////////////////////////////////////////////////
