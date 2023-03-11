@@ -17,6 +17,7 @@ IncludeDir["Glad"] = "KDEngine/vendor/glad/include"
 IncludeDir["ImGui"] = "KDEngine/vendor/imgui"
 IncludeDir["glm"] = "KDEngine/vendor/glm"
 IncludeDir["stb"] = "KDEngine/vendor/stb"
+IncludeDir["entt"] = "KDEngine/vendor/entt/include"
 
 group "Dependencies"
 	include "KDEngine/vendor/GLFW"
@@ -44,7 +45,8 @@ project "KDEngine"
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 		"%{prj.name}/vendor/stb/**.h",
-		"%{prj.name}/vendor/stb/**.cpp"
+		"%{prj.name}/vendor/stb/**.cpp",
+		"%{prj.name}/vendor/entt/**.hpp",
 	}
 
 	includedirs
@@ -56,6 +58,7 @@ project "KDEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
+		"%{IncludeDir.entt}"
 	}
 
 	links 
@@ -122,7 +125,8 @@ project "Sandbox"
 		"KDEngine/vendor/spdlog/include",
 		"KDEngine/src",
 		"KDEngine/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -175,7 +179,8 @@ project "KDEditor"
 		"KDEngine/vendor/spdlog/include",
 		"KDEngine/src",
 		"KDEngine/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
