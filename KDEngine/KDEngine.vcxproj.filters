@@ -1446,6 +1446,7 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\Components.h" />
     <ClInclude Include="src\KDEngine\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>

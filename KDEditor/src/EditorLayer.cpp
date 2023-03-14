@@ -10,15 +10,18 @@ namespace KDE
 
 	void EditorLayer::OnAttach()
 	{
-		m_Sheet = Texture2D::Create("assets/game/textures/RPGsheet.png");
-		m_Kust = SubTexture2D::CreateFromCoords(m_Sheet, { 4, 3 }, { 128, 128 });
-		m_Tree = SubTexture2D::CreateFromCoords(m_Sheet, { 2, 1 }, { 128, 128 }, { 1.f, 2.f });
-
 		FramebufferSpecification fbSpec;
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
-
 		m_Framebuffer = Framebuffer::Create(fbSpec);
+
+		m_ActiveScene = MakeRef<Scene>();
+
+		auto square = m_ActiveScene->CreateEntity();
+		m_ActiveScene->Reg().emplace<TransformComponent>(square);
+		m_ActiveScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+
+		m_SquareEntity = square;
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -26,55 +29,33 @@ namespace KDE
 
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
-		//	Profiling
-		KD_PROFILE_FUNCTION();
-
+		if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f &&
+			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
-			KD_PROFILE_SCOPE("Viewport Resize");
-
-			if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
-				m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f &&
-				(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
-			{
-				m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-				m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
-			}
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 		}
 
-		//	Input
-		{
-			KD_PROFILE_SCOPE("EditorLayer OnUpdate");
-			if(m_ViewportFocused)
-				m_CameraController.OnUpdate(ts);
-		}
+		if (m_ViewportFocused)
+			m_CameraController.OnUpdate(ts);
 
-		//	Drawing
-		{
-			KD_PROFILE_SCOPE("EditorLayer Renderer Prep");
+		m_Framebuffer->Bind();
 
-			m_Framebuffer->Bind();
+		Renderer2D::ResetStats();
+		RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RendererCommand::Clear();
 
-			Renderer2D::ResetStats();
-			RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			RendererCommand::Clear();
-		}
-		{
-			KD_PROFILE_SCOPE("EditorLayer Renderer Draw");
+		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-			Renderer2D::BeginScene(m_CameraController.GetCamera());
+		m_ActiveScene->OnUpdate(ts);
 
-			Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Kust);
-			Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.0f }, { 1.0f, 2.0f }, m_Tree);
+		Renderer2D::EndScene();
 
-			Renderer2D::EndScene();
-
-			m_Framebuffer->Unbind();
-		}
+		m_Framebuffer->Unbind();
 	}
 	void EditorLayer::OnImGuiRender()
 	{
-		KD_PROFILE_FUNCTION();
-
 	//////////////////////////////////////////////////////////////////////////
 	////	Dockspace	
 		static bool* p_open = new bool(true);
@@ -160,6 +141,13 @@ namespace KDE
 		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Quads: %d", stats.QuadCount);
 		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Indices: %d", stats.GetTotalIndexCount());
+
+		ImGui::End();
+
+		ImGui::Begin("Settings");
+
+		auto& squareColor = m_ActiveScene->Reg().get<SpriteRendererComponent>(m_SquareEntity).Color;
+		ImGui::ColorPicker3("Square color", glm::value_ptr(squareColor));
 
 		ImGui::End();
 	}

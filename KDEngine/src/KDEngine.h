@@ -7,10 +7,7 @@
 #include "KDEngine/ImGui/ImGuiLayer.h"
 
 //	ImGui
-#include <imgui/backends/imgui_impl_glfw.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
-#include <imgui/backends/imgui_impl_opengl3_loader.h>
-#include <imgui/imgui.h>
+#include "ImGui/imgui.h"
 
 //	Input
 #include "KDEngine/Codes/KeyCodes.h"
@@ -28,6 +25,9 @@
 #include "KDEngine/Renderer/RendererCommand.h"
 #include "KDEngine/Renderer/RendererAPI.h"
 #include "KDengine/Renderer/Renderer2D.h"
+#include "entt.hpp"
+#include "KDEngine/Scene/Scene.h"
+#include "KDEngine/Scene/Components.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "KDEngine/Renderer/Shader.h"

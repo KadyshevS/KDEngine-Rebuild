@@ -16,10 +16,10 @@ namespace KDE
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& e) override;
 	private:
-		Ref<Texture2D> m_Sheet;
-		Ref<SubTexture2D> m_Kust;
-		Ref<SubTexture2D> m_Tree;
 		Ref<Framebuffer> m_Framebuffer;
+
+		Ref<Scene> m_ActiveScene;
+		entt::entity m_SquareEntity;
 
 		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false;
