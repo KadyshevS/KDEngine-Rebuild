@@ -1448,6 +1448,7 @@
     </ClInclude>
     <ClInclude Include="src\KDEngine\Scene\Components.h" />
     <ClInclude Include="src\KDEngine\Scene\Scene.h" />
+    <ClInclude Include="src\KDEngine\Scene\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1544,5 +1545,6 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Scene\Scene.cpp" />
+    <ClCompile Include="src\KDEngine\Scene\Entity.cpp" />
   </ItemGroup>
 </Project>

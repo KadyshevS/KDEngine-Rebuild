@@ -31,7 +31,7 @@ float Random::FloatDist(float minVal, float maxVal)
 	std::uniform_real_distribution<float> Dist(minVal, maxVal);
 	return Dist(m_MT19937);
 }
-int Random::Float()
+float Random::Float()
 {
 	KD_PROFILE_FUNCTION();
 

@@ -11,7 +11,7 @@ public:
 	static float FloatDist(float minVal, float maxVal);
 
 	static int Int();
-	static int Float();
+	static float Float();
 private:
 	static std::mt19937 m_MT19937;
 	static std::uniform_int_distribution<int> u_IntDist;

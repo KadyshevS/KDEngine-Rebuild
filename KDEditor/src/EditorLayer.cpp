@@ -17,11 +17,9 @@ namespace KDE
 
 		m_ActiveScene = MakeRef<Scene>();
 
-		auto square = m_ActiveScene->CreateEntity();
-		m_ActiveScene->Reg().emplace<TransformComponent>(square);
-		m_ActiveScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+		m_SquareEntity = MakeRef<Entity>( m_ActiveScene->CreateEntity("Square"));
 
-		m_SquareEntity = square;
+		m_SquareEntity->AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -146,8 +144,13 @@ namespace KDE
 
 		ImGui::Begin("Settings");
 
-		auto& squareColor = m_ActiveScene->Reg().get<SpriteRendererComponent>(m_SquareEntity).Color;
-		ImGui::ColorPicker3("Square color", glm::value_ptr(squareColor));
+		if (m_SquareEntity)
+		{
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_SquareEntity->GetComponent<TagComponent>().Tag.c_str());
+			ImGui::Separator();
+			auto& squareColor = m_SquareEntity->GetComponent<SpriteRendererComponent>().Color;
+			ImGui::ColorPicker3("Color", glm::value_ptr(squareColor));
+		}
 
 		ImGui::End();
 	}

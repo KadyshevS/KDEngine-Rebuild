@@ -25,8 +25,8 @@
 #include "KDEngine/Renderer/RendererCommand.h"
 #include "KDEngine/Renderer/RendererAPI.h"
 #include "KDengine/Renderer/Renderer2D.h"
-#include "entt.hpp"
 #include "KDEngine/Scene/Scene.h"
+#include "KDEngine/Scene/Entity.h"
 #include "KDEngine/Scene/Components.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"

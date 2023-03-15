@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 #include "Components.h"
+#include "Entity.h"
 
 #include "KDEngine/Renderer/Renderer2D.h"
 #include <glm/glm.hpp>
@@ -31,9 +32,16 @@ namespace KDE
 
 	}
 
-	entt::entity Scene::CreateEntity()
+	Entity Scene::CreateEntity(const std::string& name)
 	{
-		return m_Registry.create();
+		Entity ent = { m_Registry.create(), this };
+
+		auto& tag = ent.AddComponent<TagComponent>(name);
+		tag.Tag = name.empty() ? "Entity" : name;
+
+		ent.AddComponent<TransformComponent>();
+
+		return ent;
 	}
 	void Scene::OnUpdate(Timestep ts)
 	{
