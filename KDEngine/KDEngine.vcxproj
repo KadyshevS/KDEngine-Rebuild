@@ -170,6 +170,7 @@
     <ClInclude Include="src\KDEngine\Log.h" />
     <ClInclude Include="src\KDEngine\OrthographicCameraController.h" />
     <ClInclude Include="src\KDEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\KDEngine\Renderer\Camera.h" />
     <ClInclude Include="src\KDEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
@@ -624,6 +625,7 @@
     <ClCompile Include="src\KDEngine\Log.cpp" />
     <ClCompile Include="src\KDEngine\OrthographicCameraController.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\Camera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />

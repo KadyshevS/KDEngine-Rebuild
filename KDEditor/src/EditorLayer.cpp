@@ -17,9 +17,15 @@ namespace KDE
 
 		m_ActiveScene = MakeRef<Scene>();
 
-		m_SquareEntity = MakeRef<Entity>( m_ActiveScene->CreateEntity("Square"));
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+		m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.6f, 1.6f, -0.9f, 0.9f, -1.0f, 1.0f));
 
-		m_SquareEntity->AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+		m_CameraEntity2 = m_ActiveScene->CreateEntity("Clip-Camera Entity");
+		m_CameraEntity2.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+		m_CameraEntity2.GetComponent<CameraComponent>().Primary = false;
+
+		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -34,21 +40,17 @@ namespace KDE
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 		}
-
 		if (m_ViewportFocused)
 			m_CameraController.OnUpdate(ts);
 
+	//	Rendering
 		m_Framebuffer->Bind();
 
 		Renderer2D::ResetStats();
 		RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RendererCommand::Clear();
 
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
-
 		m_ActiveScene->OnUpdate(ts);
-
-		Renderer2D::EndScene();
 
 		m_Framebuffer->Unbind();
 	}
@@ -144,12 +146,27 @@ namespace KDE
 
 		ImGui::Begin("Settings");
 
+		if (m_CameraEntity)
+		{
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity.GetComponent<TagComponent>().Tag.c_str());
+			auto& camPos = m_CameraEntity.GetComponent<TransformComponent>().Transform[3];
+			ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.1f, 0.0f, 0.0f, "%.1f");
+			
+			auto& cam1Prim = m_CameraEntity.GetComponent<CameraComponent>().Primary;
+			auto& cam2Prim = m_CameraEntity2.GetComponent<CameraComponent>().Primary;
+			if (ImGui::Checkbox("Camera Switch", &m_CameraSwitch))
+			{
+				m_CameraEntity.GetComponent<CameraComponent>().Primary = m_CameraSwitch;
+				m_CameraEntity2.GetComponent<CameraComponent>().Primary = !m_CameraSwitch;
+			}
+			ImGui::Separator();
+		}
 		if (m_SquareEntity)
 		{
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_SquareEntity->GetComponent<TagComponent>().Tag.c_str());
-			ImGui::Separator();
-			auto& squareColor = m_SquareEntity->GetComponent<SpriteRendererComponent>().Color;
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
+			auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
 			ImGui::ColorPicker3("Color", glm::value_ptr(squareColor));
+			ImGui::Separator();
 		}
 
 		ImGui::End();

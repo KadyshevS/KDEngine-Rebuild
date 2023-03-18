@@ -19,7 +19,11 @@ namespace KDE
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
-		Ref<Entity> m_SquareEntity;
+		Entity m_SquareEntity;
+		Entity m_CameraEntity;
+		Entity m_CameraEntity2;
+
+		bool m_CameraSwitch = true;
 
 		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Camera.h"
 #include "OrthographicCamera.h"
 
 #include "Texture.h"
@@ -14,6 +15,7 @@ namespace KDE
 		static void Init();
 		static void Shutdown();
 
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 		static void Flush();

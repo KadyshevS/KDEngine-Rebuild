@@ -45,12 +45,35 @@ namespace KDE
 	}
 	void Scene::OnUpdate(Timestep ts)
 	{
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto ent : group)
+		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
 		{
-			auto& transform = group.get<TransformComponent>(ent);
-			auto& sprite = group.get<SpriteRendererComponent>(ent);
-			Renderer2D::DrawQuad(transform, sprite.Color);
+			auto view = m_Registry.view<TransformComponent, CameraComponent>();
+			for (auto& ent : view)
+			{
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(ent);
+				
+				if (camera.Primary)
+				{
+					mainCamera = &camera.Camera;
+					cameraTransform = &transform.Transform;
+					break;
+				}
+			}
+		}
+
+		if (mainCamera)
+		{
+			Renderer2D::BeginScene(*mainCamera, *cameraTransform);
+
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto ent : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(ent);
+				Renderer2D::DrawQuad(transform, sprite.Color);
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 }
