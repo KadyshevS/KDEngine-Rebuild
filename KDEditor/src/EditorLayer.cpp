@@ -4,8 +4,7 @@
 namespace KDE
 {
 	EditorLayer::EditorLayer()
-		: Layer("KDEditor"),
-		m_CameraController(OrthographicCameraController(1280.0f / 720.0f, true))
+		: Layer("KDEditor")
 	{}
 
 	void EditorLayer::OnAttach()
@@ -38,11 +37,8 @@ namespace KDE
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
-		if (m_ViewportFocused)
-			m_CameraController.OnUpdate(ts);
 
 	//	Rendering
 		m_Framebuffer->Bind();
@@ -182,9 +178,6 @@ namespace KDE
 
 		ImGui::End();
 	}
-	void EditorLayer::OnEvent(Event& e)
-	{
-		m_CameraController.OnEvent(e);
-	}
+	void EditorLayer::OnEvent(Event& e) {}
 
 }
