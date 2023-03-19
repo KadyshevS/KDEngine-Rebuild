@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "KDEngine/Renderer/Camera.h"
+#include "SceneCamera.h"
 
 namespace KDE
 {
@@ -43,13 +43,12 @@ namespace KDE
 
 	struct CameraComponent
 	{
-		KDE::Camera Camera;
+		KDE::SceneCamera Camera;
 		bool Primary = true;
+		bool FixedAspectRatio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projection)
-			: Camera(projection) {}
 
 		operator bool () { return Primary; }
 		operator const bool& () const { return Primary; }

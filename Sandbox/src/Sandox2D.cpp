@@ -38,7 +38,7 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 
 		if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
 		{
-			m_Particle.VelocityVariation = { (float)Random::IntDist(-4.0, 4.0), (float)Random::IntDist(-4.0, 4.0) };
+			m_Particle.VelocityVariation = { (float)Random::IntDist(-4, 4), (float)Random::IntDist(-4, 4) };
 
 			auto [x, y] = KDE::Input::GetMousePosition();
 			auto width = KDE::Application::Get().GetWindow().GetWidth();

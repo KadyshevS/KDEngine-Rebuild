@@ -24,6 +24,7 @@ namespace KDE
 		Entity m_CameraEntity2;
 
 		bool m_CameraSwitch = true;
+		float m_CameraOrthoSize = 10.0f;
 
 		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false;

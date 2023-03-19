@@ -18,10 +18,10 @@ namespace KDE
 		m_ActiveScene = MakeRef<Scene>();
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
-		m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-1.6f, 1.6f, -0.9f, 0.9f, -1.0f, 1.0f));
+		m_CameraEntity.AddComponent<CameraComponent>();
 
 		m_CameraEntity2 = m_ActiveScene->CreateEntity("Clip-Camera Entity");
-		m_CameraEntity2.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+		m_CameraEntity2.AddComponent<CameraComponent>();
 		m_CameraEntity2.GetComponent<CameraComponent>().Primary = false;
 
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
@@ -39,6 +39,7 @@ namespace KDE
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 		if (m_ViewportFocused)
 			m_CameraController.OnUpdate(ts);
@@ -148,16 +149,26 @@ namespace KDE
 
 		if (m_CameraEntity)
 		{
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity.GetComponent<TagComponent>().Tag.c_str());
-			auto& camPos = m_CameraEntity.GetComponent<TransformComponent>().Transform[3];
-			ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.1f, 0.0f, 0.0f, "%.1f");
-			
 			auto& cam1Prim = m_CameraEntity.GetComponent<CameraComponent>().Primary;
 			auto& cam2Prim = m_CameraEntity2.GetComponent<CameraComponent>().Primary;
+
+			if (cam1Prim)
+			{
+				ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity.GetComponent<TagComponent>().Tag.c_str());
+				auto& camPos = m_CameraEntity.GetComponent<TransformComponent>().Transform[3];
+				ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.01f, 0.0f, 0.0f, "%.1f");
+			}
+			else
+			{
+				ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity2.GetComponent<TagComponent>().Tag.c_str());
+				if( ImGui::DragFloat("Size", &m_CameraOrthoSize, 0.01f, 0.0f, 0.0f, "%.1f") )
+					m_CameraEntity2.GetComponent<CameraComponent>().Camera.SetOrthoSize(m_CameraOrthoSize);
+			}
+			
 			if (ImGui::Checkbox("Camera Switch", &m_CameraSwitch))
 			{
-				m_CameraEntity.GetComponent<CameraComponent>().Primary = m_CameraSwitch;
-				m_CameraEntity2.GetComponent<CameraComponent>().Primary = !m_CameraSwitch;
+				cam1Prim = m_CameraSwitch;
+				cam2Prim = !m_CameraSwitch;
 			}
 			ImGui::Separator();
 		}

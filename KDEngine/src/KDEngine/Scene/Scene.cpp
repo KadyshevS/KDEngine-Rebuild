@@ -9,28 +9,8 @@
 
 namespace KDE
 {
-	Scene::Scene()
-	{
-		/*
-			entt::entity m_Entity = m_Registry.create();
-			m_Registry.emplace<TransformComponent>(m_Entity, glm::mat4(1.0f));
-
-			m_Registry.get<TransformComponent>(m_Entity);
-
-			auto m_View = m_Registry.view<TransformComponent>();
-
-			for (auto e : m_View)
-			{
-				TransformComponent& transform = m_View.get<TransformComponent>(e);
-			}
-
-			auto m_Group = m_Registry.group<TransformComponent>(entt::get<MeshComponent>);
-		*/
-	}
-	Scene::~Scene()
-	{
-
-	}
+	Scene::Scene() {}
+	Scene::~Scene() {}
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{
@@ -74,6 +54,19 @@ namespace KDE
 			}
 
 			Renderer2D::EndScene();
+		}
+	}
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto& ent : view)
+		{
+			auto& camComponent = view.get<CameraComponent>(ent);
+			if (!camComponent.FixedAspectRatio)
+				camComponent.Camera.SetViewportSize(width, height);
 		}
 	}
 }

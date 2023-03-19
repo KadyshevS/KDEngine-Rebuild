@@ -1450,6 +1450,7 @@
     <ClInclude Include="src\KDEngine\Scene\Scene.h" />
     <ClInclude Include="src\KDEngine\Scene\Entity.h" />
     <ClInclude Include="src\KDEngine\Renderer\Camera.h" />
+    <ClInclude Include="src\KDEngine\Scene\SceneCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1547,6 +1548,6 @@
     </ClCompile>
     <ClCompile Include="src\KDEngine\Scene\Scene.cpp" />
     <ClCompile Include="src\KDEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\Camera.cpp" />
+    <ClCompile Include="src\KDEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,40 @@
+#include "kdpch.h"
+#include "SceneCamera.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+
+namespace KDE
+{
+	SceneCamera::SceneCamera()
+	{
+		RecalculateProjection();
+	}
+
+	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)
+	{
+		m_OrthoSize = size;
+		m_OrthoNear = nearClip;
+		m_OrthoFar = farClip;
+		RecalculateProjection();
+	}
+	void SceneCamera::SetOrthoSize(float size)
+	{
+		m_OrthoSize = size;
+		RecalculateProjection();
+	}
+	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height)
+	{
+		m_AspectRatio = (float)width / (float)height;
+		RecalculateProjection();
+	}
+
+	void SceneCamera::RecalculateProjection()
+	{
+		float orthoLeft = -m_OrthoSize * m_AspectRatio * 0.5f;
+		float orthoRight = -orthoLeft;
+		float orthoBottom = -m_OrthoSize * 0.5f;
+		float orthoTop = -orthoBottom;
+
+		m_Projection = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, m_OrthoNear, m_OrthoFar);
+	}
+}
