@@ -1,15 +1,19 @@
 #pragma once
-#include <KDEngine/Core.h>
 
-namespace KDE
+#include <glm/glm.hpp>
+
+#include "KDEngine/Codes/KeyCodes.h"
+#include "KDEngine/Codes/MouseCodes.h"
+
+namespace KDE 
 {
-	class KD_API Input
+	class Input
 	{
 	public:
-		static bool IsKeyPressed(int keycode);
-		static bool IsMouseButtonPressed(int button);
+		static bool IsKeyPressed(KeyCode key);
 
-		static std::pair<float, float> GetMousePosition();
+		static bool IsMouseButtonPressed(MouseCode button);
+		static glm::vec2 GetMousePosition();
 		static float GetMouseX();
 		static float GetMouseY();
 	};

@@ -36,19 +36,19 @@ void Sandbox2D::OnUpdate(KDE::Timestep ts)
 	{
 		KD_PROFILE_SCOPE("Sandbox2D OnUpdate");
 
-		if (KDE::Input::IsMouseButtonPressed(KD_MOUSE_BUTTON_LEFT) && !ImGui::GetIO().WantCaptureMouse)
+		if (KDE::Input::IsMouseButtonPressed(KDE::Mouse::ButtonLeft) && !ImGui::GetIO().WantCaptureMouse)
 		{
 			m_Particle.VelocityVariation = { (float)Random::IntDist(-4, 4), (float)Random::IntDist(-4, 4) };
 
-			auto [x, y] = KDE::Input::GetMousePosition();
+			auto mousePos = KDE::Input::GetMousePosition();
 			auto width = KDE::Application::Get().GetWindow().GetWidth();
 			auto height = KDE::Application::Get().GetWindow().GetHeight();
 
 			auto bounds = m_CameraController.GetBounds();
 			auto pos = m_CameraController.GetCamera().GetPosition();
-			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-			m_Particle.Position = { x + pos.x, y + pos.y };
+			mousePos.x = (mousePos.x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+			mousePos.y = bounds.GetHeight() * 0.5f - (mousePos.y / height) * bounds.GetHeight();
+			m_Particle.Position = { mousePos.x + pos.x, mousePos.y + pos.y };
 			for (int i = 0; i < 5; i++)
 				m_ParticleSystem.Emit(m_Particle);
 		}

@@ -38,7 +38,7 @@ namespace KDE
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_ViewportSize.x = spec.Width; m_ViewportSize.y = spec.Height;
+			m_ViewportSize.x = (float)spec.Width; m_ViewportSize.y = (float)spec.Height;
 		}
 
 	//	Rendering

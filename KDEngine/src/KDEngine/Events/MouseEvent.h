@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Event.h"
+#include "KDEngine/Events/Event.h"
+#include "KDEngine/Codes/MouseCodes.h"
 
-namespace KDE
+namespace KDE 
 {
-	class KD_API MouseMovedEvent : public Event
+
+	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(float x, float y)
-			:
-			m_MouseX(x),
-			m_MouseY(y)
-		{}
-		inline float GetX() const { return m_MouseX; }
-		inline float GetY() const { return m_MouseY; }
+		MouseMovedEvent(const float x, const float y)
+			: m_MouseX(x), m_MouseY(y) {}
+
+		float GetX() const { return m_MouseX; }
+		float GetY() const { return m_MouseY; }
 
 		std::string ToString() const override
 		{
@@ -23,57 +23,51 @@ namespace KDE
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved)
-			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
 
-	class KD_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(float offsetX, float offsetY)
-			:
-			m_OffsetX(offsetX),
-			m_OffsetY(offsetY)
-		{}
-		inline float GetOffsetX() const { return m_OffsetX; }
-		inline float GetOffsetY() const { return m_OffsetY; }
+		MouseScrolledEvent(const float xOffset, const float yOffset)
+			: m_OffsetX(xOffset), m_OffsetY(yOffset) {}
+
+		float GetOffsetX() const { return m_OffsetX; }
+		float GetOffsetY() const { return m_OffsetY; }
 
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseScrolledEvent: " << m_OffsetX << ", " << m_OffsetY;
+			ss << "MouseScrolledEvent: " << GetOffsetX() << ", " << GetOffsetY();
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
-			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
-	protected:
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+	private:
 		float m_OffsetX, m_OffsetY;
 	};
 
-	class KD_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return m_Button; }
+		MouseCode GetMouseButton() const { return m_Button; }
 
-		EVENT_CLASS_CATEGORY(EventCategoryMouseButton | EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(int button)
-			:
-			m_Button(button)
-		{}
+		MouseButtonEvent(const MouseCode button)
+			: m_Button(button) {}
 
-		int m_Button;
+		MouseCode m_Button;
 	};
 
-	class KD_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button)
-			:
-			MouseButtonEvent(button)
-		{}
+		MouseButtonPressedEvent(const MouseCode button)
+			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{
@@ -84,13 +78,12 @@ namespace KDE
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
-	class KD_API MouseButtonReleasedEvent : public MouseButtonEvent
+
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button)
-			:
-			MouseButtonEvent(button)
-		{}
+		MouseButtonReleasedEvent(const MouseCode button)
+			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{
@@ -101,4 +94,5 @@ namespace KDE
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
+
 }
