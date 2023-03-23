@@ -38,6 +38,7 @@ namespace KDE
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_ViewportSize.x = spec.Width; m_ViewportSize.y = spec.Height;
 		}
 
 	//	Rendering
@@ -55,7 +56,7 @@ namespace KDE
 	{
 	//////////////////////////////////////////////////////////////////////////
 	////	Dockspace	
-		static bool* p_open = new bool(true);
+		static bool p_open = true;
 		static bool opt_fullscreen = true;
 		static bool opt_padding = false;
 		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -84,7 +85,7 @@ namespace KDE
 
 		if (!opt_padding)
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		ImGui::Begin("DockSpace Demo", p_open, window_flags);
+		ImGui::Begin("DockSpace Demo", &p_open, window_flags);
 		if (!opt_padding)
 			ImGui::PopStyleVar();
 

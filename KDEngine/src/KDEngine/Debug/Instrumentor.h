@@ -4,19 +4,16 @@
 
 #pragma once
 
-#include "KDEngine/Core.h"
-#include "KDEngine/Log.h"
-
 #include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <iomanip>
 #include <string>
 #include <thread>
-#include <mutex>
-#include <sstream>
 
-namespace KDE {
+namespace KDE 
+{
+
 	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
 
 	struct ProfileResult
@@ -107,9 +104,13 @@ namespace KDE {
 	private:
 		Instrumentor()
 			: m_CurrentSession(nullptr)
-		{}
+		{
+		}
 
-		~Instrumentor() { EndSession(); }
+		~Instrumentor()
+		{
+			EndSession();
+		}
 
 		void WriteHeader()
 		{
@@ -173,6 +174,7 @@ namespace KDE {
 	};
 
 	namespace InstrumentorUtils {
+
 		template <size_t N>
 		struct ChangeResult
 		{
@@ -224,10 +226,10 @@ namespace KDE {
 #define KD_FUNC_SIG "KD_FUNC_SIG unknown!"
 #endif
 
-#define KD_PROFILE_BEGIN_SESSION(name, filepath) ::KDE::Instrumentor::Get().BeginSession(name, filepath)
-#define KD_PROFILE_END_SESSION() ::KDE::Instrumentor::Get().EndSession()
-#define KD_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixedName##line = ::KDE::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
-											   ::KDE::InstrumentationTimer timer##line(fixedName##line.Data)
+#define KD_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
+#define KD_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
+#define KD_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixedName##line = ::Hazel::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+											   ::Hazel::InstrumentationTimer timer##line(fixedName##line.Data)
 #define KD_PROFILE_SCOPE_LINE(name, line) KD_PROFILE_SCOPE_LINE2(name, line)
 #define KD_PROFILE_SCOPE(name) KD_PROFILE_SCOPE_LINE(name, __LINE__)
 #define KD_PROFILE_FUNCTION() KD_PROFILE_SCOPE(KD_FUNC_SIG)
