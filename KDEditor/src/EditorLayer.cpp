@@ -16,6 +16,9 @@ namespace KDE
 
 		m_ActiveScene = MakeRef<Scene>();
 
+		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
 		m_CameraEntity.AddComponent<CameraComponent>();
 
@@ -23,8 +26,43 @@ namespace KDE
 		m_CameraEntity2.AddComponent<CameraComponent>();
 		m_CameraEntity2.GetComponent<CameraComponent>().Primary = false;
 
-		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
-		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+		class CameraController : public ScriptableEntity
+		{
+		public:
+			void OnCreate()
+			{
+				KD_TRACE("OnCreateFunc()");
+			}
+			void OnDestroy()
+			{
+				KD_TRACE("OnDestroyFunc()");
+			}
+
+			void OnUpdate(Timestep ts)
+			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				float speed = 5.0f;
+
+				if (Input::IsKeyPressed(Key::Left))
+				{
+					transform[3][0] -= speed * ts;
+				}
+				else if (Input::IsKeyPressed(Key::Right))
+				{
+					transform[3][0] += speed * ts;
+				}
+
+				if (Input::IsKeyPressed(Key::Up))
+				{
+					transform[3][1] += speed * ts;
+				}
+				else if (Input::IsKeyPressed(Key::Down))
+				{
+					transform[3][1] -= speed * ts;
+				}
+			}
+		};
+		m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 	void EditorLayer::OnDetach()
 	{

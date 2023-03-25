@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "SceneCamera.h"
+#include "ScriptableEntity.h"
 
 namespace KDE
 {
@@ -52,5 +53,28 @@ namespace KDE
 
 		operator bool () { return Primary; }
 		operator const bool& () const { return Primary; }
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		std::function<void()> CreateInstanceFunc;
+		std::function<void()> DestroyInstanceFunc;
+
+		std::function<void(ScriptableEntity*)> OnCreateFunc;
+		std::function<void(ScriptableEntity*)> OnDestroyFunc;
+		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunc;
+
+		template<typename T>
+		void Bind()
+		{
+			CreateInstanceFunc = [&]() { Instance = new T(); };
+			DestroyInstanceFunc = [&]() { delete (T*)Instance; Instance = nullptr; };
+
+			OnCreateFunc = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
+			OnDestroyFunc = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
+			OnUpdateFunc = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
+		}
 	};
 }

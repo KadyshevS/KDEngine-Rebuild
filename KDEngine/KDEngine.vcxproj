@@ -186,6 +186,7 @@
     <ClInclude Include="src\KDEngine\Scene\Entity.h" />
     <ClInclude Include="src\KDEngine\Scene\Scene.h" />
     <ClInclude Include="src\KDEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\KDEngine\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\KDEngine\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />

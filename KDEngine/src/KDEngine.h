@@ -25,10 +25,14 @@
 #include "KDEngine/Renderer/RendererCommand.h"
 #include "KDEngine/Renderer/RendererAPI.h"
 #include "KDengine/Renderer/Renderer2D.h"
+
+//	Scene
 #include "KDEngine/Scene/Scene.h"
 #include "KDEngine/Scene/Entity.h"
+#include "KDEngine/Scene/ScriptableEntity.h"
 #include "KDEngine/Scene/Components.h"
 
+//	OpenGL
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "KDEngine/Renderer/Shader.h"
 #include "KDEngine/Renderer/Buffer.h"

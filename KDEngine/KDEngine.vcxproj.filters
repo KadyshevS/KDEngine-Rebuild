@@ -1451,6 +1451,7 @@
     <ClInclude Include="src\KDEngine\Scene\Entity.h" />
     <ClInclude Include="src\KDEngine\Renderer\Camera.h" />
     <ClInclude Include="src\KDEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\KDEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">

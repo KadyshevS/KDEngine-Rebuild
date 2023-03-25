@@ -25,6 +25,23 @@ namespace KDE
 	}
 	void Scene::OnUpdate(Timestep ts)
 	{
+		{
+			m_Registry.view<NativeScriptComponent>().each(
+				[=](auto entity, auto& nsc)
+				{
+					if (!nsc.Instance)
+					{
+						nsc.CreateInstanceFunc();
+						nsc.Instance->m_Entity = Entity{ entity, this };
+						nsc.OnCreateFunc(nsc.Instance);
+					}
+
+					if (nsc.OnUpdateFunc)
+						nsc.OnUpdateFunc(nsc.Instance, ts);
+				}
+			);
+		}
+
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{
