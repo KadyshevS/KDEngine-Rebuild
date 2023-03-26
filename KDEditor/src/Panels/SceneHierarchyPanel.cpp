@@ -5,6 +5,8 @@
 
 #include <imgui/imgui.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 namespace KDE
 {
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -30,6 +32,9 @@ namespace KDE
 			}
 		);
 		
+		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+			m_SelectionEntity = {};
+
 		ImGui::End();
 
 		ImGui::Begin("Properties");
@@ -79,7 +84,13 @@ namespace KDE
 
 		if (entity.HasComponent<TransformComponent>())
 		{
-			
+			if ( ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform") )
+			{
+				auto& transform = entity.GetComponent<TransformComponent>().Transform;
+				ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.03f);
+
+				ImGui::TreePop();
+			}
 		}
 	}
 }

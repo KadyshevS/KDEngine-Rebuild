@@ -74,7 +74,7 @@ namespace KDE
 				BufferDataTypeToOpenGLDataType(el.Type),
 				el.Normalized ? GL_TRUE : GL_FALSE,
 				vBuf->GetLayout().GetStride(),
-				(void*)el.Offset
+				(void*)(el.Offset)
 			);
 			index++;
 		}
