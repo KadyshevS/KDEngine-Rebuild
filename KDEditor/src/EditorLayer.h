@@ -2,6 +2,8 @@
 
 #include <KDEngine.h>
 
+#include "Panels/SceneHierarchyPanel.h"
+
 namespace KDE
 {
 	class EditorLayer : public Layer
@@ -32,5 +34,7 @@ namespace KDE
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;
 		glm::vec2 m_ViewportPos{ 0.0f };
+
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
 }

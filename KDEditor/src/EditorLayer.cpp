@@ -68,6 +68,8 @@ namespace KDE
 		};
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -230,6 +232,11 @@ namespace KDE
 			}
 
 			ImGui::End();
+		}
+
+	//	Scene Hierarchy
+		{
+			m_SceneHierarchyPanel.OnImGuiRender();
 		}
 	}
 	void EditorLayer::OnEvent(Event& e) {}
