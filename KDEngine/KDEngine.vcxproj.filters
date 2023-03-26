@@ -25,6 +25,9 @@
     <Filter Include="src\KDEngine\Renderer">
       <UniqueIdentifier>{07CEB0E7-733A-6CE2-3C2E-0440A8598E4A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\KDEngine\Scene">
+      <UniqueIdentifier>{1E2BCE18-0A0F-8F6E-736F-89C15F7279F0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -129,6 +132,9 @@
     <ClInclude Include="src\KDEngine\Renderer\Buffer.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\Camera.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\Framebuffer.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
@@ -161,6 +167,21 @@
     </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\VertexArray.h">
       <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\Components.h">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\Entity.h">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\Scene.h">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\SceneCamera.h">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\ScriptableEntity.h">
+      <Filter>src\KDEngine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Window.h">
       <Filter>src\KDEngine</Filter>
@@ -1446,12 +1467,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\Scene\Components.h" />
-    <ClInclude Include="src\KDEngine\Scene\Scene.h" />
-    <ClInclude Include="src\KDEngine\Scene\Entity.h" />
-    <ClInclude Include="src\KDEngine\Renderer\Camera.h" />
-    <ClInclude Include="src\KDEngine\Scene\SceneCamera.h" />
-    <ClInclude Include="src\KDEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1514,6 +1529,15 @@
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\KDEngine\Scene\Entity.cpp">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Scene\Scene.cpp">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Scene\SceneCamera.cpp">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1547,8 +1571,5 @@
     <ClCompile Include="vendor\stb\stb_image.cpp">
       <Filter>vendor\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\KDEngine\Scene\Scene.cpp" />
-    <ClCompile Include="src\KDEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\KDEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

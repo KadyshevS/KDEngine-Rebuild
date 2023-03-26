@@ -48,7 +48,7 @@
 #define KD_API
 #endif
 #else
-#error Hazel only supports Windows.
+#error KDEngine only supports Windows.
 #endif //
 
 #ifdef KD_DEBUG
@@ -56,8 +56,8 @@
 #endif
 
 #ifdef KD_ENABLE_ASSERTS
-#define KD_ASSERT(x, ...) { if(.(x)) { KD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#define KD_CORE_ASSERT(x, ...) { if(.(x)) { KD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define KD_ASSERT(x, ...) { if(!(x)) { KD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define KD_CORE_ASSERT(x, ...) { if(!(x)) { KD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
 #define KD_ASSERT(x, ...)
 #define KD_CORE_ASSERT(x, ...)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KDEngine/Log.h"
+
 namespace KDE
 {
 	enum class ShaderDataType

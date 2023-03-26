@@ -30,11 +30,3 @@ namespace KDE
 #define KD_WARN(...)			::KDE::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define KD_ERROR(...)			::KDE::Log::GetClientLogger()->error(__VA_ARGS__)
 #define KD_CRITICAL(...)		::KDE::Log::GetClientLogger()->critical(__VA_ARGS__)
-
-#ifdef KD_ENABLE_ASSERTS
-#define KD_ASSERT(x, ...) { if(!(x)) { KD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#define KD_CORE_ASSERT(x, ...) { if(!(x)) { KD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#else
-#define KD_ASSERT(x, ...)
-#define KD_CORE_ASSERT(x, ...)
-#endif

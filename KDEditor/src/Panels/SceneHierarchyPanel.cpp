@@ -31,6 +31,15 @@ namespace KDE
 		);
 		
 		ImGui::End();
+
+		ImGui::Begin("Properties");
+
+		if (m_SelectionEntity)
+		{
+			DrawComponents(m_SelectionEntity);
+		}
+
+		ImGui::End();
 	}
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
@@ -51,6 +60,26 @@ namespace KDE
 			ImGui::TreePop();
 			if (openedEx)
 				ImGui::TreePop();
+		}
+	}
+	void SceneHierarchyPanel::DrawComponents(Entity entity)
+	{
+		if (entity.HasComponent<TagComponent>())
+		{
+			auto& tag = entity.GetComponent<TagComponent>().Tag;
+
+			char buf[256];
+			memset(buf, 0, sizeof(buf));
+			strcpy_s(buf, tag.c_str());
+			if (ImGui::InputText("Tag", buf, sizeof(buf)))
+			{
+				tag = std::string(buf);
+			}
+		}
+
+		if (entity.HasComponent<TransformComponent>())
+		{
+			
 		}
 	}
 }

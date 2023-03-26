@@ -19,10 +19,10 @@ namespace KDE
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera 1 Entity");
 		m_CameraEntity.AddComponent<CameraComponent>();
 
-		m_CameraEntity2 = m_ActiveScene->CreateEntity("Clip-Camera Entity");
+		m_CameraEntity2 = m_ActiveScene->CreateEntity("Camera 2 Entity");
 		m_CameraEntity2.AddComponent<CameraComponent>();
 		m_CameraEntity2.GetComponent<CameraComponent>().Primary = false;
 
@@ -178,22 +178,13 @@ namespace KDE
 		}
 		
 	//	Stats
-		{
-			auto stats = Renderer2D::GetStats();
-			ImGui::Begin("Renderer Stats");
-
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Draw Calls: %d", stats.DrawCalls);
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Quads: %d", stats.QuadCount);
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Vertices: %d", stats.GetTotalVertexCount());
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Indices: %d", stats.GetTotalIndexCount());
-
-			ImGui::End();
-
-			ImGui::Begin("Settings");
-		}
+	//	{
+	//		StatisticsPanel::OnImGuiRender();
+	//	}
 
 	//	Camera Info
 		{
+			ImGui::Begin("Objects Info");
 			if (m_CameraEntity)
 			{
 				auto& cam1Prim = m_CameraEntity.GetComponent<CameraComponent>().Primary;

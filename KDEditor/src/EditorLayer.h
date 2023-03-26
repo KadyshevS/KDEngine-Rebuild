@@ -3,6 +3,7 @@
 #include <KDEngine.h>
 
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/StatisticsPanel.h"
 
 namespace KDE
 {

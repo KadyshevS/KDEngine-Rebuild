@@ -74,8 +74,6 @@ project "KDEngine"
 
 		defines
 		{
-			"KD_PLATFORM_WINDOWS",
-			"KD_BUILD_DLL",
 			"GLFW_INCLUDE_NONE",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
@@ -86,11 +84,7 @@ project "KDEngine"
 		}
 
 	filter "configurations:Debug"
-		defines
-		{
-			"KD_DEBUG",
-			"KD_ENABLE_ASSERTS",
-		}
+		defines "KD_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
@@ -139,7 +133,6 @@ project "Sandbox"
 
 		defines
 		{
-			"KD_PLATFORM_WINDOWS",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
 
@@ -193,7 +186,6 @@ project "KDEditor"
 
 		defines
 		{
-			"KD_PLATFORM_WINDOWS",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
 
