@@ -26,6 +26,7 @@ namespace KDE
 
 		bool m_CameraSwitch = true;
 		float m_CameraOrthoSize = 10.0f;
+		float m_CameraOrthoSize2 = 10.0f;
 
 		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false;

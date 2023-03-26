@@ -16,7 +16,7 @@ namespace KDE
 	{
 		Entity ent = { m_Registry.create(), this };
 
-		auto& tag = ent.AddComponent<TagComponent>(name);
+		auto tag = ent.AddComponent<TagComponent>(name);
 		tag.Tag = name.empty() ? "Entity" : name;
 
 		ent.AddComponent<TransformComponent>();
@@ -31,13 +31,12 @@ namespace KDE
 				{
 					if (!nsc.Instance)
 					{
-						nsc.CreateInstanceFunc();
+						nsc.Instance = nsc.InstantiateScript();
 						nsc.Instance->m_Entity = Entity{ entity, this };
-						nsc.OnCreateFunc(nsc.Instance);
+						nsc.Instance->OnCreate();
 					}
 
-					if (nsc.OnUpdateFunc)
-						nsc.OnUpdateFunc(nsc.Instance, ts);
+					nsc.Instance->OnUpdate(ts);
 				}
 			);
 		}
@@ -46,7 +45,7 @@ namespace KDE
 		glm::mat4* cameraTransform = nullptr;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
-			for (auto& ent : view)
+			for (auto ent : view)
 			{
 				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(ent);
 				

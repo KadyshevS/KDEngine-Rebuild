@@ -31,6 +31,10 @@ namespace KDE
 		public:
 			void OnCreate()
 			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				transform[3][0] = Random::Float() + Random::IntDist(-5, 5);
+				transform[3][1] = Random::Float() + Random::IntDist(-5, 5);
+
 				KD_TRACE("OnCreateFunc()");
 			}
 			void OnDestroy()
@@ -62,6 +66,7 @@ namespace KDE
 				}
 			}
 		};
+		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 	void EditorLayer::OnDetach()
@@ -92,130 +97,140 @@ namespace KDE
 	}
 	void EditorLayer::OnImGuiRender()
 	{
-	//////////////////////////////////////////////////////////////////////////
-	////	Dockspace	
-		static bool p_open = true;
-		static bool opt_fullscreen = true;
-		static bool opt_padding = false;
-		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-
-		// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-		// because it would be confusing to have two docking targets within each others.
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-		if (opt_fullscreen)
+	//	Dockspace
 		{
-			const ImGuiViewport* viewport = ImGui::GetMainViewport();
-			ImGui::SetNextWindowPos(viewport->WorkPos);
-			ImGui::SetNextWindowSize(viewport->WorkSize);
-			ImGui::SetNextWindowViewport(viewport->ID);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-			window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-			window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-		}
-		else
-		{
-			dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
-		}
+			static bool p_open = true;
+			static bool opt_fullscreen = true;
+			static bool opt_padding = false;
+			static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-		if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-			window_flags |= ImGuiWindowFlags_NoBackground;
-
-		if (!opt_padding)
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		ImGui::Begin("DockSpace Demo", &p_open, window_flags);
-		if (!opt_padding)
-			ImGui::PopStyleVar();
-
-		if (opt_fullscreen)
-			ImGui::PopStyleVar(2);
-
-		ImGuiIO& io = ImGui::GetIO();
-		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-		{
-			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-		}
-
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
+			// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+			// because it would be confusing to have two docking targets within each others.
+			ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+			if (opt_fullscreen)
 			{
-				if (ImGui::MenuItem("Exit", "Alt+F4")) Application::Get().Close();
-
-				ImGui::EndMenu();
-			}
-
-			ImGui::EndMenuBar();
-		}
-		ImGui::End();
-	//////////////////////////////////////////////////////////////////////////
-
-	//////////////////////////////////////////////////////////////////////////
-	////	Viewport
-		ImGui::Begin("Viewport");
-
-		ImVec2 vpPanelSize = ImGui::GetContentRegionAvail();
-		
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-
-		uint32_t textureID = m_Framebuffer->GetColorAttachment();
-		ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
-
-		m_ViewportFocused = ImGui::IsWindowFocused();
-		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);		
-
-		ImGui::End();
-	//////////////////////////////////////////////////////////////////////////
-
-		auto stats = Renderer2D::GetStats();
-		ImGui::Begin("Renderer Stats");
-
-		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Draw Calls: %d", stats.DrawCalls);
-		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Quads: %d", stats.QuadCount);
-		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Indices: %d", stats.GetTotalIndexCount());
-
-		ImGui::End();
-
-		ImGui::Begin("Settings");
-
-		if (m_CameraEntity)
-		{
-			auto& cam1Prim = m_CameraEntity.GetComponent<CameraComponent>().Primary;
-			auto& cam2Prim = m_CameraEntity2.GetComponent<CameraComponent>().Primary;
-
-			if (cam1Prim)
-			{
-				ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity.GetComponent<TagComponent>().Tag.c_str());
-				auto& camPos = m_CameraEntity.GetComponent<TransformComponent>().Transform[3];
-				ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.01f, 0.0f, 0.0f, "%.1f");
+				const ImGuiViewport* viewport = ImGui::GetMainViewport();
+				ImGui::SetNextWindowPos(viewport->WorkPos);
+				ImGui::SetNextWindowSize(viewport->WorkSize);
+				ImGui::SetNextWindowViewport(viewport->ID);
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+				window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+				window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 			}
 			else
 			{
-				ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity2.GetComponent<TagComponent>().Tag.c_str());
-				if( ImGui::DragFloat("Size", &m_CameraOrthoSize, 0.01f, 0.0f, 0.0f, "%.1f") )
-					m_CameraEntity2.GetComponent<CameraComponent>().Camera.SetOrthoSize(m_CameraOrthoSize);
+				dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
 			}
-			
-			if (ImGui::Checkbox("Camera Switch", &m_CameraSwitch))
+
+			if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+				window_flags |= ImGuiWindowFlags_NoBackground;
+
+			if (!opt_padding)
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+			ImGui::Begin("DockSpace Demo", &p_open, window_flags);
+			if (!opt_padding)
+				ImGui::PopStyleVar();
+
+			if (opt_fullscreen)
+				ImGui::PopStyleVar(2);
+
+			ImGuiIO& io = ImGui::GetIO();
+			if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 			{
-				cam1Prim = m_CameraSwitch;
-				cam2Prim = !m_CameraSwitch;
+				ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+				ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 			}
-			ImGui::Separator();
+
+			if (ImGui::BeginMenuBar())
+			{
+				if (ImGui::BeginMenu("File"))
+				{
+					if (ImGui::MenuItem("Exit", "Alt+F4")) Application::Get().Close();
+
+					ImGui::EndMenu();
+				}
+
+				ImGui::EndMenuBar();
+			}
+			ImGui::End();
 		}
-		if (m_SquareEntity)
+	
+	//	Viewport
 		{
-			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
-			auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
-			ImGui::ColorPicker3("Color", glm::value_ptr(squareColor));
-			ImGui::Separator();
+			ImGui::Begin("Viewport");
+
+			ImVec2 vpPanelSize = ImGui::GetContentRegionAvail();
+
+			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+			uint32_t textureID = m_Framebuffer->GetColorAttachment();
+			ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
+
+			m_ViewportFocused = ImGui::IsWindowFocused();
+			m_ViewportHovered = ImGui::IsWindowHovered();
+			Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
+			ImGui::End();
+		}
+		
+	//	Stats
+		{
+			auto stats = Renderer2D::GetStats();
+			ImGui::Begin("Renderer Stats");
+
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Draw Calls: %d", stats.DrawCalls);
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Quads: %d", stats.QuadCount);
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Vertices: %d", stats.GetTotalVertexCount());
+			ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "Indices: %d", stats.GetTotalIndexCount());
+
+			ImGui::End();
+
+			ImGui::Begin("Settings");
 		}
 
-		ImGui::End();
+	//	Camera Info
+		{
+			if (m_CameraEntity)
+			{
+				auto& cam1Prim = m_CameraEntity.GetComponent<CameraComponent>().Primary;
+				auto& cam2Prim = m_CameraEntity2.GetComponent<CameraComponent>().Primary;
+				
+				if (cam1Prim)
+				{
+					ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity.GetComponent<TagComponent>().Tag.c_str());
+					auto& camPos = m_CameraEntity.GetComponent<TransformComponent>().Transform[3];
+					ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.01f, 0.0f, 0.0f, "%.1f");
+					if (ImGui::DragFloat("Size", &m_CameraOrthoSize, 0.01f, 0.0f, 0.0f, "%.1f"))
+						m_CameraEntity.GetComponent<CameraComponent>().Camera.SetOrthoSize(m_CameraOrthoSize);
+				}
+				else if(cam2Prim)
+				{
+					ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity2.GetComponent<TagComponent>().Tag.c_str());
+					auto& camPos = m_CameraEntity2.GetComponent<TransformComponent>().Transform[3];
+					ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.01f, 0.0f, 0.0f, "%.1f");
+					if (ImGui::DragFloat("Size", &m_CameraOrthoSize2, 0.01f, 0.0f, 0.0f, "%.1f"))
+						m_CameraEntity2.GetComponent<CameraComponent>().Camera.SetOrthoSize(m_CameraOrthoSize2);
+				}
+
+				if (ImGui::Button("Camera Switch", {0, 0}))
+				{
+					cam1Prim = !cam1Prim;
+					cam2Prim = !cam2Prim;
+				}
+				ImGui::Separator();
+			}
+			if (m_SquareEntity)
+			{
+				ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
+				auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+				ImGui::ColorPicker3("Color", glm::value_ptr(squareColor));
+				ImGui::Separator();
+			}
+
+			ImGui::End();
+		}
 	}
 	void EditorLayer::OnEvent(Event& e) {}
 

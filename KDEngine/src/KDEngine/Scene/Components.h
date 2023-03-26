@@ -15,7 +15,7 @@ namespace KDE
 		TagComponent(const TagComponent&) = default;
 		TagComponent(const std::string& tag)
 			: Tag(tag) {}
-		
+
 		operator const char* () const { return Tag.c_str(); }
 	};
 
@@ -51,30 +51,22 @@ namespace KDE
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
 
-		operator bool () { return Primary; }
+		operator bool() { return Primary; }
 		operator const bool& () const { return Primary; }
 	};
 
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
-
-		std::function<void()> CreateInstanceFunc;
-		std::function<void()> DestroyInstanceFunc;
-
-		std::function<void(ScriptableEntity*)> OnCreateFunc;
-		std::function<void(ScriptableEntity*)> OnDestroyFunc;
-		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunc;
+		
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind()
 		{
-			CreateInstanceFunc = [&]() { Instance = new T(); };
-			DestroyInstanceFunc = [&]() { delete (T*)Instance; Instance = nullptr; };
-
-			OnCreateFunc = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
-			OnDestroyFunc = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
-			OnUpdateFunc = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new  T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};
 }
