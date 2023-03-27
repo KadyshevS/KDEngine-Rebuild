@@ -18,7 +18,7 @@ namespace KDE
 		KD_CORE_ASSERT(!s_Instance, "Application already exist.");
 		s_Instance = this;
 
-		m_Window = Scope<Window>(Window::Create(WindowProps(name)));
+		m_Window = Scope<Window>(Window::Create(WindowProps(name, 1440u, 900u)));
 		m_Window->SetEventCallback(KD_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(true);
 

@@ -99,6 +99,9 @@ namespace KDE
 			{
 				auto& camera = entity.GetComponent<CameraComponent>().Camera;
 
+				bool& isPrimary = entity.GetComponent<CameraComponent>().Primary;
+				ImGui::Checkbox("Primary", &isPrimary);
+
 				const char* projStrs[] = { "Perspective", "Orthographic" };
 				const char* currProjStr = projStrs[(int)camera.GetProjectionType()];
 
@@ -149,6 +152,17 @@ namespace KDE
 					if (ImGui::DragFloat("Far", &orthoFar, 0.05f))
 						camera.SetOrthoFarClip(orthoFar);
 				}
+
+				ImGui::TreePop();
+			}
+		}
+
+		if (entity.HasComponent<SpriteRendererComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer"))
+			{
+				auto& renderer = entity.GetComponent<SpriteRendererComponent>();
+				ImGui::ColorEdit4("Color", glm::value_ptr(renderer.Color));
 
 				ImGui::TreePop();
 			}

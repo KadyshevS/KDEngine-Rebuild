@@ -10,8 +10,8 @@ namespace KDE
 	void EditorLayer::OnAttach()
 	{
 		FramebufferSpecification fbSpec;
-		fbSpec.Width = 1280;
-		fbSpec.Height = 720;
+		fbSpec.Width = 1440;
+		fbSpec.Height = 900;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = MakeRef<Scene>();
@@ -181,51 +181,8 @@ namespace KDE
 		}
 		
 	//	Stats
-	//	{
-	//		StatisticsPanel::OnImGuiRender();
-	//	}
-
-	//	Camera Info
 		{
-			ImGui::Begin("Objects Info");
-			if (m_CameraEntity)
-			{
-				auto& cam1Prim = m_CameraEntity.GetComponent<CameraComponent>().Primary;
-				auto& cam2Prim = m_CameraEntity2.GetComponent<CameraComponent>().Primary;
-				
-				if (cam1Prim)
-				{
-					ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity.GetComponent<TagComponent>().Tag.c_str());
-					auto& camPos = m_CameraEntity.GetComponent<TransformComponent>().Transform[3];
-					ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.01f, 0.0f, 0.0f, "%.1f");
-					if (ImGui::DragFloat("Size", &m_CameraOrthoSize, 0.01f, 0.0f, 0.0f, "%.1f"))
-						m_CameraEntity.GetComponent<CameraComponent>().Camera.SetOrthoSize(m_CameraOrthoSize);
-				}
-				else if(cam2Prim)
-				{
-					ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_CameraEntity2.GetComponent<TagComponent>().Tag.c_str());
-					auto& camPos = m_CameraEntity2.GetComponent<TransformComponent>().Transform[3];
-					ImGui::DragFloat3("Position", glm::value_ptr(camPos), 0.01f, 0.0f, 0.0f, "%.1f");
-					if (ImGui::DragFloat("Size", &m_CameraOrthoSize2, 0.01f, 0.0f, 0.0f, "%.1f"))
-						m_CameraEntity2.GetComponent<CameraComponent>().Camera.SetOrthoSize(m_CameraOrthoSize2);
-				}
-
-				if (ImGui::Button("Camera Switch", {0, 0}))
-				{
-					cam1Prim = !cam1Prim;
-					cam2Prim = !cam2Prim;
-				}
-				ImGui::Separator();
-			}
-			if (m_SquareEntity)
-			{
-				ImGui::TextColored({ 0.2f, 0.8f, 0.3f, 1.0f }, "%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
-				auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
-				ImGui::ColorPicker3("Color", glm::value_ptr(squareColor));
-				ImGui::Separator();
-			}
-
-			ImGui::End();
+			StatisticsPanel::OnImGuiRender();
 		}
 
 	//	Scene Hierarchy
@@ -234,5 +191,4 @@ namespace KDE
 		}
 	}
 	void EditorLayer::OnEvent(Event& e) {}
-
 }
