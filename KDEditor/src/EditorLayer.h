@@ -24,6 +24,7 @@ namespace KDE
 		Ref<Scene> m_ActiveScene;
 
 		Entity m_SquareEntity;
+		Entity m_SquareEntityRed;
 		Entity m_CameraEntity;
 		Entity m_CameraEntity2;
 

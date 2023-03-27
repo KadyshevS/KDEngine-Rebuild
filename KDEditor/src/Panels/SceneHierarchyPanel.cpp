@@ -92,5 +92,66 @@ namespace KDE
 				ImGui::TreePop();
 			}
 		}
+
+		if (entity.HasComponent<CameraComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			{
+				auto& camera = entity.GetComponent<CameraComponent>().Camera;
+
+				const char* projStrs[] = { "Perspective", "Orthographic" };
+				const char* currProjStr = projStrs[(int)camera.GetProjectionType()];
+
+				if (ImGui::BeginCombo("Projection", currProjStr))
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						bool isSelected = currProjStr = projStrs[i];
+						if (ImGui::Selectable(projStrs[i], isSelected))
+						{
+							currProjStr = projStrs[i];
+							camera.SetProjectionType((SceneCamera::ProjectionType)i);
+						}
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
+
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
+				{
+					float perspFOV = camera.GetPerspFOV();
+					if (ImGui::DragFloat("FOV", &perspFOV, 0.05f))
+						camera.SetPerspFOV(perspFOV);
+
+					float perspNear = camera.GetPerspNearClip();
+					if (ImGui::DragFloat("Near", &perspNear, 0.05f))
+						camera.SetPerspNearClip(perspNear);
+
+					float perspFar = camera.GetPerspFarClip();
+					if (ImGui::DragFloat("Far", &perspFar, 0.05f))
+						camera.SetPerspFarClip(perspFar);
+				}
+
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
+				{
+					float orthoSize = camera.GetOrthoSize();
+					if (ImGui::DragFloat("Size", &orthoSize, 0.05f))
+						camera.SetOrthoSize(orthoSize);
+
+					float orthoNear = camera.GetOrthoNearClip();
+					if (ImGui::DragFloat("Near", &orthoNear, 0.05f))
+						camera.SetOrthoNearClip(orthoNear);
+
+					float orthoFar = camera.GetOrthoFarClip();
+					if (ImGui::DragFloat("Far", &orthoFar, 0.05f))
+						camera.SetOrthoFarClip(orthoFar);
+				}
+
+				ImGui::TreePop();
+			}
+		}
 	}
 }

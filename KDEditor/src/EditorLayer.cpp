@@ -19,6 +19,9 @@ namespace KDE
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 
+		m_SquareEntityRed = m_ActiveScene->CreateEntity("Red Square Entity");
+		m_SquareEntityRed.AddComponent<SpriteRendererComponent>(glm::vec4(0.8f, 0.2f, 0.3f, 1.0f));
+
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera 1 Entity");
 		m_CameraEntity.AddComponent<CameraComponent>();
 
