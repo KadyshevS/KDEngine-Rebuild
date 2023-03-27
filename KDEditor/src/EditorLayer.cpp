@@ -34,10 +34,6 @@ namespace KDE
 		public:
 			void OnCreate()
 			{
-				auto& transform = GetComponent<TransformComponent>().Transform;
-				transform[3][0] = Random::Float() + Random::IntDist(-5, 5);
-				transform[3][1] = Random::Float() + Random::IntDist(-5, 5);
-
 				KD_TRACE("OnCreateFunc()");
 			}
 			void OnDestroy()
@@ -47,25 +43,25 @@ namespace KDE
 
 			void OnUpdate(Timestep ts)
 			{
-				auto& transform = GetComponent<TransformComponent>().Transform;
+				auto& position = GetComponent<TransformComponent>().Translation;
 				float speed = 5.0f;
 
 				if (Input::IsKeyPressed(Key::Left))
 				{
-					transform[3][0] -= speed * ts;
+					position.x -= speed * ts;
 				}
 				else if (Input::IsKeyPressed(Key::Right))
 				{
-					transform[3][0] += speed * ts;
+					position.x += speed * ts;
 				}
 
 				if (Input::IsKeyPressed(Key::Up))
 				{
-					transform[3][1] += speed * ts;
+					position.y += speed * ts;
 				}
 				else if (Input::IsKeyPressed(Key::Down))
 				{
-					transform[3][1] -= speed * ts;
+					position.y -= speed * ts;
 				}
 			}
 		};
