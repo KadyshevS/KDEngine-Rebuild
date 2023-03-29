@@ -34,8 +34,8 @@ namespace KDE
 		//io.ConfigViewportsNoAutoMerge = true;
 		//io.ConfigViewportsNoTaskBarIcon = true;
 
-		io.Fonts->AddFontFromFileTTF("assets/fonts/robotomono/RobotoMono-Regular.ttf", 18.0f);
-		io.Fonts->AddFontFromFileTTF("assets/fonts/robotomono/RobotoMono-Bold.ttf", 18.0f);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/robotomono/RobotoMono-Regular.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
+		io.Fonts->AddFontFromFileTTF("assets/fonts/robotomono/RobotoMono-Bold.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
 
 		// Setup Dear ImGui style
 		SetDarkThemeColors();

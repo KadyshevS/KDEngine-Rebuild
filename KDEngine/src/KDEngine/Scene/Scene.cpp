@@ -25,14 +25,20 @@ namespace KDE
 	}
 	void Scene::DestroyEntity(Entity entity)
 	{
+		entity.RemoveComponent<TagComponent>();
+		entity.RemoveComponent<TransformComponent>();
+		entity.RemoveComponent<SpriteRendererComponent>();
+		entity.RemoveComponent<CameraComponent>();
+		entity.RemoveComponent<NativeScriptComponent>();
 		m_Registry.destroy(entity);
 	}
 	void Scene::OnUpdate(Timestep ts)
 	{
+		// Update scripts
 		{
-			m_Registry.view<NativeScriptComponent>().each(
-				[=](auto entity, auto& nsc)
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 				{
+					// TODO: Move to Scene::OnScenePlay
 					if (!nsc.Instance)
 					{
 						nsc.Instance = nsc.InstantiateScript();
@@ -41,18 +47,18 @@ namespace KDE
 					}
 
 					nsc.Instance->OnUpdate(ts);
-				}
-			);
+				});
 		}
 
+		// Render 2D
 		Camera* mainCamera = nullptr;
 		glm::mat4 cameraTransform;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
-			for (auto ent : view)
+			for (auto entity : view)
 			{
-				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(ent);
-				
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
@@ -67,9 +73,10 @@ namespace KDE
 			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto ent : group)
+			for (auto entity : group)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(ent);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
 				Renderer2D::DrawQuad(transform.Transform(), sprite.Color);
 			}
 

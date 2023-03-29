@@ -37,8 +37,9 @@ namespace KDE
 		template<typename T>
 		void RemoveComponent()
 		{
-			KD_CORE_ASSERT(HasComponent<T>(), "Attempt to remove non-existent component");
-			m_Scene->m_Registry.remove<T>(m_EntityHandle);
+		//	KD_CORE_ASSERT(HasComponent<T>(), "Attempt to remove non-existent component");
+			if(HasComponent<T>())
+				m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
 
 		bool operator == (const Entity& other) const

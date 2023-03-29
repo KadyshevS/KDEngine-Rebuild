@@ -51,26 +51,6 @@ namespace KDE
 		if (m_SelectionEntity)
 		{
 			DrawComponents(m_SelectionEntity);
-
-			if (ImGui::Button("Add Component"))
-				ImGui::OpenPopup("AddComponent");
-
-			if (ImGui::BeginPopup("AddComponent"))
-			{
-				if (ImGui::MenuItem("Camera"))
-				{
-					m_SelectionEntity.AddComponent<CameraComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-
-				if (ImGui::MenuItem("Sprite Renderer"))
-				{
-					m_SelectionEntity.AddComponent<SpriteRendererComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-
-				ImGui::EndPopup();
-			}
 		}
 
 		ImGui::End();
@@ -178,8 +158,11 @@ namespace KDE
 
 		ImGui::PopID();
 	}
+
 	void SceneHierarchyPanel::DrawComponents(Entity entity)
 	{
+		auto flags = ImGuiTreeNodeFlags_DefaultOpen;
+
 		if (entity.HasComponent<TagComponent>())
 		{
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
@@ -187,15 +170,38 @@ namespace KDE
 			char buf[256];
 			memset(buf, 0, sizeof(buf));
 			strcpy_s(buf, tag.c_str());
-			if (ImGui::InputText("Tag", buf, sizeof(buf)))
+			if (ImGui::InputText("##Tag", buf, sizeof(buf)))
 			{
 				tag = std::string(buf);
 			}
 		}
 
+		ImGui::SameLine();
+
+		if (ImGui::Button("Add Component"))
+			ImGui::OpenPopup("AddComponent");
+
+		if (ImGui::BeginPopup("AddComponent"))
+		{
+			if (ImGui::MenuItem("Camera"))
+			{
+				m_SelectionEntity.AddComponent<CameraComponent>();
+				ImGui::CloseCurrentPopup();
+			}
+
+			if (ImGui::MenuItem("Sprite Renderer"))
+			{
+				m_SelectionEntity.AddComponent<SpriteRendererComponent>();
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
 		if (entity.HasComponent<TransformComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+			bool open = ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), flags, "Transform");
+			if (open)
 			{
 				auto& tc = entity.GetComponent<TransformComponent>();
 				DrawVec3Control("Translation", tc.Translation);
@@ -211,7 +217,7 @@ namespace KDE
 		if (entity.HasComponent<CameraComponent>())
 		{
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
-			bool open = ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera");
+			bool open = ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), flags, "Camera");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
 			if (ImGui::Button("+", ImVec2{ 20, 20 }))
 			{
@@ -296,7 +302,7 @@ namespace KDE
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
-			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer");
+			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), flags, "Sprite Renderer");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
 			if (ImGui::Button("+", ImVec2{ 20, 20 }))
 			{
