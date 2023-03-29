@@ -25,6 +25,14 @@ namespace KDE
 
 		ImGui::Begin("Scene Hierarchy");
 
+		if (ImGui::BeginPopupContextWindow(0, 1))
+		{
+			if (ImGui::MenuItem("Create Empty Entity"))
+				m_Context->CreateEntity("Empty Entity");
+
+			ImGui::EndPopup();
+		}
+
 		m_Context->m_Registry.each(
 			[&](auto entityID)
 			{
@@ -35,14 +43,6 @@ namespace KDE
 
 		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 			m_SelectionEntity = {};
-
-		if (ImGui::BeginPopupContextWindow(0, 1))
-		{
-			if (ImGui::MenuItem("Create Empty Entity"))
-				m_Context->CreateEntity("Empty Entity");
-
-			ImGui::EndPopup();
-		}
 
 		ImGui::End();
 
