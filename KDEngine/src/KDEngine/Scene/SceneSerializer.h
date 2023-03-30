@@ -5,8 +5,6 @@
 #include "KDEngine/Core.h"
 #include "Scene.h"
 
-#include "yaml-cpp/yaml.h"
-
 namespace KDE
 {
 	class SceneSerializer

@@ -1,6 +1,8 @@
 #include "kdpch.h"
 #include "SceneSerializer.h"
 
+#include "yaml-cpp/yaml.h"
+
 #include "Entity.h"
 #include "Components.h"
 

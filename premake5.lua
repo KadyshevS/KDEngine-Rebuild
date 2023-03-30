@@ -69,6 +69,7 @@ project "KDEngine"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 
@@ -78,6 +79,7 @@ project "KDEngine"
 		defines
 		{
 			"GLFW_INCLUDE_NONE",
+			"YAML_CPP_STATIC_DEFINE",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
 
