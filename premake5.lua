@@ -18,11 +18,13 @@ IncludeDir["ImGui"] = "KDEngine/vendor/imgui"
 IncludeDir["glm"] = "KDEngine/vendor/glm"
 IncludeDir["stb"] = "KDEngine/vendor/stb"
 IncludeDir["entt"] = "KDEngine/vendor/entt/include"
+IncludeDir["yaml_cpp"] = "KDEngine/vendor/yaml-cpp/include"
 
 group "Dependencies"
 	include "KDEngine/vendor/GLFW"
 	include "KDEngine/vendor/glad"
 	include "KDEngine/vendor/imgui"
+	include "KDEngine/vendor/yaml-cpp"
 group ""
 
 project "KDEngine"
@@ -58,7 +60,8 @@ project "KDEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links 
