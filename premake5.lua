@@ -176,7 +176,8 @@ project "KDEditor"
 		"KDEngine/src",
 		"KDEngine/vendor",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"KDEngine/vendor/yaml-cpp/include"
 	}
 
 	links

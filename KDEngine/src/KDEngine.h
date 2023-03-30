@@ -28,6 +28,7 @@
 
 //	Scene
 #include "KDEngine/Scene/Scene.h"
+#include "KDEngine/Scene/SceneSerializer.h"
 #include "KDEngine/Scene/Entity.h"
 #include "KDEngine/Scene/ScriptableEntity.h"
 #include "KDEngine/Scene/Components.h"

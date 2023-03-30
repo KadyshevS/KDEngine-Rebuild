@@ -15,60 +15,63 @@ namespace KDE
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = MakeRef<Scene>();
-	//
-	//	m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
-	//	m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
-	//
-	//	m_SquareEntityRed = m_ActiveScene->CreateEntity("Red Square Entity");
-	//	m_SquareEntityRed.AddComponent<SpriteRendererComponent>(glm::vec4(0.8f, 0.2f, 0.3f, 1.0f));
-	//
-	//	m_CameraEntity = m_ActiveScene->CreateEntity("Camera 1 Entity");
-	//	m_CameraEntity.AddComponent<CameraComponent>();
-	//
-	//	m_CameraEntity2 = m_ActiveScene->CreateEntity("Camera 2 Entity");
-	//	m_CameraEntity2.AddComponent<CameraComponent>();
-	//	m_CameraEntity2.GetComponent<CameraComponent>().Primary = false;
-	//
-	//	class CameraController : public ScriptableEntity
-	//	{
-	//	public:
-	//		void OnCreate()
-	//		{
-	//			KD_TRACE("OnCreateFunc()");
-	//		}
-	//		void OnDestroy()
-	//		{
-	//			KD_TRACE("OnDestroyFunc()");
-	//		}
-	//
-	//		void OnUpdate(Timestep ts)
-	//		{
-	//			auto& position = GetComponent<TransformComponent>().Translation;
-	//			float speed = 5.0f;
-	//
-	//			if (Input::IsKeyPressed(Key::Left))
-	//			{
-	//				position.x -= speed * ts;
-	//			}
-	//			else if (Input::IsKeyPressed(Key::Right))
-	//			{
-	//				position.x += speed * ts;
-	//			}
-	//
-	//			if (Input::IsKeyPressed(Key::Up))
-	//			{
-	//				position.y += speed * ts;
-	//			}
-	//			else if (Input::IsKeyPressed(Key::Down))
-	//			{
-	//				position.y -= speed * ts;
-	//			}
-	//		}
-	//	};
-	//	m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-	//	m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+	
+		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+	
+		m_SquareEntityRed = m_ActiveScene->CreateEntity("Red Square Entity");
+		m_SquareEntityRed.AddComponent<SpriteRendererComponent>(glm::vec4(0.8f, 0.2f, 0.3f, 1.0f));
+	
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera 1 Entity");
+		m_CameraEntity.AddComponent<CameraComponent>();
+	
+		m_CameraEntity2 = m_ActiveScene->CreateEntity("Camera 2 Entity");
+		m_CameraEntity2.AddComponent<CameraComponent>();
+		m_CameraEntity2.GetComponent<CameraComponent>().Primary = false;
+	
+		class CameraController : public ScriptableEntity
+		{
+		public:
+			void OnCreate()
+			{
+				KD_TRACE("OnCreateFunc()");
+			}
+			void OnDestroy()
+			{
+				KD_TRACE("OnDestroyFunc()");
+			}
+	
+			void OnUpdate(Timestep ts)
+			{
+				auto& position = GetComponent<TransformComponent>().Translation;
+				float speed = 5.0f;
+	
+				if (Input::IsKeyPressed(Key::Left))
+				{
+					position.x -= speed * ts;
+				}
+				else if (Input::IsKeyPressed(Key::Right))
+				{
+					position.x += speed * ts;
+				}
+	
+				if (Input::IsKeyPressed(Key::Up))
+				{
+					position.y += speed * ts;
+				}
+				else if (Input::IsKeyPressed(Key::Down))
+				{
+					position.y -= speed * ts;
+				}
+			}
+		};
+		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Serialize("assets/scenes/Example.kds");
 	}
 	void EditorLayer::OnDetach()
 	{

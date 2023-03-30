@@ -23,10 +23,10 @@ namespace KDE
 
 		Ref<Scene> m_ActiveScene;
 
-		//	Entity m_SquareEntity;
-		//	Entity m_SquareEntityRed;
-		//	Entity m_CameraEntity;
-		//	Entity m_CameraEntity2;
+		Entity m_SquareEntity;
+		Entity m_SquareEntityRed;
+		Entity m_CameraEntity;
+		Entity m_CameraEntity2;
 
 		bool m_CameraSwitch = true;
 		float m_CameraOrthoSize = 10.0f;

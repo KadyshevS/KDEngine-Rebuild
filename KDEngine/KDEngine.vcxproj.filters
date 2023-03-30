@@ -180,6 +180,9 @@
     <ClInclude Include="src\KDEngine\Scene\SceneCamera.h">
       <Filter>src\KDEngine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Scene\SceneSerializer.h">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Scene\ScriptableEntity.h">
       <Filter>src\KDEngine\Scene</Filter>
     </ClInclude>
@@ -1536,6 +1539,9 @@
       <Filter>src\KDEngine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Scene\SceneCamera.cpp">
+      <Filter>src\KDEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Scene\SceneSerializer.cpp">
       <Filter>src\KDEngine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
