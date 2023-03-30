@@ -15,21 +15,13 @@ namespace KDE
 	Entity Scene::CreateEntity(const std::string& name)
 	{
 		Entity ent = { m_Registry.create(), this };
-
+		ent.AddComponent<TransformComponent>();
 		auto tag = ent.AddComponent<TagComponent>(name);
 		tag.Tag = name.empty() ? "Entity" : name;
-
-		ent.AddComponent<TransformComponent>();
-
 		return ent;
 	}
 	void Scene::DestroyEntity(Entity entity)
 	{
-		entity.RemoveComponent<TagComponent>();
-		entity.RemoveComponent<TransformComponent>();
-		entity.RemoveComponent<SpriteRendererComponent>();
-		entity.RemoveComponent<CameraComponent>();
-		entity.RemoveComponent<NativeScriptComponent>();
 		m_Registry.destroy(entity);
 	}
 	void Scene::OnUpdate(Timestep ts)
@@ -68,11 +60,11 @@ namespace KDE
 			}
 		}
 
-		if (mainCamera)
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		if (mainCamera && group.size() > 0)
 		{
 			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
-			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
