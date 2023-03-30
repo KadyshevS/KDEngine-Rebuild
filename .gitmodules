@@ -14,3 +14,6 @@
 	path = KDEngine/vendor/spdlog
 	url = https://github.com/KadyshevS/spdlog
 	branch = v1.x
+[submodule "KDEngine/vendor/yaml-cpp"]
+	path = KDEngine/vendor/yaml-cpp
+	url = https://github.com/KadyshevS/yaml-cpp.git
