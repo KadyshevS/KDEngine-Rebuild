@@ -89,6 +89,17 @@ namespace KDE
 		}
 	}
 
+	Entity Scene::GetPrimaryCamera()
+	{
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto& entity : view)
+		{
+			bool primary = view.get<CameraComponent>(entity).Primary;
+			if (primary)
+				return Entity{ entity, this };
+		}
+		return {};
+	}
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{

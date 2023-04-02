@@ -186,11 +186,57 @@ namespace KDE
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 			uint32_t textureID = m_Framebuffer->GetColorAttachment();
-			ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
+			ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0.0, 1.0 }, { 1.0, 0.0 });
 
 			m_ViewportFocused = ImGui::IsWindowFocused();
 			m_ViewportHovered = ImGui::IsWindowHovered();
 			Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
+			//	Gizmos
+			{
+				bool snap = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+				float snapValue = 0.5f;
+				if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+					snapValue = 45.0f;
+
+				float snapValues[3] = { snapValue, snapValue, snapValue };
+
+				Entity selectedEnt = m_SceneHierarchyPanel.GetSelectedEntity();
+				if (selectedEnt && m_ActiveScene->GetPrimaryCamera())
+				{
+					ImGuizmo::SetOrthographic(false);
+					ImGuizmo::SetDrawlist();
+
+					float winWidth = (float)ImGui::GetWindowWidth();
+					float winHeight = (float)ImGui::GetWindowHeight();
+					float winPosX = (float)ImGui::GetWindowPos().x;
+					float winPosY = (float)ImGui::GetWindowPos().y;
+
+					ImGuizmo::SetRect(winPosX, winPosY, winWidth, winHeight);
+
+					auto camEntity = m_ActiveScene->GetPrimaryCamera();
+					const auto& camera = camEntity.GetComponent<CameraComponent>().Camera;
+					const glm::mat4& camProj = camera.GetProjection();
+					glm::mat4 camView = glm::inverse(camEntity.GetComponent<TransformComponent>().Transform());
+
+					auto& tc = selectedEnt.GetComponent<TransformComponent>();
+					glm::mat4 transform = tc.Transform();
+
+					ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj), 
+						m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+
+					if (ImGuizmo::IsUsing())
+					{
+						glm::vec3 translation, rotation, scale;
+						Math::DecomposeTransform(transform, translation, rotation, scale);
+
+						glm::vec3 deltaRot = rotation - tc.Rotation;
+						tc.Translation = translation;
+						tc.Rotation += deltaRot;
+						tc.Scale = scale;
+					}
+				}
+			}
 
 			ImGui::End();
 		}
@@ -204,6 +250,7 @@ namespace KDE
 		{
 			m_SceneHierarchyPanel.OnImGuiRender();
 		}
+
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
@@ -215,6 +262,7 @@ namespace KDE
 
 		switch (e.GetKeyCode())
 		{
+		//	Shortcuts
 			case Key::N:
 			{
 				if (ctrlPressed)
@@ -236,9 +284,30 @@ namespace KDE
 			}
 			break;
 
+		//	Gizmo
+			case Key::Q:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+			}
+			break;
+
+			case Key::W:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+			}
+			break;
+
+			case Key::E:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+			}
+			break;
+
 			default:
 				break;
 		}
+
+	
 
 		return false;
 	}

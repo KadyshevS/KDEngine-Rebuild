@@ -28,6 +28,9 @@
     <Filter Include="src\KDEngine\Scene">
       <UniqueIdentifier>{1E2BCE18-0A0F-8F6E-736F-89C15F7279F0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\KDEngine\Utils">
+      <UniqueIdentifier>{61BFFB18-4DA3-BC6E-B603-B7C1A206A7F0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -40,11 +43,8 @@
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor\entt">
-      <UniqueIdentifier>{DD8078C1-4936-F1B6-D22A-EB8D3EDFE7BA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="vendor\entt\include">
-      <UniqueIdentifier>{5035F37B-BC96-D089-4504-173CB1640749}</UniqueIdentifier>
+    <Filter Include="vendor\ImGuizmo">
+      <UniqueIdentifier>{73BF7F4C-DF4A-ED10-E85B-700554664911}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\glm">
       <UniqueIdentifier>{829FC5A8-6E57-07F6-D75E-E051C335A2E6}</UniqueIdentifier>
@@ -186,6 +186,9 @@
     <ClInclude Include="src\KDEngine\Scene\ScriptableEntity.h">
       <Filter>src\KDEngine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Utils\PlatformUtils.h">
+      <Filter>src\KDEngine\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\Window.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
@@ -216,8 +219,8 @@
     <ClInclude Include="src\kdpch.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\entt\include\entt.hpp">
-      <Filter>vendor\entt\include</Filter>
+    <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h">
+      <Filter>vendor\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
@@ -1470,7 +1473,7 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\Utils\PlatformUtils.h" />
+    <ClInclude Include="src\KDEngine\Math\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1569,15 +1572,21 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\kdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
+      <Filter>vendor\ImGuizmo</Filter>
+    </ClCompile>
     <ClCompile Include="vendor\stb\stb_image.cpp">
       <Filter>vendor\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
+    <ClCompile Include="src\KDEngine\Math\Math.cpp" />
   </ItemGroup>
 </Project>

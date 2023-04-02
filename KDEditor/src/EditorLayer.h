@@ -38,6 +38,8 @@ namespace KDE
 		float m_CameraOrthoSize = 10.0f;
 		float m_CameraOrthoSize2 = 10.0f;
 
+		ImGuizmo::OPERATION m_GizmoType = ImGuizmo::OPERATION(-1);
+
 		glm::vec2 m_ViewportSize;
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;

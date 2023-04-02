@@ -19,6 +19,7 @@ IncludeDir["glm"] = "KDEngine/vendor/glm"
 IncludeDir["stb"] = "KDEngine/vendor/stb"
 IncludeDir["entt"] = "KDEngine/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "KDEngine/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "KDEngine/vendor/ImGuizmo"
 
 group "Dependencies"
 	include "KDEngine/vendor/GLFW"
@@ -46,18 +47,21 @@ project "KDEngine"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
-		"%{prj.name}/vendor/stb/**.h",
-		"%{prj.name}/vendor/stb/**.cpp",
-		"%{prj.name}/vendor/entt/**.hpp",
+		"%{prj.name}/vendor/stb/stb_image.h",
+		"%{prj.name}/vendor/stb/stb_image.cpp",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	includedirs
 	{
+		"src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/src",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.entt}",
@@ -72,6 +76,9 @@ project "KDEngine"
 		"yaml-cpp",
 		"opengl32.lib"
 	}
+	
+	filter "files:KDEngine/vendor/ImGuizmo/**.cpp"
+	flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"
@@ -125,7 +132,9 @@ project "Sandbox"
 		"KDEngine/src",
 		"KDEngine/vendor",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links
@@ -179,7 +188,8 @@ project "KDEditor"
 		"KDEngine/vendor",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
-		"KDEngine/vendor/yaml-cpp/include"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links

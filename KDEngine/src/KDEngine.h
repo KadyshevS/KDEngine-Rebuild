@@ -8,6 +8,7 @@
 
 //	ImGui
 #include "ImGui/imgui.h"
+#include "ImGuizmo.h"
 
 //	Input
 #include "KDEngine/Codes/KeyCodes.h"
@@ -43,10 +44,11 @@
 #include "KDEngine/Renderer/SubTexture2D.h"
 #include "KDEngine/Renderer/Framebuffer.h"
 
-//	Glm
+//	Math
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "KDEngine/Math/Math.h"
 
 //	Core
 #include "KDEngine/Core/ParticleSystem.h"
