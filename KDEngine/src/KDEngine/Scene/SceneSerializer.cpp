@@ -179,7 +179,6 @@ namespace KDE
 			return false;
 
 		std::string sceneName = data["Scene"].as<std::string>();
-		KD_CORE_TRACE("Deserializing scene: {0}", sceneName);
 
 		auto entities = data["Entities"];
 		if (entities)
@@ -192,8 +191,6 @@ namespace KDE
 				auto tagComp = ent["TagComponent"];
 				if (tagComp)
 					name = tagComp["Tag"].as<std::string>();
-
-				KD_CORE_TRACE("Deserialized scene {0} with ID = {1}", name, uuid);
 
 				Entity deserEntity = m_Scene->CreateEntity(name);
 

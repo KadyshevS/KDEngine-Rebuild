@@ -19,6 +19,10 @@ namespace KDE
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& e) override;
 	private:
+		void NewScene();
+		void LoadScene();
+		void SaveSceneAs();
+	private:
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
