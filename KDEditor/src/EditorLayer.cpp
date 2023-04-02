@@ -205,8 +205,48 @@ namespace KDE
 			m_SceneHierarchyPanel.OnImGuiRender();
 		}
 	}
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.GetRepeatCount() > 0)
+			return false;
 
-	void EditorLayer::OnEvent(Event& e) {}
+		bool ctrlPressed = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shiftPressed = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+
+		switch (e.GetKeyCode())
+		{
+			case Key::N:
+			{
+				if (ctrlPressed)
+					NewScene();
+			}
+			break;
+
+			case Key::O:
+			{
+				if (ctrlPressed)
+					LoadScene();
+			}
+			break;
+
+			case Key::S:
+			{
+				if (ctrlPressed && shiftPressed)
+					SaveSceneAs();
+			}
+			break;
+
+			default:
+				break;
+		}
+
+		return false;
+	}
+	void EditorLayer::OnEvent(Event& e) 
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(KD_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+	}
 	void EditorLayer::NewScene()
 	{
 		m_ActiveScene = MakeRef<Scene>();
