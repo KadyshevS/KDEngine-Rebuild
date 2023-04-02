@@ -17,3 +17,6 @@
 [submodule "KDEngine/vendor/yaml-cpp"]
 	path = KDEngine/vendor/yaml-cpp
 	url = https://github.com/KadyshevS/yaml-cpp.git
+[submodule "KDEngine/vendor/ImGuizmo"]
+	path = KDEngine/vendor/ImGuizmo
+	url = https://github.com/KadyshevS/ImGuizmo
