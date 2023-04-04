@@ -5,6 +5,7 @@
 #include "Entity.h"
 
 #include "KDEngine/Renderer/Renderer2D.h"
+#include "KDEngine/Renderer/EditorCamera.h"
 #include <glm/glm.hpp>
 
 namespace KDE
@@ -24,7 +25,25 @@ namespace KDE
 	{
 		m_Registry.destroy(entity);
 	}
-	void Scene::OnUpdate(Timestep ts)
+
+	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
+	{
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		if (group.size() > 0)
+		{
+			Renderer2D::BeginScene(camera, camera.GetTransform());
+
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+				Renderer2D::DrawQuad(transform.Transform(), sprite.Color);
+			}
+
+			Renderer2D::EndScene();
+		}
+	}
+	void Scene::OnUpdateRuntime(Timestep ts)
 	{
 		// Update scripts
 		{

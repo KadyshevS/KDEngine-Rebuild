@@ -16,6 +16,8 @@ namespace KDE
 
 		m_ActiveScene = MakeRef<Scene>();
 
+		m_EditorCamera = MakeRef<EditorCamera>();
+
 #if 0
 		m_SquareEntity = m_ActiveScene->CreateEntity("Square Entity");
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
@@ -73,8 +75,6 @@ namespace KDE
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		SceneSerializer serializer(m_ActiveScene);
-	//	serializer.Serialize("assets/scenes/Example.kds");
-	//	serializer.Deserialize("assets/scenes/Example.kds");
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -88,6 +88,7 @@ namespace KDE
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_EditorCamera->SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ViewportSize.x = (float)spec.Width; m_ViewportSize.y = (float)spec.Height;
 		}
 
@@ -98,7 +99,10 @@ namespace KDE
 		RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RendererCommand::Clear();
 
-		m_ActiveScene->OnUpdate(ts);
+		if(m_CameraSwitch)
+			m_ActiveScene->OnUpdateEditor(ts, *m_EditorCamera);
+		else
+			m_ActiveScene->OnUpdateRuntime(ts);
 
 		m_Framebuffer->Unbind();
 	}
@@ -111,8 +115,6 @@ namespace KDE
 			static bool opt_padding = false;
 			static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-			// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-			// because it would be confusing to have two docking targets within each others.
 			ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 			if (opt_fullscreen)
 			{
@@ -192,7 +194,7 @@ namespace KDE
 			m_ViewportHovered = ImGui::IsWindowHovered();
 			Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
-			//	Gizmos
+		//	Gizmos
 			{
 				bool snap = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
 				float snapValue = 0.5f;
@@ -202,7 +204,7 @@ namespace KDE
 				float snapValues[3] = { snapValue, snapValue, snapValue };
 
 				Entity selectedEnt = m_SceneHierarchyPanel.GetSelectedEntity();
-				if (selectedEnt && m_ActiveScene->GetPrimaryCamera())
+				if (selectedEnt)
 				{
 					ImGuizmo::SetOrthographic(false);
 					ImGuizmo::SetDrawlist();
@@ -214,16 +216,28 @@ namespace KDE
 
 					ImGuizmo::SetRect(winPosX, winPosY, winWidth, winHeight);
 
-					auto camEntity = m_ActiveScene->GetPrimaryCamera();
-					const auto& camera = camEntity.GetComponent<CameraComponent>().Camera;
-					const glm::mat4& camProj = camera.GetProjection();
-					glm::mat4 camView = glm::inverse(camEntity.GetComponent<TransformComponent>().Transform());
-
 					auto& tc = selectedEnt.GetComponent<TransformComponent>();
 					glm::mat4 transform = tc.Transform();
 
-					ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj), 
-						m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+					if (m_CameraSwitch)
+					{
+						auto& camera = *m_EditorCamera;
+						const glm::mat4& camProj = camera.GetProjection();
+						glm::mat4 camView = glm::inverse(camera.GetTransform());
+
+						ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj),
+							m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+					}
+					else if(m_ActiveScene->GetPrimaryCamera())
+					{
+						auto camEntity = m_ActiveScene->GetPrimaryCamera();
+						const auto& camera = camEntity.GetComponent<CameraComponent>().Camera;
+						const glm::mat4& camProj = camera.GetProjection();
+						glm::mat4 camView = glm::inverse(camEntity.GetComponent<TransformComponent>().Transform());
+
+						ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj),
+							m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+					}
 
 					if (ImGuizmo::IsUsing())
 					{
@@ -243,7 +257,14 @@ namespace KDE
 		
 	//	Stats
 		{
+			ImGui::Begin("Renderer2D Statistics");
+
 			StatisticsPanel::OnImGuiRender();
+			ImGui::Separator();
+
+			if (ImGui::Checkbox("Editor / Runtime", &m_CameraSwitch));
+
+			ImGui::End();
 		}
 
 	//	Scene Hierarchy
@@ -284,20 +305,25 @@ namespace KDE
 			}
 			break;
 
-		//	Gizmo
+		//	Gizmos
 			case Key::Q:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::UNIVERSAL;
+			}
+			break;
+			case Key::E:
 			{
 				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 			}
 			break;
 
-			case Key::W:
+			case Key::R:
 			{
 				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 			}
 			break;
 
-			case Key::E:
+			case Key::T:
 			{
 				m_GizmoType = ImGuizmo::OPERATION::SCALE;
 			}
@@ -306,8 +332,6 @@ namespace KDE
 			default:
 				break;
 		}
-
-	
 
 		return false;
 	}

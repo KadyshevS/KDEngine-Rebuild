@@ -1474,6 +1474,7 @@
       <Filter>vendor\stb</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Math\Math.h" />
+    <ClInclude Include="src\KDEngine\Renderer\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1588,5 +1589,6 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Math\Math.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

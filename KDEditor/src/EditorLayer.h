@@ -5,6 +5,8 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/StatisticsPanel.h"
 
+#include "KDEngine/Renderer/EditorCamera.h"
+
 namespace KDE
 {
 	class EditorLayer : public Layer
@@ -26,8 +28,8 @@ namespace KDE
 		void SaveSceneAs();
 	private:
 		Ref<Framebuffer> m_Framebuffer;
-
 		Ref<Scene> m_ActiveScene;
+		Ref<EditorCamera> m_EditorCamera;
 
 		Entity m_SquareEntity;
 		Entity m_SquareEntityRed;

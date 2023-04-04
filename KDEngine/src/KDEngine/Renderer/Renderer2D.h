@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "OrthographicCamera.h"
+#include "EditorCamera.h"
 
 #include "Texture.h"
 #include "SubTexture2D.h"

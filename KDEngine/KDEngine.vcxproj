@@ -184,6 +184,7 @@
     <ClInclude Include="src\KDEngine\Renderer\Texture.h" />
     <ClInclude Include="src\KDEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\KDEngine\Scene\Components.h" />
+    <ClInclude Include="src\KDEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\KDEngine\Scene\Entity.h" />
     <ClInclude Include="src\KDEngine\Scene\Scene.h" />
     <ClInclude Include="src\KDEngine\Scene\SceneCamera.h" />
@@ -641,6 +642,7 @@
     <ClCompile Include="src\KDEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\KDEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\KDEngine\Scene\Scene.cpp" />
     <ClCompile Include="src\KDEngine\Scene\SceneCamera.cpp" />
