@@ -137,6 +137,20 @@ namespace KDE
 
 		s_Data.TextureSlotIndex = 1;
 	}
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		KD_PROFILE_FUNCTION();
+
+		glm::mat4 viewProj = camera.GetViewProjectionMat();
+
+		s_Data.QuadTextureShader->Bind();
+		s_Data.QuadTextureShader->SetMat4("u_ViewProjection", viewProj);
+
+		s_Data.QuadIndexCount = 0;
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+		s_Data.TextureSlotIndex = 1;
+	}
 
 	void Renderer2D::EndScene()
 	{

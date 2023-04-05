@@ -71,7 +71,6 @@ namespace KDE
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
-
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		SceneSerializer serializer(m_ActiveScene);
@@ -91,6 +90,8 @@ namespace KDE
 			m_EditorCamera->SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ViewportSize.x = (float)spec.Width; m_ViewportSize.y = (float)spec.Height;
 		}
+
+		m_EditorCamera->OnUpdate(ts);
 
 	//	Rendering
 		m_Framebuffer->Bind();
