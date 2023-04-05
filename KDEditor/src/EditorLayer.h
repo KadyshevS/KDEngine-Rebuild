@@ -42,7 +42,7 @@ namespace KDE
 
 		ImGuizmo::OPERATION m_GizmoType = ImGuizmo::OPERATION(-1);
 
-		glm::vec2 m_ViewportSize;
+		glm::vec2 m_ViewportSize{0.0f, 0.0f};
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;
 		glm::vec2 m_ViewportPos{ 0.0f };
