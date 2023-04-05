@@ -37,8 +37,12 @@ namespace KDE
 	}
 	void EditorCamera::UpdateView()
 	{
-		m_ViewMat = glm::translate(glm::mat4(1.0f), m_Position) * glm::lookAt(m_Orientation, { 0.0f, 0.0f, 0.0f }, {0.0f, 1.0f, 0.0f});
-		m_ViewMat = glm::inverse(m_ViewMat);
+		m_Front.x = cos(glm::radians(m_Orientation.y)) * cos(glm::radians(m_Orientation.x));
+		m_Front.y = sin(glm::radians(m_Orientation.x));
+		m_Front.z = sin(glm::radians(m_Orientation.y)) * cos(glm::radians(m_Orientation.x));
+		m_Front = glm::normalize(m_Front);
+
+		m_ViewMat = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	}
 
 	void EditorCamera::OnUpdate(Timestep ts)
@@ -50,13 +54,31 @@ namespace KDE
 				m_MousePos = Input::GetMousePosition();
 				m_FirstPressed = false;
 			}
-			else if(m_MousePos != Input::GetMousePosition())
+			else if (m_MousePos != Input::GetMousePosition())
 			{
 				float mouseX = Input::GetMouseX();
 				float mouseY = Input::GetMouseY();
 
-				m_Orientation.y = (m_MousePos.x - mouseX) * m_Sensetivity * 0.00001f;
-				m_Orientation.x = (m_MousePos.y - mouseY) * m_Sensetivity * 0.00001f;
+				m_Orientation.y += (m_MousePos.x - mouseX) * m_Sensetivity * 0.00001f;
+				m_Orientation.x += (m_MousePos.y - mouseY) * m_Sensetivity * 0.00001f;
+
+				m_Orientation.x = std::clamp(m_Orientation.x, -89.0f, 89.0f);
+
+				m_Front = glm::normalize(glm::vec3(
+					cos(glm::radians(m_Orientation.y)) * cos(glm::radians(m_Orientation.x)),
+					sin(glm::radians(m_Orientation.x)),
+					sin(glm::radians(m_Orientation.y)) * cos(glm::radians(m_Orientation.x))
+				));
+
+				m_Up = glm::normalize(glm::vec3(
+					-sin(glm::radians(m_Orientation.y)),
+					cos(glm::radians(m_Orientation.x)),
+					cos(glm::radians(m_Orientation.y)) * sin(glm::radians(m_Orientation.x))
+				));
+
+				m_Right = glm::normalize(glm::cross(m_Front, m_Up));
+
+				m_MousePos = Input::GetMousePosition();
 
 				UpdateView();
 			}
@@ -65,5 +87,25 @@ namespace KDE
 		{
 			m_FirstPressed = true;
 		}
+
+		glm::vec3 direction = glm::normalize(m_FocalPoint - m_Position);
+
+		glm::vec3 moveDirection = glm::vec3(0.0f);
+		if (Input::IsKeyPressed(Key::W))
+			moveDirection += glm::rotate(glm::quat(m_Orientation), glm::vec3(0.0f, 0.0f, -1.0f));
+		if (Input::IsKeyPressed(Key::S))
+			moveDirection -= glm::rotate(glm::quat(m_Orientation), glm::vec3(0.0f, 0.0f, -1.0f));
+		if (Input::IsKeyPressed(Key::A))
+			moveDirection += glm::rotate(glm::quat(m_Orientation), glm::vec3(-1.0f, 0.0f, 0.0f));
+		if (Input::IsKeyPressed(Key::D))
+			moveDirection -= glm::rotate(glm::quat(m_Orientation), glm::vec3(-1.0f, 0.0f, 0.0f));
+
+		if (glm::length(moveDirection) > 0.0f)
+			moveDirection = glm::normalize(moveDirection);
+
+		m_Position += moveDirection * m_Speed * (float)ts;
+		m_FocalPoint += moveDirection * m_Speed * (float)ts;
+
+		UpdateView();
 	}
 }

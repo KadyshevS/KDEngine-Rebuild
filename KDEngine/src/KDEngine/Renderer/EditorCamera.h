@@ -44,6 +44,11 @@ namespace KDE
 		glm::mat4 m_ViewMat{ 0.0f };
 
 		glm::vec2 m_MousePos{ 0.0f };
+		glm::vec3 m_Front{0.0f};
+		glm::vec3 m_Up{0.0f, 1.0f, 0.0f};
+		glm::vec3 m_Right{0.0f, 0.0f, 1.0f};
+		glm::vec3 m_FocalPoint{0.0f, 0.0f, 0.0f};
+		float m_Speed = 5.0f;
 
 		glm::vec3 m_Position{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 m_Orientation{ 0.0f, 0.0f, 0.0f };
