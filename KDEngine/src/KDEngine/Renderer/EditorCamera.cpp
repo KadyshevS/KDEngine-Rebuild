@@ -18,7 +18,7 @@ namespace KDE
 		UpdateView();
 	}
 
-	glm::mat4 EditorCamera::GetTransform()
+	const glm::mat4& EditorCamera::GetTransform() const
 	{
 		glm::mat4 t = glm::translate(glm::mat4(1.0f), m_Position);
 		glm::mat4 r = glm::toMat4(glm::quat(m_Orientation));

@@ -72,8 +72,6 @@ namespace KDE
 		m_CameraEntity2.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
-		SceneSerializer serializer(m_ActiveScene);
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -356,7 +354,7 @@ namespace KDE
 		std::string filepath = FileDialogs::OpenFile("KDEngine Scene (*.kds)\0*.kds\0");
 		if (!filepath.empty())
 		{
-			SceneSerializer ser(m_ActiveScene);
+			SceneSerializer ser(m_ActiveScene, m_EditorCamera);
 			ser.Deserialize(filepath);
 		}
 	}
@@ -365,7 +363,7 @@ namespace KDE
 		std::string filepath = FileDialogs::SaveFile("KDEngine Scene (*.kds)\0*.kds\0");
 		if (!filepath.empty())
 		{
-			SceneSerializer ser(m_ActiveScene);
+			SceneSerializer ser(m_ActiveScene, m_EditorCamera);
 			ser.Serialize(filepath.ends_with(".kds") ? filepath : (filepath + ".kds"));
 		}
 	}

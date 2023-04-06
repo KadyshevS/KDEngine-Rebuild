@@ -78,6 +78,9 @@ namespace KDE
 	SceneSerializer::SceneSerializer(const Ref<Scene>& scene)
 		: m_Scene(scene)
 	{}
+	SceneSerializer::SceneSerializer(const Ref<Scene>& scene, const Ref<EditorCamera>& editCamera)
+		: m_Scene(scene), m_EditorCamera(editCamera)
+	{}
 
 	static void SerializeEntity(YAML::Emitter& out, Entity ent)
 	{
@@ -149,6 +152,12 @@ namespace KDE
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 		out << YAML::Key << "Scene" << YAML::Value << "Untitled Scene";
+
+		out << YAML::Key << "Editor Camera" << YAML::Value << YAML::BeginMap;
+		out << YAML::Key << "Position" << YAML::Value << m_EditorCamera->GetPosition();
+		out << YAML::Key << "Orientation" << YAML::Value << m_EditorCamera->GetOrientation();
+		out << YAML::EndMap;
+
 		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 		
 		m_Scene->m_Registry.each(
@@ -179,6 +188,14 @@ namespace KDE
 			return false;
 
 		std::string sceneName = data["Scene"].as<std::string>();
+
+		if (auto editCameraData = data["Editor Camera"]; editCameraData.IsDefined())
+		{
+			glm::vec3 editCamPos = editCameraData["Position"].as<glm::vec3>();
+			glm::vec3 editCamOri = editCameraData["Orientation"].as<glm::vec3>();
+			m_EditorCamera->SetPosition(editCamPos);
+			m_EditorCamera->SetOrientation(editCamOri);
+		}
 
 		auto entities = data["Entities"];
 		if (entities)

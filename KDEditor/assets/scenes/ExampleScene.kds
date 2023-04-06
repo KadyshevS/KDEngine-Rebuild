@@ -1,0 +1,32 @@
+Scene: Untitled Scene
+Editor Camera:
+  Position: [0.608994424, 0.669524789, 4.29027081]
+  Orientation: [6.00269556, -0.0535522364, 0]
+Entities:
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Объект 1
+    TransformComponent:
+      Translation: [0, -0.685883641, -1.49291885]
+      Rotation: [0, 0, 0]
+      Scale: [1.36080337, 2.75525546, 1.03735411]
+    SpriteRendererComponent:
+      Color: [0.911196887, 0.0773989782, 0.0773989782, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Объект 2
+    TransformComponent:
+      Translation: [0, -1.79665232, -0.000620365667]
+      Rotation: [-1.57045102, 0, 0]
+      Scale: [1.95417023, 1.86183619, 1]
+    SpriteRendererComponent:
+      Color: [0.899613917, 0.819484055, 0.0694682598, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Объект 3
+    TransformComponent:
+      Translation: [1.74021459, 0, -1.03724872e-07]
+      Rotation: [0, -0.785398245, 0]
+      Scale: [2.06518507, 0.834801912, 0.999965668]
+    SpriteRendererComponent:
+      Color: [0.0338098705, 0.526961267, 0.972972989, 1]

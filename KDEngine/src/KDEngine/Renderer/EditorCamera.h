@@ -18,8 +18,11 @@ namespace KDE
 		float GetNearClip() const { return m_Near; }
 		float GetFarClip() const { return m_Far; }
 
-		glm::mat4 GetTransform();
+		const glm::mat4& GetTransform() const;
 		const glm::mat4& GetViewProjectionMat() const { return m_Projection * m_ViewMat; }
+		
+		const glm::vec3& GetPosition() const { return m_Position; }
+		const glm::vec3& GetOrientation() const { return m_Orientation; }
 
 		void SetPosition(const glm::vec3& position) { m_Position = position; UpdateView(); }
 		void SetOrientation(const glm::vec3& orientation) { m_Orientation = orientation; UpdateView(); }
