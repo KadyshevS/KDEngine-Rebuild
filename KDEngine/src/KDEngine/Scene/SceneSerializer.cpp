@@ -153,9 +153,12 @@ namespace KDE
 		out << YAML::BeginMap;
 		out << YAML::Key << "Scene" << YAML::Value << "Untitled Scene";
 
-		out << YAML::Key << "Editor Camera" << YAML::Value << YAML::BeginMap;
+		out << YAML::Key << "EditorCamera" << YAML::Value << YAML::BeginMap;
 		out << YAML::Key << "Position" << YAML::Value << m_EditorCamera->GetPosition();
 		out << YAML::Key << "Orientation" << YAML::Value << m_EditorCamera->GetOrientation();
+		out << YAML::Key << "PerspectiveFOV" << YAML::Value << m_EditorCamera->GetFOV();
+		out << YAML::Key << "PerspectiveNear" << YAML::Value << m_EditorCamera->GetNearClip();
+		out << YAML::Key << "PerspectiveFar" << YAML::Value << m_EditorCamera->GetFarClip();
 		out << YAML::EndMap;
 
 		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
@@ -189,12 +192,18 @@ namespace KDE
 
 		std::string sceneName = data["Scene"].as<std::string>();
 
-		if (auto editCameraData = data["Editor Camera"]; editCameraData.IsDefined())
+		if (auto editCameraData = data["EditorCamera"]; editCameraData.IsDefined())
 		{
 			glm::vec3 editCamPos = editCameraData["Position"].as<glm::vec3>();
 			glm::vec3 editCamOri = editCameraData["Orientation"].as<glm::vec3>();
+			float editCamFov = editCameraData["PerspectiveFOV"].as<float>();
+			float editCamNear = editCameraData["PerspectiveNear"].as<float>();
+			float editCamFar = editCameraData["PerspectiveFar"].as<float>();
 			m_EditorCamera->SetPosition(editCamPos);
 			m_EditorCamera->SetOrientation(editCamOri);
+			m_EditorCamera->SetFOV(editCamFov);
+			m_EditorCamera->SetNearClip(editCamNear);
+			m_EditorCamera->SetFarClip(editCamFar);
 		}
 
 		auto entities = data["Entities"];
