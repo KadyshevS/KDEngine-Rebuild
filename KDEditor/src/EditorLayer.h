@@ -36,7 +36,6 @@ namespace KDE
 		Entity m_CameraEntity;
 		Entity m_CameraEntity2;
 
-		bool m_CameraSwitch = true;
 		float m_CameraOrthoSize = 10.0f;
 		float m_CameraOrthoSize2 = 10.0f;
 
@@ -45,7 +44,8 @@ namespace KDE
 		glm::vec2 m_ViewportSize{0.0f, 0.0f};
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;
-		glm::vec2 m_ViewportPos{ 0.0f };
+		glm::vec2 m_ViewportPos{0.0f};
+		glm::vec2 m_ViewportBounds[2];
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};

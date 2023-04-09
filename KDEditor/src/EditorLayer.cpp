@@ -10,7 +10,7 @@ namespace KDE
 	void EditorLayer::OnAttach()
 	{
 		FramebufferSpecification fbSpec;
-		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
 		fbSpec.Width = 1600;
 		fbSpec.Height = 900;
 		fbSpec.Samples = 1;
@@ -47,10 +47,23 @@ namespace KDE
 		RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RendererCommand::Clear();
 
-		if(m_CameraSwitch)
-			m_ActiveScene->OnUpdateEditor(ts, *m_EditorCamera);
-		else
-			m_ActiveScene->OnUpdateRuntime(ts);
+		m_ActiveScene->OnUpdateEditor(ts, *m_EditorCamera);
+		
+		auto [mx, my] = ImGui::GetMousePos();
+		mx -= m_ViewportBounds[0].x;
+		my -= m_ViewportBounds[0].y;
+		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+		my = viewportSize.y - my - 40.0f;
+
+		int mouseX = (int)mx;
+		int mouseY = (int)my;
+
+		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)m_ViewportSize.x && mouseY < (int)m_ViewportSize.y)
+		{
+			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+
+			KD_TRACE("Pixel data = {0}", pixelData);
+		}
 
 		m_Framebuffer->Unbind();
 	}
@@ -129,14 +142,24 @@ namespace KDE
 	//	Viewport
 		{
 			ImGui::Begin("Viewport");
+			auto viewportOffset = ImGui::GetCursorPos();
 
 			ImVec2 vpPanelSize = ImGui::GetContentRegionAvail();
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-			uint32_t textureID = m_Framebuffer->GetColorAttachment(1);
+			uint32_t textureID = m_Framebuffer->GetColorAttachment(0);
 			ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0.0, 1.0 }, { 1.0, 0.0 });
+
+			auto windowSize = ImGui::GetWindowSize();
+			auto minBound = ImGui::GetWindowPos();
+			minBound.x += viewportOffset.x;
+			minBound.y += viewportOffset.y;
+
+			ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+			m_ViewportBounds[0] = { minBound.x, minBound.y };
+			m_ViewportBounds[1] = { maxBound.x, maxBound.y };
 
 			m_ViewportFocused = ImGui::IsWindowFocused();
 			m_ViewportHovered = ImGui::IsWindowHovered();
@@ -167,25 +190,12 @@ namespace KDE
 					auto& tc = selectedEnt.GetComponent<TransformComponent>();
 					glm::mat4 transform = tc.Transform();
 
-					if (m_CameraSwitch)
-					{
-						auto& camera = *m_EditorCamera;
-						const glm::mat4& camProj = camera.GetProjection();
-						glm::mat4 camView = glm::inverse(camera.GetTransform());
+					auto& camera = *m_EditorCamera;
+					const glm::mat4& camProj = camera.GetProjection();
+					glm::mat4 camView = glm::inverse(camera.GetTransform());
 
-						ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj),
-							m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
-					}
-					else if(m_ActiveScene->GetPrimaryCamera())
-					{
-						auto camEntity = m_ActiveScene->GetPrimaryCamera();
-						const auto& camera = camEntity.GetComponent<CameraComponent>().Camera;
-						const glm::mat4& camProj = camera.GetProjection();
-						glm::mat4 camView = glm::inverse(camEntity.GetComponent<TransformComponent>().Transform());
-
-						ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj),
-							m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
-					}
+					ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProj),
+						m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
 
 					if (ImGuizmo::IsUsing())
 					{
@@ -205,14 +215,7 @@ namespace KDE
 		
 	//	Stats
 		{
-			ImGui::Begin("Renderer2D Statistics");
-
 			StatisticsPanel::OnImGuiRender();
-			ImGui::Separator();
-
-			ImGui::Checkbox("Editor / Runtime", &m_CameraSwitch);
-
-			ImGui::End();
 		}
 
 	//	Scene Hierarchy

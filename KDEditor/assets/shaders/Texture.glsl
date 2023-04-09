@@ -77,7 +77,7 @@ void main()
 	}
 
 	fragColor = l_Texture * color;
-	fragColor2 = vec4(0.8, 0.2, 0.3, 1.0);
+	fragColor2 = vec4(0.9, 0.3, 0.2, 1.0);
 
 //	fragColor = texture(u_Textures[int(texIndex)], texCoord * scalingFactor) * color;
 //	fragColor = color;
