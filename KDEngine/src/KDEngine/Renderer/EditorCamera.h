@@ -44,9 +44,9 @@ namespace KDE
 
 		bool m_FirstPressed = true;
 
-		glm::mat4 m_ViewMat{ 0.0f };
+		glm::mat4 m_ViewMat{0.0f};
 
-		glm::vec2 m_MousePos{ 0.0f };
+		glm::vec2 m_MousePos{0.0f};
 		glm::vec3 m_Front{0.0f};
 		glm::vec3 m_Up{0.0f, 1.0f, 0.0f};
 		glm::vec3 m_Right{0.0f, 0.0f, 1.0f};

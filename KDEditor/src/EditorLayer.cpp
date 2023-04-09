@@ -10,8 +10,10 @@ namespace KDE
 	void EditorLayer::OnAttach()
 	{
 		FramebufferSpecification fbSpec;
+		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		fbSpec.Width = 1600;
 		fbSpec.Height = 900;
+		fbSpec.Samples = 1;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = MakeRef<Scene>();
@@ -35,7 +37,8 @@ namespace KDE
 			m_ViewportSize.x = (float)spec.Width; m_ViewportSize.y = (float)spec.Height;
 		}
 
-		m_EditorCamera->OnUpdate(ts);
+		if(m_ViewportFocused)
+			m_EditorCamera->OnUpdate(ts);
 
 	//	Rendering
 		m_Framebuffer->Bind();
@@ -132,7 +135,7 @@ namespace KDE
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-			uint32_t textureID = m_Framebuffer->GetColorAttachment();
+			uint32_t textureID = m_Framebuffer->GetColorAttachment(1);
 			ImGui::Image((void*)textureID, { m_ViewportSize.x, m_ViewportSize.y }, { 0.0, 1.0 }, { 1.0, 0.0 });
 
 			m_ViewportFocused = ImGui::IsWindowFocused();
@@ -207,7 +210,7 @@ namespace KDE
 			StatisticsPanel::OnImGuiRender();
 			ImGui::Separator();
 
-			if (ImGui::Checkbox("Editor / Runtime", &m_CameraSwitch));
+			ImGui::Checkbox("Editor / Runtime", &m_CameraSwitch);
 
 			ImGui::End();
 		}

@@ -27,6 +27,7 @@ void main()
 #version 330 core
 			
 layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragColor2;
 
 in vec2 texCoord;
 in vec4 color;
@@ -76,6 +77,7 @@ void main()
 	}
 
 	fragColor = l_Texture * color;
+	fragColor2 = vec4(0.8, 0.2, 0.3, 1.0);
 
 //	fragColor = texture(u_Textures[int(texIndex)], texCoord * scalingFactor) * color;
 //	fragColor = color;
