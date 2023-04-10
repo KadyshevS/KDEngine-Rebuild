@@ -47,6 +47,8 @@ namespace KDE
 		glm::vec2 m_ViewportPos{0.0f};
 		glm::vec2 m_ViewportBounds[2];
 
+		glm::vec2 m_MousePos{0.0f};
+
 		int m_PixelData = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
