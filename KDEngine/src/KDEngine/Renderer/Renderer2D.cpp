@@ -18,6 +18,9 @@ namespace KDE
 		glm::vec2 TexCoord;
 		float TexIndex;
 		float TexScalingFactor;
+
+	//	Editor-only
+		int EntityID;
 	};
 
 	struct Renderer2DData
@@ -60,7 +63,8 @@ namespace KDE
 			{ ShaderDataType::Float4, "inColor" },
 			{ ShaderDataType::Float2, "inTexCoord" },
 			{ ShaderDataType::Float, "inTexIndex" },
-			{ ShaderDataType::Float, "inTexScalingFactor" }
+			{ ShaderDataType::Float, "inTexScalingFactor" },
+			{ ShaderDataType::Int, "inEntityID" }
 		};
 		s_Data.QuadVertexBuffer->SetLayout(layout);
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
@@ -220,7 +224,7 @@ namespace KDE
 		DrawQuad(transform, subtexture, scalingFactor, tintColor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
@@ -237,6 +241,7 @@ namespace KDE
 			s_Data.QuadVertexBufferPtr->TexCoord = texCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
 			s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data.QuadVertexBufferPtr++;
 		}
 
@@ -244,7 +249,7 @@ namespace KDE
 
 		s_Data.Stats.QuadCount++;
 	}
-	void Renderer2D::DrawQuad(const glm::mat4& transform, Ref<Texture2D> texture, float scalingFactor, const glm::vec4& tintColor)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, Ref<Texture2D> texture, float scalingFactor, const glm::vec4& tintColor, int entityID)
 	{
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
@@ -274,6 +279,7 @@ namespace KDE
 			s_Data.QuadVertexBufferPtr->TexCoord = texCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
 			s_Data.QuadVertexBufferPtr->TexScalingFactor = scalingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data.QuadVertexBufferPtr++;
 		}
 
@@ -316,6 +322,11 @@ namespace KDE
 
 		s_Data.QuadIndexCount += 6;
 		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	{
+		DrawQuad(transform, src.Color, entityID);
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)

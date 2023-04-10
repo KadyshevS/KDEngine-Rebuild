@@ -47,6 +47,8 @@ namespace KDE
 		RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RendererCommand::Clear();
 
+		m_Framebuffer->ClearAttachment(1, -1);
+
 		m_ActiveScene->OnUpdateEditor(ts, *m_EditorCamera);
 		
 		auto [mx, my] = ImGui::GetMousePos();
@@ -59,11 +61,9 @@ namespace KDE
 		int mouseY = (int)my;
 
 		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)m_ViewportSize.x && mouseY < (int)m_ViewportSize.y)
-		{
-			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-
-			KD_TRACE("Pixel data = {0}", pixelData);
-		}
+			m_PixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+		else
+			m_PixelData = -1;
 
 		m_Framebuffer->Unbind();
 	}
@@ -215,6 +215,18 @@ namespace KDE
 		
 	//	Stats
 		{
+			ImGui::Begin("Renderer2D Statistics");
+
+			if (m_PixelData == -1)
+				ImGui::TextColored({ 0.2f, 0.3f, 0.9f, 1.0f }, "Pointed Entity: None");
+			else
+			{
+				auto entityTag = Entity(entt::entity(m_PixelData), m_ActiveScene.get()).GetComponent<TagComponent>().Tag.c_str();
+				ImGui::TextColored({ 0.2f, 0.3f, 0.9f, 1.0f }, "Pointed Entity: %s", entityTag);
+			}
+
+			ImGui::End();
+			
 			StatisticsPanel::OnImGuiRender();
 		}
 

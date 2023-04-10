@@ -23,7 +23,7 @@ namespace KDE
 		case ShaderDataType::Mat2:		return GL_FLOAT;
 		case ShaderDataType::Mat3:		return GL_FLOAT;
 		case ShaderDataType::Mat4:		return GL_FLOAT;
-		case ShaderDataType::Boolean:	return GL_BOOL;
+		case ShaderDataType::Bool:	return GL_BOOL;
 		}
 
 		KD_CORE_ASSERT(false, "Unknown ShaderDataType.");
@@ -60,23 +60,67 @@ namespace KDE
 	{
 		KD_PROFILE_FUNCTION();
 
+		KD_CORE_ASSERT(vBuf->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
+
 		glBindVertexArray(m_RendererID);
 		vBuf->Bind();
 
-		KD_CORE_ASSERT(vBuf->GetLayout().GetElements().size(), "Vertex buffer has not layout.");
-
-		uint32_t index = 0;
-		for (const auto& el : vBuf->GetLayout())
+		const auto& layout = vBuf->GetLayout();
+		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index, el.GetComponentCount(),
-				BufferDataTypeToOpenGLDataType(el.Type),
-				el.Normalized ? GL_TRUE : GL_FALSE,
-				vBuf->GetLayout().GetStride(),
-				(void*)(el.Offset)
-			);
-			index++;
+			switch (element.Type)
+			{
+			case ShaderDataType::Float:
+			case ShaderDataType::Float2:
+			case ShaderDataType::Float3:
+			case ShaderDataType::Float4:
+			{
+				glEnableVertexAttribArray(m_VertexBufferIndex);
+				glVertexAttribPointer(m_VertexBufferIndex,
+					element.GetComponentCount(),
+					BufferDataTypeToOpenGLDataType(element.Type),
+					element.Normalized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.Offset);
+				m_VertexBufferIndex++;
+				break;
+			}
+			case ShaderDataType::Int:
+			case ShaderDataType::Int2:
+			case ShaderDataType::Int3:
+			case ShaderDataType::Int4:
+			case ShaderDataType::Bool:
+			{
+				glEnableVertexAttribArray(m_VertexBufferIndex);
+				glVertexAttribIPointer(m_VertexBufferIndex,
+					element.GetComponentCount(),
+					BufferDataTypeToOpenGLDataType(element.Type),
+					layout.GetStride(),
+					(const void*)element.Offset);
+				m_VertexBufferIndex++;
+				break;
+			}
+			case ShaderDataType::Mat3:
+			case ShaderDataType::Mat4:
+			{
+				uint8_t count = element.GetComponentCount();
+				for (uint8_t i = 0; i < count; i++)
+				{
+					glEnableVertexAttribArray(m_VertexBufferIndex);
+					glVertexAttribPointer(m_VertexBufferIndex,
+						count,
+						BufferDataTypeToOpenGLDataType(element.Type),
+						element.Normalized ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)(element.Offset + sizeof(float) * count * i));
+					glVertexAttribDivisor(m_VertexBufferIndex, 1);
+					m_VertexBufferIndex++;
+				}
+				break;
+			}
+			default:
+				KD_CORE_ASSERT(false, "Unknown shader data type.");
+			}
 		}
 
 		m_VertexBuffers.push_back(vBuf);

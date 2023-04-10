@@ -37,7 +37,7 @@ namespace KDE
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-				Renderer2D::DrawQuad(transform.Transform(), sprite.Color);
+				Renderer2D::DrawSprite(transform.Transform(), sprite, (int)entity);
 			}
 
 			Renderer2D::EndScene();

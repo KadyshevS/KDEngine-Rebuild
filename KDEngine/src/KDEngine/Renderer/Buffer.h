@@ -6,7 +6,7 @@ namespace KDE
 {
 	enum class ShaderDataType
 	{
-		None = 0, Float, Float2, Float3, Float4, Int, Int2, Int3, Int4, Mat2, Mat3, Mat4, Boolean
+		None = 0, Float, Float2, Float3, Float4, Int, Int2, Int3, Int4, Mat2, Mat3, Mat4, Bool
 	};
 
 	static uint32_t ShaderDataTypeSize(ShaderDataType type)
@@ -24,7 +24,7 @@ namespace KDE
 		case ShaderDataType::Mat2:		return 4 * 2 * 2;
 		case ShaderDataType::Mat3:		return 4 * 3 * 3;
 		case ShaderDataType::Mat4:		return 4 * 4 * 4;
-		case ShaderDataType::Boolean:	return 1;
+		case ShaderDataType::Bool:	return 1;
 		}
 
 		KD_CORE_ASSERT(false, "Unknown ShaderDataType.");
@@ -59,7 +59,7 @@ namespace KDE
 			case ShaderDataType::Mat2:		return 2 * 2;
 			case ShaderDataType::Mat3:		return 3 * 3;
 			case ShaderDataType::Mat4:		return 4 * 4;
-			case ShaderDataType::Boolean:	return 1;
+			case ShaderDataType::Bool:	return 1;
 			}
 
 			KD_CORE_ASSERT(false, "Unknown Element count.");

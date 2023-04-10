@@ -1,18 +1,20 @@
 #type vertex
-#version 330 core
+#version 450 core
 			
 layout(location = 0) in vec3 inPos;
 layout(location = 1) in vec4 inColor;
 layout(location = 2) in vec2 inTexCoord;
 layout(location = 3) in float inTexIndex;
 layout(location = 4) in float inTexScalingFactor;
+layout(location = 5) in int inEntityID;
 
 uniform mat4 u_ViewProjection;
 
 out vec2 texCoord;
 out vec4 color;
-out float texIndex;
+out flat float texIndex;
 out float scalingFactor;
+out int entityID;
 
 void main()
 {
@@ -21,27 +23,30 @@ void main()
 	color = inColor;
 	texIndex = inTexIndex;
 	scalingFactor = inTexScalingFactor;
+	entityID = inEntityID;
 }
 
 #type fragment
-#version 330 core
+#version 450 core
 			
 layout(location = 0) out vec4 fragColor;
-layout(location = 1) out vec4 fragColor2;
+layout(location = 1) out int fragColor2;
 
 in vec2 texCoord;
 in vec4 color;
-in float texIndex;
+in flat float texIndex;
 in float scalingFactor;
+in flat int entityID;
 
 uniform sampler2D u_Textures[32];
 
 void main()
 {
-    vec4 l_Texture;
-    int l_TexIndex = int(texIndex);
+	vec4 l_Texture;
+	int l_TexIndex = int(texIndex);
 
-	switch (l_TexIndex) {
+	switch (l_TexIndex) 
+	{
 		case 0:  l_Texture = texture(u_Textures[0],  texCoord * scalingFactor); break;
 		case 1:  l_Texture = texture(u_Textures[1],  texCoord * scalingFactor); break;
 		case 2:  l_Texture = texture(u_Textures[2],  texCoord * scalingFactor); break;
@@ -77,7 +82,7 @@ void main()
 	}
 
 	fragColor = l_Texture * color;
-	fragColor2 = vec4(0.9, 0.3, 0.2, 1.0);
+	fragColor2 = entityID;
 
 //	fragColor = texture(u_Textures[int(texIndex)], texCoord * scalingFactor) * color;
 //	fragColor = color;
