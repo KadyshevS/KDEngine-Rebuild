@@ -82,7 +82,6 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,7 +108,6 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -174,6 +172,7 @@
     <ClInclude Include="src\KDEngine\OrthographicCameraController.h" />
     <ClInclude Include="src\KDEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\KDEngine\Renderer\Camera.h" />
+    <ClInclude Include="src\KDEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\KDEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\KDEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\KDEngine\Renderer\OrthographicCamera.h" />
@@ -186,7 +185,6 @@
     <ClInclude Include="src\KDEngine\Renderer\Texture.h" />
     <ClInclude Include="src\KDEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\KDEngine\Scene\Components.h" />
-    <ClInclude Include="src\KDEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\KDEngine\Scene\Entity.h" />
     <ClInclude Include="src\KDEngine\Scene\Scene.h" />
     <ClInclude Include="src\KDEngine\Scene\SceneCamera.h" />
@@ -634,6 +632,7 @@
     <ClCompile Include="src\KDEngine\Math\Math.cpp" />
     <ClCompile Include="src\KDEngine\OrthographicCameraController.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\KDEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Renderer.cpp" />
@@ -644,7 +643,6 @@
     <ClCompile Include="src\KDEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\KDEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\KDEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\KDEngine\Scene\Scene.cpp" />
     <ClCompile Include="src\KDEngine\Scene\SceneCamera.cpp" />

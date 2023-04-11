@@ -22,6 +22,9 @@
     <Filter Include="src\KDEngine\ImGui">
       <UniqueIdentifier>{2B331E18-1717-DF6D-8077-D9C06C7AC9EF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\KDEngine\Math">
+      <UniqueIdentifier>{BAE6E39B-26FD-E131-6F74-6D53DBC9B2B9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\KDEngine\Renderer">
       <UniqueIdentifier>{07CEB0E7-733A-6CE2-3C2E-0440A8598E4A}</UniqueIdentifier>
     </Filter>
@@ -126,6 +129,9 @@
     <ClInclude Include="src\KDEngine\Log.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\KDEngine\Math\Math.h">
+      <Filter>src\KDEngine\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\KDEngine\OrthographicCameraController.h">
       <Filter>src\KDEngine</Filter>
     </ClInclude>
@@ -133,6 +139,9 @@
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\Camera.h">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KDEngine\Renderer\EditorCamera.h">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\KDEngine\Renderer\Framebuffer.h">
@@ -1473,8 +1482,6 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\KDEngine\Math\Math.h" />
-    <ClInclude Include="src\KDEngine\Renderer\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\KDEngine\Application.cpp">
@@ -1501,10 +1508,16 @@
     <ClCompile Include="src\KDEngine\Log.cpp">
       <Filter>src\KDEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\KDEngine\Math\Math.cpp">
+      <Filter>src\KDEngine\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\KDEngine\OrthographicCameraController.cpp">
       <Filter>src\KDEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\Buffer.cpp">
+      <Filter>src\KDEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KDEngine\Renderer\EditorCamera.cpp">
       <Filter>src\KDEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\KDEngine\Renderer\Framebuffer.cpp">
@@ -1588,7 +1601,5 @@
     <ClCompile Include="vendor\stb\stb_image.cpp">
       <Filter>vendor\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\KDEngine\Math\Math.cpp" />
-    <ClCompile Include="src\KDEngine\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>
