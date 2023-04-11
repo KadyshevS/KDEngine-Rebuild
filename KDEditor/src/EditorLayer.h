@@ -22,6 +22,7 @@ namespace KDE
 		virtual void OnEvent(Event& e) override;
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
 		void NewScene();
 		void LoadScene();
@@ -49,7 +50,7 @@ namespace KDE
 
 		glm::vec2 m_MousePos{0.0f};
 
-		int m_PixelData = -1;
+		Entity m_SelectedEntity;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};

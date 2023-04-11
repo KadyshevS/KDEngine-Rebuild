@@ -16,6 +16,7 @@ namespace KDE
 		void OnImGuiRender();
 
 		Entity GetSelectedEntity() const { return m_SelectionEntity; }
+		void SetSelectedEntity(Entity entity);
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);

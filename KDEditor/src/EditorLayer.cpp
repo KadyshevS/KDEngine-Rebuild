@@ -19,6 +19,8 @@ namespace KDE
 		m_ActiveScene = MakeRef<Scene>();
 		m_EditorCamera = MakeRef<EditorCamera>(70.0f, 0.01f, 1000.0f);
 
+		m_SelectedEntity = {};
+
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 	void EditorLayer::OnDetach()
@@ -61,9 +63,11 @@ namespace KDE
 		m_MousePos.y = my;
 
 		if (m_MousePos.x >= 0 && m_MousePos.y >= 0 && m_MousePos.x < (int)m_ViewportSize.x && m_MousePos.y < (int)m_ViewportSize.y)
-			m_PixelData = m_Framebuffer->ReadPixel(1, (int)m_MousePos.x, (int)m_MousePos.y);
-		else
-			m_PixelData = -1;
+		{
+			int pixelData = m_Framebuffer->ReadPixel(1, (int)m_MousePos.x, (int)m_MousePos.y);
+			m_SelectedEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
+		}
+			
 
 		m_Framebuffer->Unbind();
 	}
@@ -207,20 +211,6 @@ namespace KDE
 		
 	//	Stats
 		{
-			ImGui::Begin("Renderer2D Statistics");
-
-			if (m_PixelData == -1)
-				ImGui::TextColored({ 0.2f, 0.3f, 0.9f, 1.0f }, "Pointed Entity: None");
-			else
-			{
-				auto entityTag = Entity(entt::entity(m_PixelData), m_ActiveScene.get()).GetComponent<TagComponent>().Tag.c_str();
-				ImGui::TextColored({ 0.2f, 0.3f, 0.9f, 1.0f }, "Pointed Entity: %s", entityTag);
-			}
-
-			ImGui::TextColored({ 0.2f, 0.3f, 0.9f, 1.0f }, "Mouse Position: %d, %d", (int)m_MousePos.x, (int)m_MousePos.y);
-
-			ImGui::End();
-			
 			StatisticsPanel::OnImGuiRender();
 		}
 
@@ -265,24 +255,28 @@ namespace KDE
 		//	Gizmos
 			case Key::Q:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::UNIVERSAL;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::UNIVERSAL;
 			}
 			break;
 			case Key::E:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 			}
 			break;
 
 			case Key::R:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 			}
 			break;
 
 			case Key::T:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::SCALE;
 			}
 			break;
 
@@ -292,10 +286,24 @@ namespace KDE
 
 		return false;
 	}
-	void EditorLayer::OnEvent(Event& e) 
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetMouseButton() == Mouse::ButtonLeft)
+		{
+			if (m_ViewportHovered)
+			{
+				m_SceneHierarchyPanel.SetSelectedEntity(m_SelectedEntity);
+			}
+		}
+
+		return false;
+	}
+
+	void EditorLayer::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(KD_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(KD_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
 	void EditorLayer::NewScene()
 	{
