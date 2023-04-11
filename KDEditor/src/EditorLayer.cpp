@@ -290,7 +290,7 @@ namespace KDE
 	{
 		if (e.GetMouseButton() == Mouse::ButtonLeft)
 		{
-			if (m_ViewportHovered)
+			if (m_ViewportHovered && !ImGuizmo::IsOver())
 			{
 				m_SceneHierarchyPanel.SetSelectedEntity(m_SelectedEntity);
 			}
